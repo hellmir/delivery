@@ -1,9 +1,16 @@
 package personal.delivery.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Menu {
 
     private Long id; // identifier, primary key
-    private String itemName; // 메뉴 이름
+    private String name; // 메뉴 이름
     private Integer price; // 가격
     private String flavor; // 맛
     private Integer portions; // 음식 양
@@ -13,101 +20,5 @@ public class Menu {
     private MenuOptions menuOptions; // 선택할 수 있는 옵션들
     private Integer salesRate; // 판매량
     private Integer stock; // 재료 재고(재고 이상 주문 불가)
-    private Boolean popularMenu; // 인기 메뉴(일정 판매량 기준, 상단에 표시)]
-
-    public Menu() {
-    }
-
-    public void update(Long id, String itemName) {
-        this.id = id;
-        this.itemName = itemName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getFlavor() {
-        return flavor;
-    }
-
-    public void setFlavor(String flavor) {
-        this.flavor = flavor;
-    }
-
-    public Integer getPortions() {
-        return portions;
-    }
-
-    public void setPortions(Integer portions) {
-        this.portions = portions;
-    }
-
-    public Integer getCookingTime() {
-        return cookingTime;
-    }
-
-    public void setCookingTime(Integer cookingTime) {
-        this.cookingTime = cookingTime;
-    }
-
-    public String getMenuType() {
-        return menuType;
-    }
-
-    public void setMenuType(String menuType) {
-        this.menuType = menuType;
-    }
-
-    public String getFoodType() {
-        return foodType;
-    }
-
-    public void setFoodType(String foodType) {
-        this.foodType = foodType;
-    }
-
-    public MenuOptions getMenuOptions() {
-        return menuOptions;
-    }
-
-    public void setMenuOptions(MenuOptions menuOptions) {
-        this.menuOptions = menuOptions;
-    }
-
-    public Integer getSalesRate() {
-        return salesRate;
-    }
-
-    public void setSalesRate(Integer salesRate) {
-        this.salesRate = salesRate;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Boolean isPopularMenu() {
-        return popularMenu;
-    }
-
-    public void setPopularMenu(Boolean popularMenu) {
-        this.popularMenu = popularMenu;
-    }
+    private Boolean popularMenu; // 인기 메뉴(일정 판매량 기준, 상단에 표시)
 }
