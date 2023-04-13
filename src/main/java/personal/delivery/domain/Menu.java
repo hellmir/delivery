@@ -18,6 +18,11 @@ public class Menu {
     public Menu() {
     }
 
+    public void update(Long id, String itemName) {
+        this.id = id;
+        this.itemName = itemName;
+    }
+
     public Long getId() {
         return id;
     }
