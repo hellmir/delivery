@@ -1,15 +1,18 @@
 package personal.delivery.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Menu {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // DB의 AUTO_INCREMENT 사용
     private Long id; // identifier, primary key
+    
     private String name; // 메뉴 이름
     private Integer price; // 가격
     private String flavor; // 맛
