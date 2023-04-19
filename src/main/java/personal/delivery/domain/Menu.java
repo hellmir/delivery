@@ -5,23 +5,32 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "menu")
 public class Menu {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // DB의 AUTO_INCREMENT 사용
-    private Long id; // identifier, primary key
-    
-    private String name; // 메뉴 이름
-    private Integer price; // 가격
-    private String flavor; // 맛
-    private Integer portions; // 음식 양
-    private Integer cookingTime; // 조리 시간
-    private String menuType; // 메뉴 종류(메인메뉴/세트메뉴/사이드메뉴/음료/주류 등)
-    private String foodType; // 음식 종류(치킨/피자/탕수육 등)
-    private MenuOptions menuOptions; // 선택할 수 있는 옵션들
-    private Integer salesRate; // 판매량
-    private Integer stock; // 재료 재고(재고 이상 주문 불가)
-    private Boolean popularMenu; // 인기 메뉴(일정 판매량 기준, 상단에 표시)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Integer price;
+
+    @Column(nullable = false)
+    private Integer salesRate;
+
+    @Column(nullable = false)
+    private Integer stock;
+
+    private String flavor;
+    private Integer portions;
+    private Integer cookingTime;
+    private String menuType;
+    private String foodType;
+    private Boolean popularMenu;
 }
