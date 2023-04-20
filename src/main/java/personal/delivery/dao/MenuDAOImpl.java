@@ -1,19 +1,16 @@
 package personal.delivery.dao;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import personal.delivery.domain.Menu;
 import personal.delivery.repository.MenuRepository;
 
 @Component
+@RequiredArgsConstructor
 public class MenuDAOImpl implements MenuDAO {
 
     private final MenuRepository menuRepository;
-
-    @Autowired
-    public MenuDAOImpl(MenuRepository menuRepository) {
-        this.menuRepository = menuRepository;
-    }
 
     @Override
     public Menu insertMenu(Menu menu) {
