@@ -1,12 +1,10 @@
 package personal.delivery.repository;
 
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import personal.delivery.domain.Menu;
 
-@Repository
-@RequiredArgsConstructor
-public class MenuRepository {
+import java.util.Optional;
 
-    private final EntityManager em;
+public interface MenuRepository extends JpaRepository<Menu, Long> {
+    Optional<Menu> findById(Long id);
 }
