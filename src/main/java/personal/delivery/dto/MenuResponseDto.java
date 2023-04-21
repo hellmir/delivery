@@ -20,4 +20,5 @@ public class MenuResponseDto {
     private String menuType;
     private String foodType;
     private boolean popularMenu;
+
 }
