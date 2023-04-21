@@ -35,8 +35,8 @@ public class MenuServiceImpl implements MenuService {
         return menuResponseDto;
     }
 
-    // 1. Controller로부터 MenuDto를 통해 신메뉴 요청값 받음
-    // 2. MenuDAO를 통해 menu 엔티티에 등록 (DTO에서 Entity로 변환)
+    // 1. MenuController로부터 MenuDto를 통해 신메뉴 요청값 받음
+    // 2. MenuDAO를 통해 Menu 엔티티에 등록 (DTO에서 Entity로 변환)
     // 3. MenuResponseDto값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
     @Override
     public MenuResponseDto saveMenu(MenuDto menuDto) {
