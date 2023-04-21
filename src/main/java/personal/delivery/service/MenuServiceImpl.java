@@ -14,8 +14,8 @@ public class MenuServiceImpl implements MenuService {
     private final MenuDAO menuDAO;
 
     // 1. MenuController로부터 ID 요청값 받음
-    // 2. menuDAO를 통해 해당 Menu 엔티티의 데이터를 받음
-    // 3. menuResponseDto값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
+    // 2. MenuDAO를 통해 해당 Menu 엔티티의 데이터를 받음
+    // 3. MenuResponseDto값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
     @Override
     public MenuResponseDto getMenu(Long id) {
         Menu menu = menuDAO.selectMenu(id);
@@ -36,8 +36,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     // 1. Controller로부터 MenuDto를 통해 신메뉴 요청값 받음
-    // 2. menuDAO를 통해 menu 엔티티에 등록 (DTO에서 Entity로 변환)
-    // 3. menuResponseDto값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
+    // 2. MenuDAO를 통해 menu 엔티티에 등록 (DTO에서 Entity로 변환)
+    // 3. MenuResponseDto값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
     @Override
     public MenuResponseDto saveMenu(MenuDto menuDto) {
         Menu menu = new Menu();
