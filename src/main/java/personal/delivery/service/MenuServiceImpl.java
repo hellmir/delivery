@@ -41,17 +41,16 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuResponseDto saveMenu(MenuDto menuDto) {
         Menu menu = new Menu();
-        menu.setId(menu.getId());
-        menu.setName(menu.getName());
-        menu.setPrice(menu.getPrice());
-        menu.setSalesRate(menu.getSalesRate());
-        menu.setStock(menu.getStock());
-        menu.setFlavor(menu.getFlavor());
-        menu.setPortions(menu.getPortions());
-        menu.setCookingTime(menu.getCookingTime());
-        menu.setMenuType(menu.getMenuType());
-        menu.setFoodType(menu.getFoodType());
-        menu.setPopularMenu(menu.getPopularMenu());
+        menu.setName(menuDto.getName());
+        menu.setPrice(menuDto.getPrice());
+        menu.setSalesRate(menuDto.getSalesRate());
+        menu.setStock(menuDto.getStock());
+        menu.setFlavor(menuDto.getFlavor());
+        menu.setPortions(menuDto.getPortions());
+        menu.setCookingTime(menuDto.getCookingTime());
+        menu.setMenuType(menuDto.getMenuType());
+        menu.setFoodType(menuDto.getFoodType());
+        menu.setPopularMenu(menuDto.isPopularMenu());
 
         Menu savedMenu = menuDAO.insertMenu(menu);
 
