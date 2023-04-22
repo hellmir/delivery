@@ -17,7 +17,7 @@ public class MenuController {
     private final MenuService menuService;
 
     // 1. 클라이언트로부터 ID 요청값 받음
-    // 2. MenuService에 전달 후, MenuResponseDto 응답값 받아서 return
+    // 2. MenuService에 전달 후, MenuResponseDto 응답값 받아서 ResponseEntity로 구현해 return
     @GetMapping()
     public ResponseEntity<MenuResponseDto> getMenu(Long id) {
         MenuResponseDto menuResponseDto = menuService.getMenu(id);
@@ -27,7 +27,7 @@ public class MenuController {
 
     // 1. 클라이언트로부터 신메뉴 요청값 받음
     // 2. MenuDto를 통해 MenuService에 전달
-    // 3. MenuService로부터 MenuResponseDto 응답값 받아서 return
+    // 3. MenuService로부터 MenuResponseDto 응답값 받아서 ResponseEntity로 구현해 return
     @PostMapping()
     public ResponseEntity<MenuResponseDto> createMenu(@RequestBody MenuDto menuDto) {
         MenuResponseDto menuResponseDto = menuService.saveMenu(menuDto);
