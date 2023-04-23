@@ -39,9 +39,11 @@ public class MenuDAOImpl implements MenuDAO {
 
     @Override
     public Menu updateMenu(Menu menu) throws Exception {
+
         Optional<Menu> selectedMenu = menuRepository.findById(menu.getId());
 
         Menu updatedMenu;
+
         if (selectedMenu.isPresent()) {
 
             Menu updatingMenu = selectedMenu.get();
@@ -58,16 +60,26 @@ public class MenuDAOImpl implements MenuDAO {
                 updatingMenu.setStock(updatingMenu.getStock() + menu.getStock());
             }
 
+            int presentStock = updatingMenu.getStock();
+
+            if (presentStock > 0 && updatingMenu.getName().contains("(재료 소진)")) {
+                updatingMenu.setName(updatingMenu.getName().replace("(재료 소진)", ""));
+            }
+
             if (menu.getSalesRate() > 0) {
-                if (updatingMenu.getStock() >= menu.getSalesRate()) {
+                if (presentStock >= menu.getSalesRate()) {
                     updatingMenu.setSalesRate(updatingMenu.getSalesRate() + menu.getSalesRate());
-                    updatingMenu.setStock(updatingMenu.getStock() - menu.getSalesRate());
-                    if (updatingMenu.getStock() == menu.getSalesRate()) {
+                    updatingMenu.setStock(presentStock - menu.getSalesRate());
+
+                    if (presentStock == menu.getSalesRate()) {
                         updatingMenu.setName(updatingMenu.getName() + "(재료 소진)");
                     }
-                } else {
-                    updatingMenu.setName(updatingMenu.getName() + "(판매 불가 : 재료 부족)");
                 }
+            }
+
+            // 판매량 초기화
+            if (menu.getSalesRate() == -1) {
+                updatingMenu.setSalesRate(0);
             }
 
             if (menu.getFlavor() != null) {
@@ -93,16 +105,26 @@ public class MenuDAOImpl implements MenuDAO {
             if (updatingMenu.getSalesRate() >= 100) {
                 updatingMenu.setPopularMenu(true);
                 updatingMenu.setName(updatingMenu.getName() + "(인기메뉴)");
+            } else {
+                updatingMenu.setName(updatingMenu.getName().replace("(인기메뉴)", ""));
             }
 
             updatedMenu = menuRepository.save(updatingMenu);
 
-        } else {
+            if (presentStock < menu.getSalesRate()) {
+                updatedMenu.setName(updatedMenu.getName() + "(판매 불가 : 재료 부족)");
+            }
+
+        } else
+
+        {
             throw new Exception();
         }
 
         return updatedMenu;
+
     }
+
 
     @Override
     public String deleteMenu(Long id) throws Exception {
