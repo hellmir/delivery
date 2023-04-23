@@ -1,6 +1,5 @@
 package personal.delivery.dao;
 
-import jakarta.persistence.Column;
 import personal.delivery.domain.Menu;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface MenuDAO {
 
     Menu selectMenu(Long id);
 
-    List<Menu> selectAllMenu() throws Exception;
+    List<Menu> selectAllMenu();
 
     Menu updateMenu(Menu menu) throws Exception;
 

@@ -41,7 +41,7 @@ public class MenuController {
     // 1. 클라이언트로부터 요청 받음
     // 2. MenuService에 전달 후, MenuResponseDto 응답값 받아서 ResponseEntity로 구현해 return
     @GetMapping("list")
-    public ResponseEntity< List<MenuResponseDto> > getAllMenu() throws Exception {
+    public ResponseEntity< List<MenuResponseDto> > getAllMenu() {
         List<MenuResponseDto> menuResponseDtoList = menuService.getAllMenu();
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDtoList);

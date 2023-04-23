@@ -1,16 +1,12 @@
 package personal.delivery.dao;
 
-import jakarta.persistence.Column;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PatchMapping;
 import personal.delivery.domain.Menu;
 import personal.delivery.repository.MenuRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 
 // 1. MenuService로부터 요청값 받음
@@ -35,18 +31,10 @@ public class MenuDAOImpl implements MenuDAO {
     }
 
     @Override
-    public List<Menu> selectAllMenu() throws Exception {
+    public List<Menu> selectAllMenu() {
         List<Menu> allMenu = menuRepository.findAll();
-        List<Menu> selectedMenu = new ArrayList<>();
 
-        for (Menu all : allMenu) {
-            if (all != null) {
-                selectedMenu.add(all);
-            } else {
-                throw new Exception();
-            }
-        }
-        return selectedMenu;
+        return allMenu;
     }
 
     @Override
@@ -75,10 +63,10 @@ public class MenuDAOImpl implements MenuDAO {
                     updatingMenu.setSalesRate(updatingMenu.getSalesRate() + menu.getSalesRate());
                     updatingMenu.setStock(updatingMenu.getStock() - menu.getSalesRate());
                     if (updatingMenu.getStock() == menu.getSalesRate()) {
-                        updatingMenu.setName(updatingMenu.getName() + "(재고 소진)");
+                        updatingMenu.setName(updatingMenu.getName() + "(재료 소진)");
                     }
                 } else {
-                    updatingMenu.setName(updatingMenu.getName() + "(판매 불가 : 재고 부족)");
+                    updatingMenu.setName(updatingMenu.getName() + "(판매 불가 : 재료 부족)");
                 }
             }
 

@@ -3,7 +3,6 @@ package personal.delivery.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import personal.delivery.dao.MenuDAO;
-import personal.delivery.dao.MenuDAOImpl;
 import personal.delivery.domain.Menu;
 import personal.delivery.dto.MenuChangeDto;
 import personal.delivery.dto.MenuDto;
@@ -81,7 +80,7 @@ public class MenuServiceImpl implements personal.delivery.service.MenuService {
     // 3. 목록 크기만큼 getMenu method를 호출
     // 4. MenuResponseDtoList값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
     @Override
-    public List<MenuResponseDto> getAllMenu() throws Exception {
+    public List<MenuResponseDto> getAllMenu() {
         List<Menu> menu = menuDAO.selectAllMenu();
         List<MenuResponseDto> menuResponseDtoList = new ArrayList<>();
 

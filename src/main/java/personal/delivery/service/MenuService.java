@@ -12,7 +12,7 @@ public interface MenuService {
 
     MenuResponseDto getMenu(Long id);
 
-    List<MenuResponseDto> getAllMenu() throws Exception;
+    List<MenuResponseDto> getAllMenu();
 
     MenuResponseDto changeMenu(MenuChangeDto menuChangeDto) throws Exception;
 
