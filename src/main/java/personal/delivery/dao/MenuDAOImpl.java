@@ -62,7 +62,7 @@ public class MenuDAOImpl implements MenuDAO {
 
             int presentStock = updatingMenu.getStock();
 
-            if (presentStock > 0 && updatingMenu.getName().contains("(재료 소진)")) {
+            if (presentStock > 0) {
                 updatingMenu.setName(updatingMenu.getName().replace("(재료 소진)", ""));
             }
 
@@ -102,11 +102,12 @@ public class MenuDAOImpl implements MenuDAO {
                 updatingMenu.setFoodType(menu.getFoodType());
             }
 
+
+            updatingMenu.setName(updatingMenu.getName().replace("(인기메뉴)", ""));
+
             if (updatingMenu.getSalesRate() >= 100) {
                 updatingMenu.setPopularMenu(true);
                 updatingMenu.setName(updatingMenu.getName() + "(인기메뉴)");
-            } else {
-                updatingMenu.setName(updatingMenu.getName().replace("(인기메뉴)", ""));
             }
 
             updatedMenu = menuRepository.save(updatingMenu);
