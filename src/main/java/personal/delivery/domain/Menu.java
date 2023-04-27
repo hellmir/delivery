@@ -1,7 +1,10 @@
 package personal.delivery.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -10,7 +13,6 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "menu")
 public class Menu {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

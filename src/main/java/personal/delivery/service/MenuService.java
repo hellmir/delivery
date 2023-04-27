@@ -1,13 +1,21 @@
 package personal.delivery.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import personal.delivery.repository.MenuRepository;
+import personal.delivery.dto.MenuChangeDto;
+import personal.delivery.dto.MenuDto;
+import personal.delivery.dto.MenuResponseDto;
 
-@Service
-@RequiredArgsConstructor
-public class MenuService {
+import java.util.List;
 
-    private final MenuRepository menuRepository;
+public interface MenuService {
+
+    MenuResponseDto saveMenu(MenuDto menuDto);
+
+    MenuResponseDto getMenu(Long id);
+
+    List<MenuResponseDto> getAllMenu();
+
+    MenuResponseDto changeMenu(MenuChangeDto menuChangeDto) throws Exception;
+
+    String deleteMenu(Long id) throws Exception;
+
 }
