@@ -1,11 +1,10 @@
-package personal.delivery.dto;
+package personal.delivery.menu.dto;
 
 import lombok.Data;
 
 @Data
-public class MenuChangeDto {
+public class MenuDto {
 
-    private Long id;
     private String name;
     private int price;
     private int salesRate;
@@ -15,5 +14,6 @@ public class MenuChangeDto {
     private int cookingTime;
     private String menuType;
     private String foodType;
+    private boolean popularMenu;
 
 }

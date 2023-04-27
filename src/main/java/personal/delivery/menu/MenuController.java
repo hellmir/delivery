@@ -1,13 +1,13 @@
-package personal.delivery.controller;
+package personal.delivery.menu;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import personal.delivery.dto.MenuChangeDto;
-import personal.delivery.dto.MenuDto;
-import personal.delivery.dto.MenuResponseDto;
-import personal.delivery.service.MenuService;
+import personal.delivery.menu.dto.MenuChangeDto;
+import personal.delivery.menu.dto.MenuDto;
+import personal.delivery.menu.dto.MenuResponseDto;
+import personal.delivery.menu.service.MenuService;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package personal.delivery.service;
+package personal.delivery.menu.service;
 
-import personal.delivery.dto.MenuChangeDto;
-import personal.delivery.dto.MenuDto;
-import personal.delivery.dto.MenuResponseDto;
+import personal.delivery.menu.dto.MenuChangeDto;
+import personal.delivery.menu.dto.MenuDto;
+import personal.delivery.menu.dto.MenuResponseDto;
 
 import java.util.List;
 
@@ -16,6 +16,6 @@ public interface MenuService {
 
     MenuResponseDto changeMenu(MenuChangeDto menuChangeDto) throws Exception;
 
-    String deleteMenu(Long id) throws Exception;
+    MenuResponseDto deleteMenu(Long id) throws Exception;
 
 }

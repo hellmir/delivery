@@ -1,7 +1,7 @@
-package personal.delivery.repository;
+package personal.delivery.menu.repository;
 
-import personal.delivery.domain.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
+import personal.delivery.menu.Menu;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 }

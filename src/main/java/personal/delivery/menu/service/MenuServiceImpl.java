@@ -1,12 +1,12 @@
-package personal.delivery.service;
+package personal.delivery.menu.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import personal.delivery.dao.MenuDAO;
-import personal.delivery.domain.Menu;
-import personal.delivery.dto.MenuChangeDto;
-import personal.delivery.dto.MenuDto;
-import personal.delivery.dto.MenuResponseDto;
+import personal.delivery.menu.Menu;
+import personal.delivery.menu.dto.MenuChangeDto;
+import personal.delivery.menu.dto.MenuDto;
+import personal.delivery.menu.dto.MenuResponseDto;
+import personal.delivery.menu.repository.JpaMenuRepository;
 
 import java.util.ArrayList;
 import java.util.List;
