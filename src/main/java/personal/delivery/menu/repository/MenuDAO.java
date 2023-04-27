@@ -1,6 +1,6 @@
-package personal.delivery.dao;
+package personal.delivery.menu.repository;
 
-import personal.delivery.domain.Menu;
+import personal.delivery.menu.Menu;
 
 import java.util.List;
 

@@ -1,18 +1,17 @@
-package personal.delivery.dao;
+package personal.delivery.menu.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import personal.delivery.domain.Menu;
-import personal.delivery.repository.MenuRepository;
+import org.springframework.stereotype.Repository;
+import personal.delivery.menu.repository.MenuDAO;
+import personal.delivery.menu.Menu;
+import personal.delivery.menu.repository.MenuRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 
-// 1. MenuService로부터 요청값 받음
-// 2. SimpleJpaRepository의 메소드를 호출해서 CRUD 수행
-// 3. 갱신된 Menu 엔티티 값을 응답값으로 return
-@Component
+@Repository
 @RequiredArgsConstructor
 public class MenuDAOImpl implements MenuDAO {
 

@@ -1,13 +1,9 @@
-package personal.delivery.dto;
+package personal.delivery.menu.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class MenuResponseDto {
+public class MenuChangeDto {
 
     private Long id;
     private String name;
@@ -19,6 +15,5 @@ public class MenuResponseDto {
     private int cookingTime;
     private String menuType;
     private String foodType;
-    private boolean popularMenu;
 
 }

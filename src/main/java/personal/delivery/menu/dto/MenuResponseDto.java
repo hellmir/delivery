@@ -1,10 +1,15 @@
-package personal.delivery.dto;
+package personal.delivery.menu.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class MenuDto {
+public class MenuResponseDto {
 
+    private Long id;
     private String name;
     private int price;
     private int salesRate;
