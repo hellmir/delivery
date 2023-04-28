@@ -13,6 +13,7 @@ public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_id")
     private Long id;
 
     @Column(nullable = false)
@@ -33,7 +34,6 @@ public class Menu {
     private String menuType;
     private String foodType;
     private Boolean popularMenu;
-
 
     @Builder
     public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock, String flavor, Integer portions,
