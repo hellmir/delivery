@@ -90,4 +90,5 @@ public class Menu {
     public void changePopularMenu(Boolean popularMenu) {
         this.popularMenu = popularMenu;
     }
+
 }
