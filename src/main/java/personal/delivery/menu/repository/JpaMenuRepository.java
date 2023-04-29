@@ -49,29 +49,13 @@ public class JpaMenuRepository {
             }
 
             if (menu.getStock() > 0) {
-                updatingMenu.addStock(updatingMenu.getStock() + menu.getStock());
-            }
-
-            int presentStock = updatingMenu.getStock();
-
-            if (presentStock > 0) {
-                updatingMenu.changeName(updatingMenu.getName().replace("(재료 소진)", ""));
+                updatingMenu.importPresentStock(menu.getStock());
             }
 
             if (menu.getSalesRate() > 0) {
-                if (presentStock >= menu.getSalesRate()) {
-                    updatingMenu.addSalesRate(updatingMenu.getSalesRate() + menu.getSalesRate());
-                    updatingMenu.addStock(presentStock - menu.getSalesRate());
-
-                    if (presentStock == menu.getSalesRate()) {
-                        updatingMenu.changeName(updatingMenu.getName() + "(재료 소진)");
-                    }
-                }
-            }
-
-            // 판매량 초기화
-            if (menu.getSalesRate() == -1) {
-                updatingMenu.addSalesRate(0);
+                updatingMenu.changeSalesRate(menu.getSalesRate());
+            } else if (menu.getSalesRate() == -1) {
+                updatingMenu.changeSalesRate(0);
             }
 
             if (menu.getFlavor() != null) {
@@ -103,10 +87,6 @@ public class JpaMenuRepository {
             }
 
             updatedMenu = menuRepository.save(updatingMenu);
-
-            if (presentStock < menu.getSalesRate()) {
-                updatedMenu.changeName(updatedMenu.getName() + "(판매 불가 : 재료 부족)");
-            }
 
         } else
 

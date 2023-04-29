@@ -54,7 +54,6 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuResponseDto getMenu(Long id) {
         Menu menu = jpaMenuRepository.selectMenu(id);
-
         MenuResponseDto menuResponseDto = new MenuResponseDto();
         menuResponseDto.setId(menu.getId());
         menuResponseDto.setName(menu.getName());
@@ -92,8 +91,14 @@ public class MenuServiceImpl implements MenuService {
 
         menu.changeName(menuChangeDto.getName());
         menu.changePrice(menuChangeDto.getPrice());
-        menu.addSalesRate(menuChangeDto.getSalesRate());
+        menu.changeSalesRate(menuChangeDto.getSalesRate());
+
+        int presentStock = getMenu(menuChangeDto.getId()).getStock();
+
+        menu.importPresentStock(presentStock);
+
         menu.addStock(menuChangeDto.getStock());
+
         menu.changeFlavor(menuChangeDto.getFlavor());
         menu.changePortions(menuChangeDto.getPortions());
         menu.changeCookingTime(menuChangeDto.getCookingTime());
@@ -121,7 +126,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuResponseDto deleteMenu(Long id) throws Exception {
-    
         Menu deletedMenu = jpaMenuRepository.deleteMenu(id);
 
         MenuResponseDto menuResponseDto = new MenuResponseDto();
@@ -138,7 +142,6 @@ public class MenuServiceImpl implements MenuService {
         menuResponseDto.setPopularMenu(deletedMenu.getPopularMenu());
 
         return menuResponseDto;
-
     }
 
 }

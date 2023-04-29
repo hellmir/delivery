@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.exception.OutOfStockException;
 
 @Entity
 @Getter
@@ -59,12 +60,43 @@ public class Menu {
         this.price = price;
     }
 
-    public void addSalesRate(Integer salesRate) {
+    public void changeSalesRate(Integer salesRate) {
         this.salesRate = salesRate;
     }
 
-    public void addStock(Integer stock) {
-        this.stock = stock;
+    public void importPresentStock(int presentStock) {
+        this.stock = presentStock;
+    }
+
+    public void addStock(int stock) {
+        this.stock = this.stock + stock;
+    }
+
+    public void useStockForSale(int stock) {
+
+        int presentStock = this.stock - stock;
+
+        adjustStockState(presentStock);
+
+        this.stock = presentStock;
+        salesRate = salesRate + stock;
+
+    }
+
+    private void adjustStockState(int presentStock) {
+
+        if (presentStock == 0) {
+            this.name += "(재료 소진)";
+        }
+
+        if (presentStock > 0) {
+            this.name.replace("(재료 소진)", "");
+        }
+
+        if (presentStock < 0) {
+            throw new OutOfStockException("판매 불가 : 재료 부족");
+        }
+
     }
 
     public void changeFlavor(String flavor) {
