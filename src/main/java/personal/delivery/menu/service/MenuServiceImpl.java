@@ -13,28 +13,26 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MenuServiceImpl implements personal.delivery.service.MenuService {
+public class MenuServiceImpl implements MenuService {
 
-    private final MenuDAO menuDAO;
+    private final JpaMenuRepository jpaMenuRepository;
 
-    // 1. MenuController로부터 MenuDto를 통해 신메뉴 요청값 받음
-    // 2. MenuDAO를 통해 Menu 엔티티에 등록 (DTO에서 Entity로 변환)
-    // 3. MenuResponseDto값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
     @Override
     public MenuResponseDto saveMenu(MenuDto menuDto) {
-        Menu menu = new Menu();
-        menu.setName(menuDto.getName());
-        menu.setPrice(menuDto.getPrice());
-        menu.setSalesRate(menuDto.getSalesRate());
-        menu.setStock(menuDto.getStock());
-        menu.setFlavor(menuDto.getFlavor());
-        menu.setPortions(menuDto.getPortions());
-        menu.setCookingTime(menuDto.getCookingTime());
-        menu.setMenuType(menuDto.getMenuType());
-        menu.setFoodType(menuDto.getFoodType());
-        menu.setPopularMenu(menuDto.isPopularMenu());
+        Menu menu = Menu.builder()
+                .name(menuDto.getName())
+                .price(menuDto.getPrice())
+                .salesRate(menuDto.getSalesRate())
+                .stock(menuDto.getStock())
+                .flavor(menuDto.getFlavor())
+                .portions(menuDto.getPortions())
+                .cookingTime(menuDto.getCookingTime())
+                .menuType(menuDto.getMenuType())
+                .foodType(menuDto.getFoodType())
+                .popularMenu(menuDto.isPopularMenu())
+                .build();
 
-        Menu savedMenu = menuDAO.insertMenu(menu);
+        Menu savedMenu = jpaMenuRepository.insertMenu(menu);
 
         MenuResponseDto menuResponseDto = new MenuResponseDto();
         menuResponseDto.setId(menu.getId());
@@ -53,12 +51,10 @@ public class MenuServiceImpl implements personal.delivery.service.MenuService {
 
     }
 
-    // 1. MenuController로부터 ID 요청값 받음
-    // 2. MenuDAO를 통해 해당 Menu 엔티티의 데이터를 받음
-    // 3. MenuResponseDto값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
     @Override
     public MenuResponseDto getMenu(Long id) {
-        Menu menu = menuDAO.selectMenu(id);
+        Menu menu = jpaMenuRepository.selectMenu(id);
+
         MenuResponseDto menuResponseDto = new MenuResponseDto();
         menuResponseDto.setId(menu.getId());
         menuResponseDto.setName(menu.getName());
@@ -75,41 +71,36 @@ public class MenuServiceImpl implements personal.delivery.service.MenuService {
         return menuResponseDto;
     }
 
-    // 1. MenuController로부터 요청 받음
-    // 2. MenuDAO를 통해 해당 Menu 엔티티의 데이터 목록을 받음
-    // 3. 목록 크기만큼 getMenu method를 호출
-    // 4. MenuResponseDtoList값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
     @Override
     public List<MenuResponseDto> getAllMenu() {
-        List<Menu> menu = menuDAO.selectAllMenu();
+        List<Menu> menu = jpaMenuRepository.selectAllMenu();
         List<MenuResponseDto> menuResponseDtoList = new ArrayList<>();
 
         for (int i = 1; i <= menu.size(); i++) {
-            menuResponseDtoList.add( getMenu( (long)i ) );
+            menuResponseDtoList.add(getMenu((long) i));
         }
 
         return menuResponseDtoList;
     }
 
-    // 1. MenuController로부터 MenuDto를 통해 메뉴 수정 요청값 받음
-    // 2. MenuChangeDAO를 통해 Menu 엔티티에 등록 (DTO에서 Entity로 변환)
-    // 3. MenuResponseDto값을 갱신해 응답값으로 return (Entity에서 DTO로 변환)
     @Override
     public MenuResponseDto changeMenu(MenuChangeDto menuChangeDto) throws Exception {
 
-        Menu menu = new Menu();
-        menu.setId(menuChangeDto.getId());
-        menu.setName(menuChangeDto.getName());
-        menu.setPrice(menuChangeDto.getPrice());
-        menu.setSalesRate(menuChangeDto.getSalesRate());
-        menu.setStock(menuChangeDto.getStock());
-        menu.setFlavor(menuChangeDto.getFlavor());
-        menu.setPortions(menuChangeDto.getPortions());
-        menu.setCookingTime(menuChangeDto.getCookingTime());
-        menu.setMenuType(menuChangeDto.getMenuType());
-        menu.setFoodType(menuChangeDto.getFoodType());
+        Menu menu = Menu.builder()
+                .id(menuChangeDto.getId())
+                        .build();
 
-        Menu changedMenu = menuDAO.updateMenu(menu);
+        menu.changeName(menuChangeDto.getName());
+        menu.changePrice(menuChangeDto.getPrice());
+        menu.addSalesRate(menuChangeDto.getSalesRate());
+        menu.addStock(menuChangeDto.getStock());
+        menu.changeFlavor(menuChangeDto.getFlavor());
+        menu.changePortions(menuChangeDto.getPortions());
+        menu.changeCookingTime(menuChangeDto.getCookingTime());
+        menu.changeMenuType(menuChangeDto.getMenuType());
+        menu.changeFoodType(menuChangeDto.getFoodType());
+
+        Menu changedMenu = jpaMenuRepository.updateMenu(menu);
 
         MenuResponseDto menuResponseDto = new MenuResponseDto();
         menuResponseDto.setId(changedMenu.getId());
@@ -128,14 +119,26 @@ public class MenuServiceImpl implements personal.delivery.service.MenuService {
 
     }
 
-    // 1. MenuController로부터 ID 요청값 받음
-    // 2. MenuDAO를 통해 메뉴 삭제
-    // 3. 메뉴 name을 응답값으로 return
     @Override
-    public String deleteMenu(Long id) throws Exception {
-        String name = menuDAO.deleteMenu(id);
+    public MenuResponseDto deleteMenu(Long id) throws Exception {
+    
+        Menu deletedMenu = jpaMenuRepository.deleteMenu(id);
 
-        return name;
+        MenuResponseDto menuResponseDto = new MenuResponseDto();
+        menuResponseDto.setId(deletedMenu.getId());
+        menuResponseDto.setName(deletedMenu.getName());
+        menuResponseDto.setPrice(deletedMenu.getPrice());
+        menuResponseDto.setSalesRate(deletedMenu.getSalesRate());
+        menuResponseDto.setStock(deletedMenu.getStock());
+        menuResponseDto.setFlavor(deletedMenu.getFlavor());
+        menuResponseDto.setPortions(deletedMenu.getPortions());
+        menuResponseDto.setCookingTime(deletedMenu.getCookingTime());
+        menuResponseDto.setMenuType(deletedMenu.getMenuType());
+        menuResponseDto.setFoodType(deletedMenu.getFoodType());
+        menuResponseDto.setPopularMenu(deletedMenu.getPopularMenu());
+
+        return menuResponseDto;
+
     }
 
 }
