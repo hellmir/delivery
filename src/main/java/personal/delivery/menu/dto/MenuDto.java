@@ -2,8 +2,6 @@ package personal.delivery.menu.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 public class MenuDto {
 

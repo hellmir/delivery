@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import personal.delivery.base.BaseEntity;
 import personal.delivery.exception.OutOfStockException;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @NoArgsConstructor
@@ -66,23 +64,19 @@ public class Menu extends BaseEntity {
     }
 
     public void updateMenu(String name, Integer price, Integer salesRate, String flavor, Integer portions,
-                    Integer cookingTime, String menuType,String foodType) {
+                           Integer cookingTime, String menuType, String foodType) {
 
         this.name = name;
         this.price = price;
 
-        if (salesRate == -1) {
-            this.salesRate = 0;
-        } else {
-            this.salesRate = salesRate;
-        }
+        this.salesRate = salesRate == -1 ? 0 : salesRate;
 
         this.flavor = flavor;
         this.portions = portions;
         this.cookingTime = cookingTime;
         this.menuType = menuType;
         this.foodType = foodType;
-        
+
     }
 
     public void importPresentStock(int presentStock) {
@@ -90,7 +84,7 @@ public class Menu extends BaseEntity {
     }
 
     public void addStock(int stock) {
-        this.stock = this.stock + stock;
+        this.stock += stock;
     }
 
     public void useStockForSale(int orderQuantity) {
@@ -100,7 +94,7 @@ public class Menu extends BaseEntity {
         adjustStockState(presentStock);
 
         this.stock = presentStock;
-        salesRate = salesRate + orderQuantity;
+        salesRate += orderQuantity;
 
         name.replace("(인기메뉴)", "");
 

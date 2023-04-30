@@ -34,7 +34,7 @@ public class MenuController {
     }
 
     @GetMapping("list")
-    public ResponseEntity< List<MenuResponseDto> > getAllMenu() {
+    public ResponseEntity<List<MenuResponseDto>> getAllMenu() {
         List<MenuResponseDto> menuResponseDtoList = menuService.getAllMenu();
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDtoList);

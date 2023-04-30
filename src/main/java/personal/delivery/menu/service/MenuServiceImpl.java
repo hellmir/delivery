@@ -48,7 +48,7 @@ public class MenuServiceImpl implements MenuService {
         Menu savedMenu = jpaMenuRepository.insertMenu(menu);
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(savedMenu,MenuResponseDto.class);
+                .map(savedMenu, MenuResponseDto.class);
 
         return menuResponseDto;
 
@@ -60,7 +60,7 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = jpaMenuRepository.selectMenu(id);
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(menu,MenuResponseDto.class);
+                .map(menu, MenuResponseDto.class);
 
         return menuResponseDto;
 
@@ -126,7 +126,7 @@ public class MenuServiceImpl implements MenuService {
         Menu changedMenu = jpaMenuRepository.updateMenu(menu);
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(changedMenu,MenuResponseDto.class);
+                .map(changedMenu, MenuResponseDto.class);
 
         return menuResponseDto;
 
@@ -137,7 +137,7 @@ public class MenuServiceImpl implements MenuService {
         Menu deletedMenu = jpaMenuRepository.deleteMenu(id);
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(deletedMenu,MenuResponseDto.class);
+                .map(deletedMenu, MenuResponseDto.class);
 
         return menuResponseDto;
     }
