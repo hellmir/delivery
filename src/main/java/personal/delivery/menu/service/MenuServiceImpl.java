@@ -2,14 +2,13 @@ package personal.delivery.menu.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import personal.delivery.config.BeanConfiguration;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.dto.MenuChangeDto;
 import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.repository.JpaMenuRepository;
-import personal.delivery.config.BeanConfiguration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,7 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl implements MenuService {
 
     private final JpaMenuRepository jpaMenuRepository;
+    private final BeanConfiguration beanConfiguration;
 
     @Override
     public MenuResponseDto saveMenu(MenuDto menuDto) {
@@ -78,9 +78,9 @@ public class MenuServiceImpl implements MenuService {
 
         List<Menu> menuList = jpaMenuRepository.selectAllMenu();
 
-            List<MenuResponseDto> menuResponseDtoList = menuList.stream()
-                    .map(menu -> BeanConfiguration.modelMapper().map(menu, MenuResponseDto.class))
-                    .collect(Collectors.toList());
+        List<MenuResponseDto> menuResponseDtoList = menuList.stream()
+                .map(menu -> beanConfiguration.modelMapper().map(menu, MenuResponseDto.class))
+                .collect(Collectors.toList());
 
         return menuResponseDtoList;
 
@@ -91,7 +91,7 @@ public class MenuServiceImpl implements MenuService {
 
         Menu menu = Menu.builder()
                 .id(menuChangeDto.getId())
-                        .build();
+                .build();
 
         menu.changeName(menuChangeDto.getName());
         menu.changePrice(menuChangeDto.getPrice());
