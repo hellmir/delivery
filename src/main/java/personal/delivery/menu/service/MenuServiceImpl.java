@@ -38,21 +38,10 @@ public class MenuServiceImpl implements MenuService {
                 .popularMenu(menuDto.isPopularMenu())
                 .build();
 
-        jpaMenuRepository.insertMenu(menu);
+        Menu savedMenu = jpaMenuRepository.insertMenu(menu);
 
-        MenuResponseDto menuResponseDto = new MenuResponseDto();
-        menuResponseDto.setId(menu.getId());
-        menuResponseDto.setName(menu.getName());
-        menuResponseDto.setPrice(menu.getPrice());
-        menuResponseDto.setSalesRate(menu.getSalesRate());
-        menuResponseDto.setStock(menu.getStock());
-        menuResponseDto.setFlavor(menu.getFlavor());
-        menuResponseDto.setPortions(menu.getPortions());
-        menuResponseDto.setCookingTime(menu.getCookingTime());
-        menuResponseDto.setMenuType(menu.getMenuType());
-        menuResponseDto.setFoodType(menu.getFoodType());
-        menuResponseDto.setPopularMenu(menu.getPopularMenu());
-        menuResponseDto.setRegTime(menu.getRegTime());
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(savedMenu,MenuResponseDto.class);
 
         return menuResponseDto;
 
@@ -63,19 +52,8 @@ public class MenuServiceImpl implements MenuService {
 
         Menu menu = jpaMenuRepository.selectMenu(id);
 
-        MenuResponseDto menuResponseDto = new MenuResponseDto();
-
-        menuResponseDto.setId(menu.getId());
-        menuResponseDto.setName(menu.getName());
-        menuResponseDto.setPrice(menu.getPrice());
-        menuResponseDto.setSalesRate(menu.getSalesRate());
-        menuResponseDto.setStock(menu.getStock());
-        menuResponseDto.setFlavor(menu.getFlavor());
-        menuResponseDto.setPortions(menu.getPortions());
-        menuResponseDto.setCookingTime(menu.getCookingTime());
-        menuResponseDto.setMenuType(menu.getMenuType());
-        menuResponseDto.setFoodType(menu.getFoodType());
-        menuResponseDto.setPopularMenu(menu.getPopularMenu());
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(menu,MenuResponseDto.class);
 
         return menuResponseDto;
 
@@ -140,19 +118,8 @@ public class MenuServiceImpl implements MenuService {
 
         Menu changedMenu = jpaMenuRepository.updateMenu(menu);
 
-        MenuResponseDto menuResponseDto = new MenuResponseDto();
-        menuResponseDto.setId(changedMenu.getId());
-        menuResponseDto.setName(changedMenu.getName());
-        menuResponseDto.setPrice(changedMenu.getPrice());
-        menuResponseDto.setSalesRate(changedMenu.getSalesRate());
-        menuResponseDto.setStock(changedMenu.getStock());
-        menuResponseDto.setFlavor(changedMenu.getFlavor());
-        menuResponseDto.setPortions(changedMenu.getPortions());
-        menuResponseDto.setCookingTime(changedMenu.getCookingTime());
-        menuResponseDto.setMenuType(changedMenu.getMenuType());
-        menuResponseDto.setFoodType(changedMenu.getFoodType());
-        menuResponseDto.setPopularMenu(changedMenu.getPopularMenu());
-        menuResponseDto.setUpdateTime(menu.getUpdateTime());
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(changedMenu,MenuResponseDto.class);
 
         return menuResponseDto;
 
@@ -162,18 +129,8 @@ public class MenuServiceImpl implements MenuService {
     public MenuResponseDto deleteMenu(Long id) throws Exception {
         Menu deletedMenu = jpaMenuRepository.deleteMenu(id);
 
-        MenuResponseDto menuResponseDto = new MenuResponseDto();
-        menuResponseDto.setId(deletedMenu.getId());
-        menuResponseDto.setName(deletedMenu.getName());
-        menuResponseDto.setPrice(deletedMenu.getPrice());
-        menuResponseDto.setSalesRate(deletedMenu.getSalesRate());
-        menuResponseDto.setStock(deletedMenu.getStock());
-        menuResponseDto.setFlavor(deletedMenu.getFlavor());
-        menuResponseDto.setPortions(deletedMenu.getPortions());
-        menuResponseDto.setCookingTime(deletedMenu.getCookingTime());
-        menuResponseDto.setMenuType(deletedMenu.getMenuType());
-        menuResponseDto.setFoodType(deletedMenu.getFoodType());
-        menuResponseDto.setPopularMenu(deletedMenu.getPopularMenu());
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(deletedMenu,MenuResponseDto.class);
 
         return menuResponseDto;
     }
