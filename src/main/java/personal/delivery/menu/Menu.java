@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.exception.OutOfStockException;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -35,6 +37,8 @@ public class Menu {
     private String menuType;
     private String foodType;
     private Boolean popularMenu;
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
 
     @Builder
     public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock, String flavor, Integer portions,

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import personal.delivery.menu.Menu;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 public class OrderMenu {
@@ -23,4 +25,7 @@ public class OrderMenu {
 
     private int orderPrice;
     private int orderQuantity;
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
+    
 }
