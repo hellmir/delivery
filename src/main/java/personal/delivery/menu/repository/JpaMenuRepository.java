@@ -1,5 +1,6 @@
 package personal.delivery.menu.repository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import personal.delivery.menu.Menu;
@@ -50,7 +51,7 @@ public class JpaMenuRepository {
             updatedMenu = menuRepository.save(updatingMenu);
 
         } else {
-            throw new Exception();
+            throw new EntityNotFoundException();
         }
 
         return updatedMenu;
@@ -67,7 +68,7 @@ public class JpaMenuRepository {
             menuRepository.delete(menu);
             deletedMenu = menu;
         } else {
-            throw new Exception();
+            throw new EntityNotFoundException();
         }
 
         return deletedMenu;
