@@ -56,16 +56,19 @@ public class Menu {
         this.popularMenu = popularMenu;
     }
 
-    public void changeName(String name) {
+    public void updateMenu(String name, Integer price, Integer salesRate, String flavor, Integer portions,
+                    Integer cookingTime, String menuType,String foodType, Boolean popularMenu) {
+
         this.name = name;
-    }
-
-    public void changePrice(Integer price) {
         this.price = price;
-    }
-
-    public void changeSalesRate(Integer salesRate) {
         this.salesRate = salesRate;
+        this.flavor = flavor;
+        this.portions = portions;
+        this.cookingTime = cookingTime;
+        this.menuType = menuType;
+        this.foodType = foodType;
+        this.popularMenu = popularMenu;
+        
     }
 
     public void importPresentStock(int presentStock) {
@@ -101,30 +104,6 @@ public class Menu {
             throw new OutOfStockException("판매 불가 : 재료 부족");
         }
 
-    }
-
-    public void changeFlavor(String flavor) {
-        this.flavor = flavor;
-    }
-
-    public void changePortions(Integer portions) {
-        this.portions = portions;
-    }
-
-    public void changeCookingTime(Integer cookingTime) {
-        this.cookingTime = cookingTime;
-    }
-
-    public void changeMenuType(String menuType) {
-        this.menuType = menuType;
-    }
-
-    public void changeFoodType(String foodType) {
-        this.foodType = foodType;
-    }
-
-    public void changePopularMenu(Boolean popularMenu) {
-        this.popularMenu = popularMenu;
     }
 
 }
