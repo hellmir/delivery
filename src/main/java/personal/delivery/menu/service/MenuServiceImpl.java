@@ -7,9 +7,11 @@ import personal.delivery.menu.dto.MenuChangeDto;
 import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.repository.JpaMenuRepository;
+import personal.delivery.config.BeanConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuResponseDto saveMenu(MenuDto menuDto) {
+
         Menu menu = Menu.builder()
                 .name(menuDto.getName())
                 .price(menuDto.getPrice())
@@ -32,7 +35,7 @@ public class MenuServiceImpl implements MenuService {
                 .popularMenu(menuDto.isPopularMenu())
                 .build();
 
-        Menu savedMenu = jpaMenuRepository.insertMenu(menu);
+        jpaMenuRepository.insertMenu(menu);
 
         MenuResponseDto menuResponseDto = new MenuResponseDto();
         menuResponseDto.setId(menu.getId());
@@ -72,14 +75,15 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuResponseDto> getAllMenu() {
-        List<Menu> menu = jpaMenuRepository.selectAllMenu();
-        List<MenuResponseDto> menuResponseDtoList = new ArrayList<>();
 
-        for (int i = 1; i <= menu.size(); i++) {
-            menuResponseDtoList.add(getMenu((long) i));
-        }
+        List<Menu> menuList = jpaMenuRepository.selectAllMenu();
+
+            List<MenuResponseDto> menuResponseDtoList = menuList.stream()
+                    .map(menu -> BeanConfiguration.modelMapper().map(menu, MenuResponseDto.class))
+                    .collect(Collectors.toList());
 
         return menuResponseDtoList;
+
     }
 
     @Override
