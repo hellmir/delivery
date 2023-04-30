@@ -1,5 +1,8 @@
 package personal.delivery.menu.service;
 
+import jakarta.validation.constraints.Negative;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import personal.delivery.config.BeanConfiguration;
@@ -33,7 +36,6 @@ public class MenuServiceImpl implements MenuService {
                 .menuType(menuDto.getMenuType())
                 .foodType(menuDto.getFoodType())
                 .popularMenu(menuDto.isPopularMenu())
-                .regTime(menuDto.getRegTime())
                 .build();
 
         jpaMenuRepository.insertMenu(menu);
@@ -99,15 +101,42 @@ public class MenuServiceImpl implements MenuService {
                 .id(menuChangeDto.getId())
                 .build();
 
-        menu.updateMenu(menuChangeDto.getName(), menuChangeDto.getPrice(), menuChangeDto.getSalesRate(),
-                menuChangeDto.getFlavor(), menuChangeDto.getPortions(), menuChangeDto.getCookingTime(),
-                menuChangeDto.getMenuType(), menuChangeDto.getFoodType());
+        @NotBlank
+        String name = menuChangeDto.getName();
+
+        @Positive
+        int price = menuChangeDto.getPrice();
+
+        @Positive
+        @Negative
+        int salesRate = menuChangeDto.getSalesRate();
+
+        @NotBlank
+        String flavor = menuChangeDto.getFlavor();
+
+        @Positive
+        int portions = menuChangeDto.getPortions();
+
+        @Positive
+        int cookingTime = menuChangeDto.getCookingTime();
+
+        @NotBlank
+        String menuType = menuChangeDto.getMenuType();
+
+        @NotBlank
+        String foodType = menuChangeDto.getFoodType();
+
+        menu.updateMenu(name, price, salesRate, flavor, portions, cookingTime, menuType, foodType);
 
         int presentStock = getMenu(menuChangeDto.getId()).getStock();
 
         menu.importPresentStock(presentStock);
 
-        menu.addStock(menuChangeDto.getStock());
+        @Positive
+        @Negative
+        int stock = menuChangeDto.getStock();
+
+        menu.addStock(stock);
 
         Menu changedMenu = jpaMenuRepository.updateMenu(menu);
 
