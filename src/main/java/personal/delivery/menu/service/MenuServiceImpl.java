@@ -33,6 +33,7 @@ public class MenuServiceImpl implements MenuService {
                 .menuType(menuDto.getMenuType())
                 .foodType(menuDto.getFoodType())
                 .popularMenu(menuDto.isPopularMenu())
+                .regTime(menuDto.getRegTime())
                 .build();
 
         jpaMenuRepository.insertMenu(menu);
@@ -49,6 +50,7 @@ public class MenuServiceImpl implements MenuService {
         menuResponseDto.setMenuType(menu.getMenuType());
         menuResponseDto.setFoodType(menu.getFoodType());
         menuResponseDto.setPopularMenu(menu.getPopularMenu());
+        menuResponseDto.setRegTime(menu.getRegTime());
 
         return menuResponseDto;
 
@@ -56,8 +58,11 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuResponseDto getMenu(Long id) {
+
         Menu menu = jpaMenuRepository.selectMenu(id);
+
         MenuResponseDto menuResponseDto = new MenuResponseDto();
+
         menuResponseDto.setId(menu.getId());
         menuResponseDto.setName(menu.getName());
         menuResponseDto.setPrice(menu.getPrice());
@@ -71,6 +76,7 @@ public class MenuServiceImpl implements MenuService {
         menuResponseDto.setPopularMenu(menu.getPopularMenu());
 
         return menuResponseDto;
+
     }
 
     @Override
@@ -93,21 +99,15 @@ public class MenuServiceImpl implements MenuService {
                 .id(menuChangeDto.getId())
                 .build();
 
-        menu.changeName(menuChangeDto.getName());
-        menu.changePrice(menuChangeDto.getPrice());
-        menu.changeSalesRate(menuChangeDto.getSalesRate());
+        menu.updateMenu(menuChangeDto.getName(), menuChangeDto.getPrice(), menuChangeDto.getSalesRate(),
+                menuChangeDto.getFlavor(), menuChangeDto.getPortions(), menuChangeDto.getCookingTime(),
+                menuChangeDto.getMenuType(), menuChangeDto.getFoodType());
 
         int presentStock = getMenu(menuChangeDto.getId()).getStock();
 
         menu.importPresentStock(presentStock);
 
         menu.addStock(menuChangeDto.getStock());
-
-        menu.changeFlavor(menuChangeDto.getFlavor());
-        menu.changePortions(menuChangeDto.getPortions());
-        menu.changeCookingTime(menuChangeDto.getCookingTime());
-        menu.changeMenuType(menuChangeDto.getMenuType());
-        menu.changeFoodType(menuChangeDto.getFoodType());
 
         Menu changedMenu = jpaMenuRepository.updateMenu(menu);
 
@@ -123,6 +123,7 @@ public class MenuServiceImpl implements MenuService {
         menuResponseDto.setMenuType(changedMenu.getMenuType());
         menuResponseDto.setFoodType(changedMenu.getFoodType());
         menuResponseDto.setPopularMenu(changedMenu.getPopularMenu());
+        menuResponseDto.setUpdateTime(menu.getUpdateTime());
 
         return menuResponseDto;
 

@@ -19,7 +19,7 @@ public class Menu {
     @Column(name = "menu_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String name;
 
     @Column(nullable = false)
@@ -31,18 +31,28 @@ public class Menu {
     @Column(nullable = false)
     private Integer stock;
 
+    @Column(length = 10)
     private String flavor;
+
     private Integer portions;
     private Integer cookingTime;
+
+    @Column(length = 5)
     private String menuType;
+
+    @Column(length = 10)
     private String foodType;
+
     private Boolean popularMenu;
+
     private LocalDateTime regTime;
     private LocalDateTime updateTime;
 
     @Builder
-    public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock, String flavor, Integer portions,
-                Integer cookingTime, String menuType, String foodType, Boolean popularMenu) {
+    public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock,
+                String flavor, Integer portions, Integer cookingTime,
+                String menuType, String foodType, Boolean popularMenu) {
+
         this.id = id;
         this.name = name;
         this.price = price;
@@ -54,20 +64,26 @@ public class Menu {
         this.menuType = menuType;
         this.foodType = foodType;
         this.popularMenu = popularMenu;
+
     }
 
     public void updateMenu(String name, Integer price, Integer salesRate, String flavor, Integer portions,
-                    Integer cookingTime, String menuType,String foodType, Boolean popularMenu) {
+                    Integer cookingTime, String menuType,String foodType) {
 
         this.name = name;
         this.price = price;
-        this.salesRate = salesRate;
+
+        if (salesRate == -1) {
+            this.salesRate = 0;
+        } else {
+            this.salesRate = salesRate;
+        }
+
         this.flavor = flavor;
         this.portions = portions;
         this.cookingTime = cookingTime;
         this.menuType = menuType;
         this.foodType = foodType;
-        this.popularMenu = popularMenu;
         
     }
 
@@ -87,6 +103,13 @@ public class Menu {
 
         this.stock = presentStock;
         salesRate = salesRate + stock;
+
+        name.replace("(인기메뉴)", "");
+
+        if (salesRate >= 100) {
+            popularMenu = true;
+            name += "(인기메뉴)";
+        }
 
     }
 

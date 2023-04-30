@@ -40,57 +40,16 @@ public class JpaMenuRepository {
 
             Menu updatingMenu = selectedMenu.get();
 
-            if (menu.getName() != null) {
-                updatingMenu.changeName(menu.getName());
-            }
-
-            if (menu.getPrice() > 0) {
-                updatingMenu.changePrice(menu.getPrice());
-            }
+            updatingMenu.updateMenu(menu.getName(), menu.getPrice(), menu.getSalesRate(), menu.getFlavor(),
+                    menu.getPortions(), menu.getCookingTime(), menu.getMenuType(), menu.getFoodType());
 
             if (menu.getStock() > 0) {
                 updatingMenu.importPresentStock(menu.getStock());
             }
 
-            if (menu.getSalesRate() > 0) {
-                updatingMenu.changeSalesRate(menu.getSalesRate());
-            } else if (menu.getSalesRate() == -1) {
-                updatingMenu.changeSalesRate(0);
-            }
-
-            if (menu.getFlavor() != null) {
-                updatingMenu.changeFlavor(menu.getFlavor());
-            }
-
-            if (menu.getPortions() > 0) {
-                updatingMenu.changePortions(menu.getPortions());
-            }
-
-            if (menu.getCookingTime() > 0) {
-                updatingMenu.changeCookingTime(menu.getCookingTime());
-            }
-
-            if (menu.getMenuType() != null) {
-                updatingMenu.changeMenuType(menu.getMenuType());
-            }
-
-            if (menu.getFoodType() != null) {
-                updatingMenu.changeFoodType(menu.getFoodType());
-            }
-
-
-            updatingMenu.changeName(updatingMenu.getName().replace("(인기메뉴)", ""));
-
-            if (updatingMenu.getSalesRate() >= 100) {
-                updatingMenu.changePopularMenu(true);
-                updatingMenu.changeName(updatingMenu.getName() + "(인기메뉴)");
-            }
-
             updatedMenu = menuRepository.save(updatingMenu);
 
-        } else
-
-        {
+        } else {
             throw new Exception();
         }
 
