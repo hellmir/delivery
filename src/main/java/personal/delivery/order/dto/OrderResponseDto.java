@@ -18,4 +18,7 @@ public class OrderResponseDto {
     private int totalPrice;
     private String email;
 
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
+
 }

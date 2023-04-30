@@ -3,8 +3,9 @@ package personal.delivery.menu.service;
 import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.dto.MenuChangeDto;
@@ -16,11 +17,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@Transactional
 public class MenuServiceImpl implements MenuService {
 
     private final JpaMenuRepository jpaMenuRepository;
     private final BeanConfiguration beanConfiguration;
+
+    @Autowired
+    public MenuServiceImpl(JpaMenuRepository jpaMenuRepository, BeanConfiguration beanConfiguration) {
+        this.jpaMenuRepository = jpaMenuRepository;
+        this.beanConfiguration = beanConfiguration;
+    }
 
     @Override
     public MenuResponseDto saveMenu(MenuDto menuDto) {
