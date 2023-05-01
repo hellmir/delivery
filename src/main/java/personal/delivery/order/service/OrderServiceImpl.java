@@ -65,10 +65,11 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(Member member, List<OrderMenu> orderMenuList) {
 
         Order order = Order.builder()
-                .orderDate(LocalDateTime.now())
+                .orderTime(LocalDateTime.now())
                 .orderStatus(OrderStatus.ORDER)
                 .member(member)
                 .totalPrice(getTotalPrice())
+                .regTime(LocalDateTime.now())
                 .build();
 
         for (OrderMenu orderMenu : orderMenuList) {

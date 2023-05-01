@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import personal.delivery.base.BaseEntity;
+import org.springframework.stereotype.Component;
 import personal.delivery.constant.OrderStatus;
 import personal.delivery.member.Member;
 
@@ -17,14 +17,15 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "orders")
-public class Order extends BaseEntity {
+@Component
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
-    private LocalDateTime orderDate;
+    private LocalDateTime orderTime;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -38,15 +39,20 @@ public class Order extends BaseEntity {
 
     private Integer totalPrice;
 
-    @Builder
-    public Order(LocalDateTime orderDate, OrderStatus orderStatus,
-                 Member member, List<OrderMenu> orderMenus, Integer totalPrice) {
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
 
-        this.orderDate = orderDate;
+    @Builder
+    public Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member, List<OrderMenu> orderMenus,
+                 Integer totalPrice, LocalDateTime regTime, LocalDateTime updateTime) {
+
+        this.orderTime = orderTime;
         this.orderStatus = orderStatus;
         this.member = member;
         this.orderMenus = orderMenus;
         this.totalPrice = totalPrice;
+        this.regTime = regTime;
+        this.updateTime = updateTime;
 
     }
 

@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import personal.delivery.base.BaseEntity;
 import personal.delivery.exception.OutOfStockException;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "menu")
-public class Menu extends BaseEntity {
+public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +44,13 @@ public class Menu extends BaseEntity {
     private String foodType;
 
     private Boolean popularMenu;
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
 
     @Builder
     public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock,
-                String flavor, Integer portions, Integer cookingTime,
-                String menuType, String foodType, Boolean popularMenu) {
+                String flavor, Integer portions, Integer cookingTime, String menuType,
+                String foodType, Boolean popularMenu, LocalDateTime regTime, LocalDateTime updateTime) {
 
         this.id = id;
         this.name = name;
@@ -60,6 +63,8 @@ public class Menu extends BaseEntity {
         this.menuType = menuType;
         this.foodType = foodType;
         this.popularMenu = popularMenu;
+        this.regTime = regTime;
+        this.updateTime = updateTime;
 
     }
 

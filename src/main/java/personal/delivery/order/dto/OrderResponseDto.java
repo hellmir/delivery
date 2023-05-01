@@ -16,7 +16,6 @@ public class OrderResponseDto {
     private Member member;
     private List<OrderMenu> orderMenuList;
     private int totalPrice;
-    private String email;
 
     private LocalDateTime regTime;
     private LocalDateTime updateTime;

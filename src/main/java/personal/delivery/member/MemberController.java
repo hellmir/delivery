@@ -12,18 +12,17 @@ import personal.delivery.member.dto.MemberDto;
 import personal.delivery.member.dto.MemberResponseDto;
 import personal.delivery.member.service.MemberService;
 
-@RestController("members")
-@RequestMapping
+@RestController
+@RequestMapping("members")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping()
     public ResponseEntity<MemberResponseDto> signUpMember(@RequestBody MemberDto memberDto) {
 
-        MemberResponseDto memberResponseDto = memberService.createMember(memberDto, passwordEncoder);
+        MemberResponseDto memberResponseDto = memberService.createMember(memberDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
     }

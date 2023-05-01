@@ -1,7 +1,6 @@
 package personal.delivery.member.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
@@ -10,6 +9,8 @@ import personal.delivery.member.Member;
 import personal.delivery.member.dto.MemberDto;
 import personal.delivery.member.dto.MemberResponseDto;
 import personal.delivery.member.repository.MemberRepository;
+
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -37,16 +38,15 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public MemberResponseDto createMember(MemberDto memberDto, PasswordEncoder passwordEncoder) {
-
-        String password = passwordEncoder.encode(memberDto.getPassword());
+    public MemberResponseDto createMember(MemberDto memberDto) {
 
         Member member = Member.builder()
                 .name(memberDto.getName())
                 .email(memberDto.getEmail())
-                .password(password)
+                .password(memberDto.getPassword())
                 .address(memberDto.getAddress())
                 .role(Role.USER)
+                .regTime(LocalDateTime.now())
                 .build();
 
         return saveMember(member);

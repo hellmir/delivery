@@ -13,6 +13,7 @@ import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.repository.JpaMenuRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,7 @@ public class MenuServiceImpl implements MenuService {
                 .menuType(menuDto.getMenuType())
                 .foodType(menuDto.getFoodType())
                 .popularMenu(menuDto.isPopularMenu())
+                .regTime(LocalDateTime.now())
                 .build();
 
         Menu savedMenu = jpaMenuRepository.insertMenu(menu);
@@ -84,6 +86,7 @@ public class MenuServiceImpl implements MenuService {
 
         Menu menu = Menu.builder()
                 .id(menuChangeDto.getId())
+                .updateTime(LocalDateTime.now())
                 .build();
 
         @NotBlank

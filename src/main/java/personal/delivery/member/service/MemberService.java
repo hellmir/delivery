@@ -9,6 +9,6 @@ public interface MemberService {
 
     MemberResponseDto saveMember(Member member);
 
-    MemberResponseDto createMember(MemberDto memberDto, PasswordEncoder passwordEncoder);
+    MemberResponseDto createMember(MemberDto memberDto);
 
 }

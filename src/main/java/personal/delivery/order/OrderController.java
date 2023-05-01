@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import personal.delivery.order.dto.OrderDto;
 import personal.delivery.order.dto.OrderResponseDto;
-import personal.delivery.order.service.OrderServiceImpl;
+import personal.delivery.order.service.OrderService;
 
 @RestController
 @RequestMapping("orders")
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderServiceImpl orderServiceImpl;
+    private final OrderService orderService;
 
     @PostMapping()
     public ResponseEntity<OrderResponseDto> order(@RequestBody OrderDto orderDto) {
-        OrderResponseDto orderResponseDto = orderServiceImpl.order(orderDto);
+        OrderResponseDto orderResponseDto = orderService.order(orderDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
     }

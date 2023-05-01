@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import personal.delivery.base.BaseEntity;
 import personal.delivery.constant.Role;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "member")
-public class Member extends BaseEntity {
+public class Member {
 
     @Id
     @Column(name = "member_id")
@@ -33,14 +34,20 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    LocalDateTime regTime;
+    LocalDateTime updateTime;
+
     @Builder
-    public Member(String name, String email, String password, String address, Role role) {
+    public Member(String name, String email, String password, String address, Role role,
+                  LocalDateTime regTime, LocalDateTime updateTime) {
 
         this.name = name;
         this.email = email;
         this.password = password;
         this.address = address;
         this.role = role;
+        this.regTime = regTime;
+        this.updateTime = updateTime;
 
     }
 
