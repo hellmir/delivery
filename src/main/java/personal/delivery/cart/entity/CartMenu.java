@@ -1,12 +1,16 @@
-package personal.delivery.cart;
+package personal.delivery.cart.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 import personal.delivery.menu.Menu;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "cart_menu")
+@Component
 public class CartMenu {
 
     @Id
@@ -22,6 +26,6 @@ public class CartMenu {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    private int numOfMenu;
+    private Integer menuQuantity;
 
 }
