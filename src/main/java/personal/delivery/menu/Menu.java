@@ -19,16 +19,16 @@ public class Menu {
     @Column(name = "menu_id")
     private Long id;
 
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private Integer price;
 
-    @Column(nullable = false)
+    @Column
     private Integer salesRate;
 
-    @Column(nullable = false)
+    @Column
     private Integer stock;
 
     @Column(length = 10)
@@ -68,24 +68,48 @@ public class Menu {
 
     }
 
-    public void updateMenu(String name, Integer price, Integer salesRate, String flavor, Integer portions,
-                           Integer cookingTime, String menuType, String foodType) {
-
+    public void updateName(String name) {
         this.name = name;
+    }
+
+    public void updatePrice(Integer price) {
         this.price = price;
+    }
 
+    public void updateSalesRate(Integer salesRate) {
         this.salesRate = salesRate == -1 ? 0 : salesRate;
+    }
 
+    public void updateFlavor(String flavor) {
         this.flavor = flavor;
-        this.portions = portions;
-        this.cookingTime = cookingTime;
-        this.menuType = menuType;
-        this.foodType = foodType;
+    }
 
+    public void updatePortions(Integer portions) {
+        this.portions = portions;
+    }
+
+    public void updateCookingTime(Integer cookingTime) {
+        this.cookingTime = cookingTime;
+    }
+
+    public void updateMenuType(String menuType) {
+        this.menuType = menuType;
+    }
+
+    public void updateFoodType(String foodType) {
+        this.foodType = foodType;
+    }
+
+    public void updatePopularMenu(Boolean popularMenu) {
+        this.popularMenu = popularMenu;
+    }
+
+    public void updateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
     }
 
     public void importPresentStock(int presentStock) {
-        this.stock = presentStock;
+        stock = presentStock;
     }
 
     public void addStock(int stock) {
@@ -94,11 +118,11 @@ public class Menu {
 
     public void useStockForSale(int orderQuantity) {
 
-        int presentStock = this.stock - orderQuantity;
+        int presentStock = stock - orderQuantity;
 
         adjustStockState(presentStock);
 
-        this.stock = presentStock;
+        stock = presentStock;
         salesRate += orderQuantity;
 
         name.replace("(인기메뉴)", "");
@@ -113,11 +137,11 @@ public class Menu {
     private void adjustStockState(int presentStock) {
 
         if (presentStock == 0) {
-            this.name += "(재료 소진)";
+            name += "(재료 소진)";
         }
 
         if (presentStock > 0) {
-            this.name.replace("(재료 소진)", "");
+            name.replace("(재료 소진)", "");
         }
 
         if (presentStock < 0) {

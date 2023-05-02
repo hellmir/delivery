@@ -1,14 +1,10 @@
 package personal.delivery.menu.service;
 
-import jakarta.validation.constraints.Negative;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.menu.Menu;
-import personal.delivery.menu.dto.MenuChangeDto;
 import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.repository.JpaMenuRepository;
@@ -43,7 +39,6 @@ public class MenuServiceImpl implements MenuService {
                 .cookingTime(menuDto.getCookingTime())
                 .menuType(menuDto.getMenuType())
                 .foodType(menuDto.getFoodType())
-                .popularMenu(menuDto.isPopularMenu())
                 .regTime(LocalDateTime.now())
                 .build();
 
@@ -81,48 +76,27 @@ public class MenuServiceImpl implements MenuService {
 
     }
 
+    @Transactional
     @Override
-    public MenuResponseDto changeMenu(MenuChangeDto menuChangeDto) throws Exception {
+    public MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception {
 
         Menu menu = Menu.builder()
-                .id(menuChangeDto.getId())
-                .updateTime(LocalDateTime.now())
+                .id(id)
+                .name(menuDto.getName())
+                .price(menuDto.getPrice())
+                .salesRate(menuDto.getSalesRate())
+                .flavor(menuDto.getFlavor())
+                .portions(menuDto.getPortions())
+                .cookingTime(menuDto.getCookingTime())
+                .menuType(menuDto.getMenuType())
+                .foodType(menuDto.getFoodType())
                 .build();
 
-        @NotBlank
-        String name = menuChangeDto.getName();
-
-        @Positive
-        int price = menuChangeDto.getPrice();
-
-        @Positive
-        @Negative
-        int salesRate = menuChangeDto.getSalesRate();
-
-        @NotBlank
-        String flavor = menuChangeDto.getFlavor();
-
-        @Positive
-        int portions = menuChangeDto.getPortions();
-
-        @Positive
-        int cookingTime = menuChangeDto.getCookingTime();
-
-        @NotBlank
-        String menuType = menuChangeDto.getMenuType();
-
-        @NotBlank
-        String foodType = menuChangeDto.getFoodType();
-
-        menu.updateMenu(name, price, salesRate, flavor, portions, cookingTime, menuType, foodType);
-
-        int presentStock = getMenu(menuChangeDto.getId()).getStock();
+        int presentStock = getMenu(id).getStock();
 
         menu.importPresentStock(presentStock);
 
-        @Positive
-        @Negative
-        int stock = menuChangeDto.getStock();
+        int stock = menuDto.getStock();
 
         menu.addStock(stock);
 
