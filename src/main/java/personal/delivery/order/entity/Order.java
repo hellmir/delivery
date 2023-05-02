@@ -43,17 +43,22 @@ public class Order {
     private LocalDateTime updateTime;
 
     @Builder
-    public Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member, List<OrderMenu> orderMenus,
+    public Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member,
                  Integer totalPrice, LocalDateTime regTime, LocalDateTime updateTime) {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
         this.member = member;
-        this.orderMenus = orderMenus;
         this.totalPrice = totalPrice;
         this.regTime = regTime;
         this.updateTime = updateTime;
 
+    }
+
+    public void addOrderMenu(OrderMenu orderMenu) {
+
+        orderMenus.add(orderMenu);
+        orderMenu.setOrder(this);
     }
 
 }

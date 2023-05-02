@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    OrderResponseDto order(OrderDto orderDto);
+    OrderResponseDto takeOrder(OrderDto orderDto);
 
     Order createOrder(Member member, List<OrderMenu> orderMenuList);
 

@@ -27,5 +27,6 @@ public class OrderMenu {
 
     private Integer orderPrice;
     private Integer orderQuantity;
+    private Integer totalPrice;
 
 }

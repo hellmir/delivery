@@ -34,15 +34,18 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceImpl(JpaMenuRepository jpaMenuRepository, MemberRepository memberRepository,
                             OrderRepository orderRepository, BeanConfiguration beanConfiguration,
                             OrderMenuService orderMenuService, Order order) {
+
         this.jpaMenuRepository = jpaMenuRepository;
         this.memberRepository = memberRepository;
         this.orderRepository = orderRepository;
         this.beanConfiguration = beanConfiguration;
         this.orderMenuService = orderMenuService;
         this.order = order;
+
     }
 
-    public OrderResponseDto order(OrderDto orderDto) {
+    @Override
+    public OrderResponseDto takeOrder(OrderDto orderDto) {
 
         Menu menu = jpaMenuRepository.selectMenu(orderDto.getMenuId());
         Member member = memberRepository.findByEmail(orderDto.getEmail());
@@ -62,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
     public Order createOrder(Member member, List<OrderMenu> orderMenuList) {
 
         Order order = Order.builder()
@@ -73,21 +77,24 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         for (OrderMenu orderMenu : orderMenuList) {
-            orderMenuService.addOrderMenu(orderMenu);
+            order.addOrderMenu(orderMenu);
         }
 
         return order;
 
     }
 
+    @Override
     public int getTotalPrice() {
 
         int totalPrice = 0;
         for (OrderMenu orderMenu : order.getOrderMenus()) {
-            totalPrice += orderMenuService.getTotalPrice();
+            totalPrice += orderMenu.getTotalPrice();
+
         }
 
         return totalPrice;
+
     }
 
 }
