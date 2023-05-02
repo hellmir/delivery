@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 import personal.delivery.menu.Menu;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -27,5 +29,8 @@ public class CartMenu {
     private Menu menu;
 
     private Integer menuQuantity;
+
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
 
 }

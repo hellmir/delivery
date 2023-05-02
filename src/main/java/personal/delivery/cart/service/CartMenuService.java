@@ -6,6 +6,8 @@ import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.menu.Menu;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class CartMenuService {
@@ -17,6 +19,7 @@ public class CartMenuService {
         cartMenu.setCart(cart);
         cartMenu.setMenu(menu);
         cartMenu.setMenuQuantity(menuQuantity);
+        cartMenu.setRegTime(LocalDateTime.now());
 
         return cartMenu;
 
@@ -25,6 +28,7 @@ public class CartMenuService {
     public void addMenuQuantity(int menuQuantity) {
 
         cartMenu.setMenuQuantity(cartMenu.getMenuQuantity() + menuQuantity);
+        cartMenu.setUpdateTime(LocalDateTime.now());
 
     }
 }
