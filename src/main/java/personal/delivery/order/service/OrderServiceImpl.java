@@ -72,8 +72,8 @@ public class OrderServiceImpl implements OrderService {
                 .orderTime(LocalDateTime.now())
                 .orderStatus(OrderStatus.ORDER)
                 .member(member)
-                .totalPrice(getTotalPrice())
-                .regTime(LocalDateTime.now())
+                .totalPrice(getMenuListTotalPrice())
+                .registrationTime(LocalDateTime.now())
                 .build();
 
         for (OrderMenu orderMenu : orderMenuList) {
@@ -85,11 +85,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int getTotalPrice() {
+    public int getMenuListTotalPrice() {
 
         int totalPrice = 0;
+
         for (OrderMenu orderMenu : order.getOrderMenus()) {
-            totalPrice += orderMenu.getTotalPrice();
+            totalPrice += orderMenuService.getMenuTotalPrice();
 
         }
 

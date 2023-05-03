@@ -1,8 +1,8 @@
 package personal.delivery.cart.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 import personal.delivery.menu.Menu;
 
@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "cart_menu")
 @Component
 public class CartMenu {
@@ -32,5 +31,20 @@ public class CartMenu {
 
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
+
+
+    public void createCartMenu(Cart cart, Menu menu, LocalDateTime registrationTime) {
+
+        this.cart = cart;
+        this.menu = menu;
+        this.registrationTime = registrationTime;
+
+    }
+
+    public void updateMenuQuantity(Integer menuQuantity, LocalDateTime updateTime) {
+
+        this.menuQuantity = menuQuantity;
+        this.updateTime = updateTime;
+    }
 
 }

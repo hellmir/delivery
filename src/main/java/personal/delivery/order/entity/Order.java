@@ -58,7 +58,8 @@ public class Order {
     public void addOrderMenu(OrderMenu orderMenu) {
 
         orderMenus.add(orderMenu);
-        orderMenu.setOrder(this);
+        orderMenu.updateOrder(this);
+
     }
 
 }

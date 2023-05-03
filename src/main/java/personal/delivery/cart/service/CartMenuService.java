@@ -16,10 +16,7 @@ public class CartMenuService {
 
     public CartMenu createCartMenu(Cart cart, Menu menu, int menuQuantity) {
 
-        cartMenu.setCart(cart);
-        cartMenu.setMenu(menu);
-        cartMenu.setMenuQuantity(menuQuantity);
-        cartMenu.setregistrationTime(LocalDateTime.now());
+        cartMenu.createCartMenu(cart, menu, LocalDateTime.now());
 
         return cartMenu;
 
@@ -27,8 +24,7 @@ public class CartMenuService {
 
     public void addMenuQuantity(int menuQuantity) {
 
-        cartMenu.setMenuQuantity(cartMenu.getMenuQuantity() + menuQuantity);
-        cartMenu.setUpdateTime(LocalDateTime.now());
+        cartMenu.updateMenuQuantity(cartMenu.getMenuQuantity() + menuQuantity, LocalDateTime.now());
 
     }
 }

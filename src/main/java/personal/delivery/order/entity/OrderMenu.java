@@ -2,13 +2,11 @@ package personal.delivery.order.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 import personal.delivery.menu.Menu;
 
 @Entity
 @Getter
-@Setter
 @Component
 public class OrderMenu {
 
@@ -29,4 +27,17 @@ public class OrderMenu {
     private Integer orderQuantity;
     private Integer totalPrice;
 
+    public void createOrderMenu(Menu menu, Integer orderPrice, Integer orderQuantity) {
+
+        this.menu = menu;
+        this.orderPrice = orderPrice;
+        this.orderQuantity = orderQuantity;
+
+    }
+
+    public void updateOrder(Order order) {
+
+        this.order = order;
+
+    }
 }
