@@ -39,18 +39,18 @@ public class Order {
 
     private Integer totalPrice;
 
-    private LocalDateTime regTime;
+    private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
     @Builder
     public Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member,
-                 Integer totalPrice, LocalDateTime regTime, LocalDateTime updateTime) {
+                 Integer totalPrice, LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
         this.member = member;
         this.totalPrice = totalPrice;
-        this.regTime = regTime;
+        this.registrationTime = registrationTime;
         this.updateTime = updateTime;
 
     }

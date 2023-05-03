@@ -13,7 +13,7 @@ public class CartMenuResponseDto {
     private Cart cart;
     private Menu menu;
     private Integer menuQuantity;
-    private LocalDateTime regTime;
+    private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
 }

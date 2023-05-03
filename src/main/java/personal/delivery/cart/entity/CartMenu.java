@@ -30,7 +30,7 @@ public class CartMenu {
 
     private Integer menuQuantity;
 
-    private LocalDateTime regTime;
+    private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
 }

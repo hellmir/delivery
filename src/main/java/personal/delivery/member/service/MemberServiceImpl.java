@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
                 .password(memberDto.getPassword())
                 .address(memberDto.getAddress())
                 .role(Role.USER)
-                .regTime(LocalDateTime.now())
+                .registrationTime(LocalDateTime.now())
                 .build();
 
         return saveMember(member);

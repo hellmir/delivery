@@ -17,7 +17,7 @@ public class OrderResponseDto {
     private List<OrderMenu> orderMenuList;
     private int totalPrice;
 
-    private LocalDateTime regTime;
+    private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
 }

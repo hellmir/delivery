@@ -13,7 +13,7 @@ public class MemberResponseDto {
     private String address;
     private Role role;
 
-    private LocalDateTime regTime;
+    private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
 }

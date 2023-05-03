@@ -39,7 +39,7 @@ public class MenuServiceImpl implements MenuService {
                 .cookingTime(menuDto.getCookingTime())
                 .menuType(menuDto.getMenuType())
                 .foodType(menuDto.getFoodType())
-                .regTime(LocalDateTime.now())
+                .registrationTime(LocalDateTime.now())
                 .build();
 
         Menu savedMenu = jpaMenuRepository.insertMenu(menu);

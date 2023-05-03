@@ -23,7 +23,7 @@ public class MenuResponseDto {
     private String foodType;
     private boolean popularMenu;
 
-    private LocalDateTime regTime;
+    private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
 }

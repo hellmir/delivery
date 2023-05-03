@@ -19,7 +19,7 @@ public class CartMenuService {
         cartMenu.setCart(cart);
         cartMenu.setMenu(menu);
         cartMenu.setMenuQuantity(menuQuantity);
-        cartMenu.setRegTime(LocalDateTime.now());
+        cartMenu.setregistrationTime(LocalDateTime.now());
 
         return cartMenu;
 

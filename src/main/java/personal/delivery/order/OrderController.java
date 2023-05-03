@@ -20,7 +20,7 @@ public class OrderController {
 
     @PostMapping()
     public ResponseEntity<OrderResponseDto> order(@RequestBody OrderDto orderDto) {
-        OrderResponseDto orderResponseDto = orderService.order(orderDto);
+        OrderResponseDto orderResponseDto = orderService.takeOrder(orderDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
     }

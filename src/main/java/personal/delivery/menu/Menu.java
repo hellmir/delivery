@@ -44,13 +44,13 @@ public class Menu {
     private String foodType;
 
     private Boolean popularMenu;
-    private LocalDateTime regTime;
+    private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
     @Builder
     public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock,
                 String flavor, Integer portions, Integer cookingTime, String menuType,
-                String foodType, Boolean popularMenu, LocalDateTime regTime, LocalDateTime updateTime) {
+                String foodType, Boolean popularMenu, LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.id = id;
         this.name = name;
@@ -63,7 +63,7 @@ public class Menu {
         this.menuType = menuType;
         this.foodType = foodType;
         this.popularMenu = popularMenu;
-        this.regTime = regTime;
+        this.registrationTime = registrationTime;
         this.updateTime = updateTime;
 
     }
@@ -98,10 +98,6 @@ public class Menu {
 
     public void updateFoodType(String foodType) {
         this.foodType = foodType;
-    }
-
-    public void updatePopularMenu(Boolean popularMenu) {
-        this.popularMenu = popularMenu;
     }
 
     public void updateTime(LocalDateTime updateTime) {
