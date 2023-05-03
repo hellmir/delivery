@@ -25,7 +25,6 @@ public class OrderMenu {
 
     private Integer orderPrice;
     private Integer orderQuantity;
-    private Integer totalPrice;
 
     public void createOrderMenu(Menu menu, Integer orderPrice, Integer orderQuantity) {
 
@@ -38,6 +37,14 @@ public class OrderMenu {
     public void updateOrder(Order order) {
 
         this.order = order;
+
+    }
+
+    public int getMenuTotalPrice() {
+
+        int totalPrice = orderPrice * orderQuantity;
+
+        return totalPrice;
 
     }
 }

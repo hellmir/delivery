@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 import personal.delivery.constant.OrderStatus;
 import personal.delivery.member.Member;
 
@@ -17,7 +16,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "orders")
-@Component
 public class Order {
 
     @Id
@@ -44,14 +42,18 @@ public class Order {
 
     @Builder
     public Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member,
-                 Integer totalPrice, LocalDateTime registrationTime, LocalDateTime updateTime) {
+                 LocalDateTime registrationTime) {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
         this.member = member;
-        this.totalPrice = totalPrice;
         this.registrationTime = registrationTime;
-        this.updateTime = updateTime;
+
+    }
+
+    public void computeTotalPrice(Integer totalPrice) {
+
+        this.totalPrice = totalPrice;
 
     }
 

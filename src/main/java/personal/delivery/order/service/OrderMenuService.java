@@ -23,12 +23,4 @@ public class OrderMenuService {
 
     }
 
-    public int getMenuTotalPrice() {
-
-        int totalPrice = orderMenu.getOrderPrice() * orderMenu.getOrderQuantity();
-
-        return totalPrice;
-
-    }
-
 }
