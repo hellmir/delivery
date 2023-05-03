@@ -3,13 +3,11 @@ package personal.delivery.cart.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.stereotype.Component;
 import personal.delivery.member.Member;
 
 @Entity
 @Getter
 @Table(name = "cart")
-@Component
 public class Cart {
 
     @Id

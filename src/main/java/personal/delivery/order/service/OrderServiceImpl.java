@@ -28,19 +28,17 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final BeanConfiguration beanConfiguration;
     private final OrderMenuService orderMenuService;
-    private final Order order;
 
     @Autowired
     public OrderServiceImpl(JpaMenuRepository jpaMenuRepository, MemberRepository memberRepository,
                             OrderRepository orderRepository, BeanConfiguration beanConfiguration,
-                            OrderMenuService orderMenuService, Order order) {
+                            OrderMenuService orderMenuService) {
 
         this.jpaMenuRepository = jpaMenuRepository;
         this.memberRepository = memberRepository;
         this.orderRepository = orderRepository;
         this.beanConfiguration = beanConfiguration;
         this.orderMenuService = orderMenuService;
-        this.order = order;
 
     }
 
