@@ -14,8 +14,4 @@ public interface OrderService {
 
     Order createOrder(Member member, List<OrderMenu> orderMenuList);
 
-    Order takeOrders(List<OrderDto> orderDtoList);
-
-    int getMenuListTotalPrice(List<OrderMenu> orderMenus);
-
 }

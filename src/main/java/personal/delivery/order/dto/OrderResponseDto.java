@@ -2,19 +2,20 @@ package personal.delivery.order.dto;
 
 import lombok.Data;
 import personal.delivery.constant.OrderStatus;
-import personal.delivery.member.Member;
-import personal.delivery.order.entity.OrderMenu;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class OrderResponseDto {
 
-    private LocalDateTime orderDate;
+    private LocalDateTime orderTime;
     private OrderStatus orderStatus;
-    private Member member;
-    private List<OrderMenu> orderMenuList;
+    private String memberName;
+    private String memberEmail;
+    private String menuName;
+    private int cookingTime;
+    private int menuPrice;
+    private int orderQuantity;
     private int totalPrice;
 
     private LocalDateTime registrationTime;

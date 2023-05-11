@@ -56,10 +56,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-        OrderResponseDto orderResponseDto = beanConfiguration.modelMapper()
-                .map(savedOrder, OrderResponseDto.class);
-
-        return orderResponseDto;
+        return setOrderResponseDto(savedOrder);
 
     }
 
@@ -70,6 +67,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderTime(LocalDateTime.now())
                 .orderStatus(OrderStatus.ORDER)
                 .member(member)
+                .orderMenus(orderMenuList)
                 .registrationTime(LocalDateTime.now())
                 .build();
 
@@ -77,15 +75,10 @@ public class OrderServiceImpl implements OrderService {
 
         order.computeTotalPrice(getMenuListTotalPrice(orderMenus));
 
-        for (OrderMenu orderMenu : orderMenuList) {
-            order.addOrderMenu(orderMenu);
-        }
-
         return order;
 
     }
 
-    @Override
     public int getMenuListTotalPrice(List<OrderMenu> orderMenus) {
 
         int totalPrice = 0;
@@ -97,6 +90,31 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return totalPrice;
+
+    }
+
+    private OrderResponseDto setOrderResponseDto(Order savedOrder) {
+
+        OrderResponseDto orderResponseDto = new OrderResponseDto();
+
+        orderResponseDto.setOrderTime(savedOrder.getOrderTime());
+        orderResponseDto.setOrderStatus(savedOrder.getOrderStatus());
+        orderResponseDto.setMemberName(savedOrder.getMember().getName());
+        orderResponseDto.setMemberEmail(savedOrder.getMember().getEmail());
+
+        for (OrderMenu o : savedOrder.getOrderMenus()) {
+
+            orderResponseDto.setMenuName(o.getMenu().getName());
+            orderResponseDto.setCookingTime(o.getMenu().getCookingTime());
+            orderResponseDto.setMenuPrice(o.getMenu().getPrice());
+            orderResponseDto.setOrderQuantity(o.getOrderQuantity());
+
+        }
+
+        orderResponseDto.setTotalPrice(savedOrder.getTotalPrice());
+        orderResponseDto.setRegistrationTime(savedOrder.getRegistrationTime());
+
+        return orderResponseDto;
 
     }
 
