@@ -104,12 +104,10 @@ public class Menu {
         this.updateTime = updateTime;
     }
 
-    public void importPresentStock(int presentStock) {
-        stock = presentStock;
-    }
+    public void addStock(int additionalStock) {
 
-    public void addStock(int stock) {
-        this.stock += stock;
+        stock += additionalStock;
+
     }
 
     public void useStockForSale(int orderQuantity) {
