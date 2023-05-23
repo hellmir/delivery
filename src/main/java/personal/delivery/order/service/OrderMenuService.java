@@ -1,6 +1,6 @@
 package personal.delivery.order.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.menu.Menu;
@@ -8,7 +8,7 @@ import personal.delivery.order.entity.OrderMenu;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderMenuService {
 
     private final OrderMenu orderMenu;

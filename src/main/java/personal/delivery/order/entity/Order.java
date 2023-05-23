@@ -42,11 +42,12 @@ public class Order {
 
     @Builder
     public Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member,
-                 LocalDateTime registrationTime) {
+                 List<OrderMenu> orderMenus, LocalDateTime registrationTime) {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
         this.member = member;
+        this.orderMenus = orderMenus;
         this.registrationTime = registrationTime;
 
     }
