@@ -5,9 +5,14 @@ import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.member.Member;
 
+import java.util.List;
+
 public interface CartService {
 
     Cart createCart(Member member);
 
     CartMenuResponseDto addCart(CartMenuDto cartMenuDto);
+
+    List<CartMenuResponseDto> getCartMenuList();
+
 }

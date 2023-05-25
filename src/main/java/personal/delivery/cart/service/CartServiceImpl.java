@@ -16,6 +16,9 @@ import personal.delivery.menu.Menu;
 import personal.delivery.menu.repository.MenuRepository;
 import personal.delivery.order.service.OrderService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -76,6 +79,21 @@ public class CartServiceImpl implements CartService {
             return cartMenuResponseDto;
 
         }
+
+    }
+
+    @Override
+    public List<CartMenuResponseDto> getCartMenuList() {
+
+        List<CartMenu> cartMenuList = cartMenuRepository.findAll();
+
+        System.out.println(cartMenuList.toString());
+
+        List<CartMenuResponseDto> cartMenuResponseDtoList = cartMenuList.stream()
+                .map(cartMenu -> beanConfiguration.modelMapper().map(cartMenu, CartMenuResponseDto.class))
+                .collect(Collectors.toList());
+
+        return cartMenuResponseDtoList;
 
     }
 
