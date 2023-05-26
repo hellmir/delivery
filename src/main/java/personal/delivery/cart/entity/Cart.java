@@ -3,11 +3,13 @@ package personal.delivery.cart.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import personal.delivery.member.Member;
 
 @Entity
 @Getter
 @Table(name = "cart")
+@NoArgsConstructor
 public class Cart {
 
     @Id
