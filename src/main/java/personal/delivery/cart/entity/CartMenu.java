@@ -32,10 +32,11 @@ public class CartMenu {
     private LocalDateTime updateTime;
 
 
-    public void createCartMenu(Cart cart, Menu menu, LocalDateTime registrationTime) {
+    public void createCartMenu(Cart cart, Menu menu, int menuQuantity, LocalDateTime registrationTime) {
 
         this.cart = cart;
         this.menu = menu;
+        this.menuQuantity = menuQuantity;
         this.registrationTime = registrationTime;
 
     }

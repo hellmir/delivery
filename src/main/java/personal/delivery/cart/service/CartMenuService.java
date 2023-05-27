@@ -16,7 +16,7 @@ public class CartMenuService {
 
     public CartMenu createCartMenu(Cart cart, Menu menu, int menuQuantity) {
 
-        cartMenu.createCartMenu(cart, menu, LocalDateTime.now());
+        cartMenu.createCartMenu(cart, menu, menuQuantity, LocalDateTime.now());
 
         return cartMenu;
 
