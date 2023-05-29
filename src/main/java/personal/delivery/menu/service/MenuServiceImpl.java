@@ -92,7 +92,7 @@ public class MenuServiceImpl implements MenuService {
 
         Optional<Menu> selectedMenu = menuRepository.findById(id);
 
-        Menu changedMenu = pickMenuToChange(menu, selectedMenu);
+        Menu changedMenu = pickColumnToChange(menu, selectedMenu);
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
                 .map(changedMenu, MenuResponseDto.class);
@@ -121,7 +121,7 @@ public class MenuServiceImpl implements MenuService {
 
     }
 
-    private Menu pickMenuToChange(Menu menu, Optional<Menu> selectedMenu) {
+    private Menu pickColumnToChange(Menu menu, Optional<Menu> selectedMenu) {
 
         Menu updatedMenu;
 
