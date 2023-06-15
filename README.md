@@ -19,6 +19,8 @@
 <h3 data-ke-size="size26"><a id="domain-menu" style="color: #000000;" aria-hidden="true"></a>장바구니</h3>
 <ul style="list-style-type: disc;" data-ke-list-type="disc"><br>
 <li><b>장바구니 담기 : /carts</b> (Post method)</li><br>
+<li><b>장바구니 조회 : /carts</b> (Get method)</li><br>
+<li><b>장바구니 메뉴 주문 : /carts/orders</b> (Post method)</li><br>
 </ul><br>
 <h2 data-ke-size="size26"><a id="domain-menu" style="color: #000000;" aria-hidden="true"></a>ERD</h2><br>
 <img src=https://github.com/hellmir/delivery/assets/128391669/ad50da3a-6a65-473d-8b7e-677631d5858c>
