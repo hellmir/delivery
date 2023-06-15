@@ -1,24 +1,31 @@
 package personal.delivery.menu.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import personal.delivery.config.BeanConfiguration;
 import personal.delivery.menu.Menu;
-import personal.delivery.menu.dto.MenuChangeDto;
 import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
-import personal.delivery.menu.repository.JpaMenuRepository;
+import personal.delivery.menu.repository.MenuRepository;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
 
-    private final JpaMenuRepository jpaMenuRepository;
+    private final MenuRepository menuRepository;
+    private final BeanConfiguration beanConfiguration;
 
     @Override
     public MenuResponseDto saveMenu(MenuDto menuDto) {
+
         Menu menu = Menu.builder()
                 .name(menuDto.getName())
                 .price(menuDto.getPrice())
@@ -29,23 +36,13 @@ public class MenuServiceImpl implements MenuService {
                 .cookingTime(menuDto.getCookingTime())
                 .menuType(menuDto.getMenuType())
                 .foodType(menuDto.getFoodType())
-                .popularMenu(menuDto.isPopularMenu())
+                .registrationTime(LocalDateTime.now())
                 .build();
 
-        Menu savedMenu = jpaMenuRepository.insertMenu(menu);
+        Menu savedMenu = menuRepository.save(menu);
 
-        MenuResponseDto menuResponseDto = new MenuResponseDto();
-        menuResponseDto.setId(menu.getId());
-        menuResponseDto.setName(menu.getName());
-        menuResponseDto.setPrice(menu.getPrice());
-        menuResponseDto.setSalesRate(menu.getSalesRate());
-        menuResponseDto.setStock(menu.getStock());
-        menuResponseDto.setFlavor(menu.getFlavor());
-        menuResponseDto.setPortions(menu.getPortions());
-        menuResponseDto.setCookingTime(menu.getCookingTime());
-        menuResponseDto.setMenuType(menu.getMenuType());
-        menuResponseDto.setFoodType(menu.getFoodType());
-        menuResponseDto.setPopularMenu(menu.getPopularMenu());
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(savedMenu, MenuResponseDto.class);
 
         return menuResponseDto;
 
@@ -53,91 +50,130 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuResponseDto getMenu(Long id) {
-        Menu menu = jpaMenuRepository.selectMenu(id);
 
-        MenuResponseDto menuResponseDto = new MenuResponseDto();
-        menuResponseDto.setId(menu.getId());
-        menuResponseDto.setName(menu.getName());
-        menuResponseDto.setPrice(menu.getPrice());
-        menuResponseDto.setSalesRate(menu.getSalesRate());
-        menuResponseDto.setStock(menu.getStock());
-        menuResponseDto.setFlavor(menu.getFlavor());
-        menuResponseDto.setPortions(menu.getPortions());
-        menuResponseDto.setCookingTime(menu.getCookingTime());
-        menuResponseDto.setMenuType(menu.getMenuType());
-        menuResponseDto.setFoodType(menu.getFoodType());
-        menuResponseDto.setPopularMenu(menu.getPopularMenu());
+        Menu selectedMenu = menuRepository.getById(id);
+
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(selectedMenu, MenuResponseDto.class);
 
         return menuResponseDto;
+
     }
 
     @Override
     public List<MenuResponseDto> getAllMenu() {
-        List<Menu> menu = jpaMenuRepository.selectAllMenu();
-        List<MenuResponseDto> menuResponseDtoList = new ArrayList<>();
 
-        for (int i = 1; i <= menu.size(); i++) {
-            menuResponseDtoList.add(getMenu((long) i));
-        }
+        List<Menu> menuList = menuRepository.findAll();
+
+        List<MenuResponseDto> menuResponseDtoList = menuList.stream()
+                .map(menu -> beanConfiguration.modelMapper().map(menu, MenuResponseDto.class))
+                .collect(Collectors.toList());
 
         return menuResponseDtoList;
+
     }
 
+    @Transactional
     @Override
-    public MenuResponseDto changeMenu(MenuChangeDto menuChangeDto) throws Exception {
+    public MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception {
 
         Menu menu = Menu.builder()
-                .id(menuChangeDto.getId())
-                        .build();
+                .id(id)
+                .name(menuDto.getName())
+                .price(menuDto.getPrice())
+                .salesRate(menuDto.getSalesRate())
+                .stock(menuDto.getStock())
+                .flavor(menuDto.getFlavor())
+                .portions(menuDto.getPortions())
+                .cookingTime(menuDto.getCookingTime())
+                .menuType(menuDto.getMenuType())
+                .foodType(menuDto.getFoodType())
+                .build();
 
-        menu.changeName(menuChangeDto.getName());
-        menu.changePrice(menuChangeDto.getPrice());
-        menu.addSalesRate(menuChangeDto.getSalesRate());
-        menu.addStock(menuChangeDto.getStock());
-        menu.changeFlavor(menuChangeDto.getFlavor());
-        menu.changePortions(menuChangeDto.getPortions());
-        menu.changeCookingTime(menuChangeDto.getCookingTime());
-        menu.changeMenuType(menuChangeDto.getMenuType());
-        menu.changeFoodType(menuChangeDto.getFoodType());
+        Optional<Menu> selectedMenu = menuRepository.findById(id);
 
-        Menu changedMenu = jpaMenuRepository.updateMenu(menu);
+        Menu changedMenu = pickColumnToChange(menu, selectedMenu);
 
-        MenuResponseDto menuResponseDto = new MenuResponseDto();
-        menuResponseDto.setId(changedMenu.getId());
-        menuResponseDto.setName(changedMenu.getName());
-        menuResponseDto.setPrice(changedMenu.getPrice());
-        menuResponseDto.setSalesRate(changedMenu.getSalesRate());
-        menuResponseDto.setStock(changedMenu.getStock());
-        menuResponseDto.setFlavor(changedMenu.getFlavor());
-        menuResponseDto.setPortions(changedMenu.getPortions());
-        menuResponseDto.setCookingTime(changedMenu.getCookingTime());
-        menuResponseDto.setMenuType(changedMenu.getMenuType());
-        menuResponseDto.setFoodType(changedMenu.getFoodType());
-        menuResponseDto.setPopularMenu(changedMenu.getPopularMenu());
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(changedMenu, MenuResponseDto.class);
 
         return menuResponseDto;
 
     }
 
-    @Override
     public MenuResponseDto deleteMenu(Long id) throws Exception {
-    
-        Menu deletedMenu = jpaMenuRepository.deleteMenu(id);
 
-        MenuResponseDto menuResponseDto = new MenuResponseDto();
-        menuResponseDto.setId(deletedMenu.getId());
-        menuResponseDto.setName(deletedMenu.getName());
-        menuResponseDto.setPrice(deletedMenu.getPrice());
-        menuResponseDto.setSalesRate(deletedMenu.getSalesRate());
-        menuResponseDto.setStock(deletedMenu.getStock());
-        menuResponseDto.setFlavor(deletedMenu.getFlavor());
-        menuResponseDto.setPortions(deletedMenu.getPortions());
-        menuResponseDto.setCookingTime(deletedMenu.getCookingTime());
-        menuResponseDto.setMenuType(deletedMenu.getMenuType());
-        menuResponseDto.setFoodType(deletedMenu.getFoodType());
-        menuResponseDto.setPopularMenu(deletedMenu.getPopularMenu());
+        Optional<Menu> selectedMenu = menuRepository.findById(id);
+        Menu deletedMenu;
+
+        if (selectedMenu.isPresent()) {
+            Menu menu = selectedMenu.get();
+            menuRepository.delete(menu);
+            deletedMenu = menu;
+        } else {
+            throw new EntityNotFoundException();
+        }
+
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(deletedMenu, MenuResponseDto.class);
 
         return menuResponseDto;
+
+    }
+
+    private Menu pickColumnToChange(Menu menu, Optional<Menu> selectedMenu) {
+
+        Menu updatedMenu;
+
+        if (selectedMenu.isPresent()) {
+
+            Menu updatingMenu = selectedMenu.get();
+
+            if (menu.getName() != null) {
+                updatingMenu.updateName(menu.getName());
+            }
+
+            if (menu.getPrice() > 0) {
+                updatingMenu.updatePrice(menu.getPrice());
+            }
+
+            if (menu.getSalesRate() > 0) {
+                updatingMenu.updateSalesRate(menu.getSalesRate());
+            }
+
+            if (menu.getStock() > 0) {
+                updatingMenu.addStock(menu.getStock());
+            }
+
+            if (menu.getFlavor() != null) {
+                updatingMenu.updateFlavor(menu.getFlavor());
+            }
+
+            if (menu.getPortions() > 0) {
+                updatingMenu.updatePortions(menu.getPortions());
+            }
+
+            if (menu.getCookingTime() > 0) {
+                updatingMenu.updateCookingTime(menu.getCookingTime());
+            }
+
+            if (menu.getMenuType() != null) {
+                updatingMenu.updateMenuType(menu.getMenuType());
+            }
+
+            if (menu.getFoodType() != null) {
+                updatingMenu.updateFoodType(menu.getFoodType());
+            }
+
+            updatingMenu.updateTime(LocalDateTime.now());
+
+            updatedMenu = menuRepository.save(updatingMenu);
+
+        } else {
+            throw new EntityNotFoundException();
+        }
+
+        return updatedMenu;
 
     }
 

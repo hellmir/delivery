@@ -14,6 +14,5 @@ public class MenuDto {
     private int cookingTime;
     private String menuType;
     private String foodType;
-    private boolean popularMenu;
 
 }

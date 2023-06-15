@@ -1,6 +1,5 @@
 package personal.delivery.menu.service;
 
-import personal.delivery.menu.dto.MenuChangeDto;
 import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 
@@ -14,7 +13,7 @@ public interface MenuService {
 
     List<MenuResponseDto> getAllMenu();
 
-    MenuResponseDto changeMenu(MenuChangeDto menuChangeDto) throws Exception;
+    MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception;
 
     MenuResponseDto deleteMenu(Long id) throws Exception;
 

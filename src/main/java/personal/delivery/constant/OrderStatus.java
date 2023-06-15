@@ -1,4 +1,4 @@
-package personal.delivery.order;
+package personal.delivery.constant;
 
 public enum OrderStatus {
     ORDER, CANCEL

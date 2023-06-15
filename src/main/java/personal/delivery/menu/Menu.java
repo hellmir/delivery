@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.exception.OutOfStockException;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,28 +19,39 @@ public class Menu {
     @Column(name = "menu_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(length = 20)
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private Integer price;
 
-    @Column(nullable = false)
+    @Column
     private Integer salesRate;
 
-    @Column(nullable = false)
+    @Column
     private Integer stock;
 
+    @Column(length = 10)
     private String flavor;
+
     private Integer portions;
     private Integer cookingTime;
+
+    @Column(length = 5)
     private String menuType;
+
+    @Column(length = 10)
     private String foodType;
+
     private Boolean popularMenu;
+    private LocalDateTime registrationTime;
+    private LocalDateTime updateTime;
 
     @Builder
-    public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock, String flavor, Integer portions,
-                Integer cookingTime, String menuType, String foodType, Boolean popularMenu) {
+    public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock,
+                String flavor, Integer portions, Integer cookingTime, String menuType,
+                String foodType, Boolean popularMenu, LocalDateTime registrationTime, LocalDateTime updateTime) {
+
         this.id = id;
         this.name = name;
         this.price = price;
@@ -49,46 +63,85 @@ public class Menu {
         this.menuType = menuType;
         this.foodType = foodType;
         this.popularMenu = popularMenu;
+        this.registrationTime = registrationTime;
+        this.updateTime = updateTime;
+
     }
 
-    public void changeName(String name) {
+    public void updateName(String name) {
         this.name = name;
     }
 
-    public void changePrice(Integer price) {
+    public void updatePrice(Integer price) {
         this.price = price;
     }
 
-    public void addSalesRate(Integer salesRate) {
-        this.salesRate = salesRate;
+    public void updateSalesRate(Integer salesRate) {
+        this.salesRate = salesRate == -1 ? 0 : salesRate;
     }
 
-    public void addStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public void changeFlavor(String flavor) {
+    public void updateFlavor(String flavor) {
         this.flavor = flavor;
     }
 
-    public void changePortions(Integer portions) {
+    public void updatePortions(Integer portions) {
         this.portions = portions;
     }
 
-    public void changeCookingTime(Integer cookingTime) {
+    public void updateCookingTime(Integer cookingTime) {
         this.cookingTime = cookingTime;
     }
 
-    public void changeMenuType(String menuType) {
+    public void updateMenuType(String menuType) {
         this.menuType = menuType;
     }
 
-    public void changeFoodType(String foodType) {
+    public void updateFoodType(String foodType) {
         this.foodType = foodType;
     }
 
-    public void changePopularMenu(Boolean popularMenu) {
-        this.popularMenu = popularMenu;
+    public void updateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public void addStock(int additionalStock) {
+
+        stock += additionalStock;
+
+    }
+
+    public void useStockForSale(int orderQuantity) {
+
+        int presentStock = stock - orderQuantity;
+
+        adjustStockState(presentStock);
+
+        stock = presentStock;
+        salesRate += orderQuantity;
+
+        name.replace("(인기메뉴)", "");
+
+        if (salesRate >= 100) {
+            popularMenu = true;
+            name += "(인기메뉴)";
+        }
+
+    }
+
+    private void adjustStockState(int presentStock) {
+
+        if (presentStock == 0) {
+            name += "(재료 소진)";
+        }
+
+        if (presentStock > 0) {
+            name.replace("(재료 소진)", "");
+        }
+
+        if (presentStock < 0) {
+            throw new OutOfStockException("판매 불가 : 재료 부족");
+        }
+
     }
 
 }
