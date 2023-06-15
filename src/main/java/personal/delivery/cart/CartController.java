@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import personal.delivery.cart.dto.CartMenuDto;
 import personal.delivery.cart.dto.CartMenuResponseDto;
-import personal.delivery.cart.dto.CartOrderDto;
+import personal.delivery.cart.service.CartMenuService;
 import personal.delivery.cart.service.CartService;
 import personal.delivery.order.dto.OrderResponseDto;
 
@@ -18,6 +18,7 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
+    private final CartMenuService cartMenuService;
 
     @PostMapping()
     public ResponseEntity<CartMenuResponseDto> addCartMenu(@RequestBody CartMenuDto cartMenuDto) {
@@ -38,9 +39,10 @@ public class CartController {
     }
 
     @PostMapping("orders")
-    public ResponseEntity<OrderResponseDto> orderCartMenu(@RequestBody CartOrderDto cartOrderDto) {
+    public ResponseEntity<OrderResponseDto> orderCartMenu
+            (@RequestBody CartMenuDto cartMenuDto) {
 
-        OrderResponseDto orderResponseDto = cartService.orderCartMenu(cartOrderDto);
+        OrderResponseDto orderResponseDto = cartService.orderCartMenu(cartMenuDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
 

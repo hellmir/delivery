@@ -45,6 +45,7 @@ public class CartMenu {
 
         this.menuQuantity = menuQuantity;
         this.updateTime = updateTime;
+
     }
 
 }

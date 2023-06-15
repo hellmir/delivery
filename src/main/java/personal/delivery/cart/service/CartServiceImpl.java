@@ -1,5 +1,6 @@
 package personal.delivery.cart.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +15,13 @@ import personal.delivery.member.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.repository.MenuRepository;
+import personal.delivery.order.dto.OrderDto;
+import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.service.OrderService;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -87,13 +91,49 @@ public class CartServiceImpl implements CartService {
 
         List<CartMenu> cartMenuList = cartMenuRepository.findAll();
 
-        System.out.println(cartMenuList.toString());
+        CartMenuResponseDto cartMenuResponseDto = new CartMenuResponseDto();
+        List<CartMenuResponseDto> cartMenuResponseDtoList = new ArrayList<>();
 
-        List<CartMenuResponseDto> cartMenuResponseDtoList = cartMenuList.stream()
-                .map(cartMenu -> beanConfiguration.modelMapper().map(cartMenu, CartMenuResponseDto.class))
-                .collect(Collectors.toList());
+        for (CartMenu cartMenu : cartMenuList) {
+
+            cartMenuResponseDto.setId(cartMenu.getId());
+            cartMenuResponseDto.setMenu(cartMenu.getMenu());
+            cartMenuResponseDto.setMenuQuantity(cartMenu.getMenuQuantity());
+            cartMenuResponseDto.setRegistrationTime(cartMenu.getRegistrationTime());
+            cartMenuResponseDto.setUpdateTime(cartMenu.getUpdateTime());
+
+            cartMenuResponseDtoList.add(cartMenuResponseDto);
+
+        }
 
         return cartMenuResponseDtoList;
+
+    }
+
+    @Override
+    public OrderResponseDto orderCartMenu(CartMenuDto cartMenuDto) {
+
+        OrderDto orderDto = new OrderDto();
+
+        Optional<CartMenu> cartMenuToOrder = cartMenuRepository.findById(cartMenuDto.getMenuId());
+
+        if (cartMenuToOrder.isPresent()) {
+
+            orderDto.setMenuId(cartMenuDto.getMenuId());
+            orderDto.setOrderQuantity(cartMenuToOrder.get().getMenuQuantity());
+            orderDto.setEmail(cartMenuDto.getEmail());
+
+        } else {
+
+            throw new EntityNotFoundException();
+
+        }
+
+        OrderResponseDto cartMenuOrder = orderService.takeOrder(orderDto);
+
+        cartMenuRepository.delete(cartMenuToOrder.get());
+
+        return cartMenuOrder;
 
     }
 
