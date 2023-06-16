@@ -1,30 +1,20 @@
 package personal.delivery.cart.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import personal.delivery.cart.dto.CartMenuDto;
+import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.menu.Menu;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class CartMenuService {
+public interface CartMenuService {
 
-    private final CartMenu cartMenu;
+    CartMenu createCartMenu(Cart cart, Menu menu, int menuQuantity);
 
-    public CartMenu createCartMenu(Cart cart, Menu menu, int menuQuantity) {
+    void addMenuQuantity(int menuQuantity);
 
-        cartMenu.createCartMenu(cart, menu, menuQuantity, LocalDateTime.now());
+    List<CartMenuResponseDto> getCartMenuList();
 
-        return cartMenu;
-
-    }
-
-    public void addMenuQuantity(int menuQuantity) {
-
-        cartMenu.updateMenuQuantity(cartMenu.getMenuQuantity() + menuQuantity, LocalDateTime.now());
-
-    }
+    CartMenuResponseDto deleteCartMenu(CartMenuDto cartMenuDto) throws Exception;
 }
