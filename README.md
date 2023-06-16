@@ -21,7 +21,7 @@
 <li><b>장바구니 담기 : /carts</b> (Post method)</li><br>
 <li><b>장바구니 조회 : /carts</b> (Get method)</li><br>
 <li><b>장바구니 메뉴 주문 : /carts/orders</b> (Post method)</li><br>
-<li><b>장바구니 메뉴 삭제 : /carts/orders</b> (Delete method)</li><br>
+<li><b>장바구니 메뉴 삭제 : /carts</b> (Delete method)</li><br>
 </ul><br>
 <h2 data-ke-size="size26"><a id="domain-menu" style="color: #000000;" aria-hidden="true"></a>ERD</h2><br>
 <img src=https://github.com/hellmir/delivery/assets/128391669/ad50da3a-6a65-473d-8b7e-677631d5858c>
