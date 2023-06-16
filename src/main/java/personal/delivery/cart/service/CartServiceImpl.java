@@ -19,8 +19,6 @@ import personal.delivery.order.dto.OrderDto;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.service.OrderService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -83,30 +81,6 @@ public class CartServiceImpl implements CartService {
             return cartMenuResponseDto;
 
         }
-
-    }
-
-    @Override
-    public List<CartMenuResponseDto> getCartMenuList() {
-
-        List<CartMenu> cartMenuList = cartMenuRepository.findAll();
-
-        CartMenuResponseDto cartMenuResponseDto = new CartMenuResponseDto();
-        List<CartMenuResponseDto> cartMenuResponseDtoList = new ArrayList<>();
-
-        for (CartMenu cartMenu : cartMenuList) {
-
-            cartMenuResponseDto.setId(cartMenu.getId());
-            cartMenuResponseDto.setMenu(cartMenu.getMenu());
-            cartMenuResponseDto.setMenuQuantity(cartMenu.getMenuQuantity());
-            cartMenuResponseDto.setRegistrationTime(cartMenu.getRegistrationTime());
-            cartMenuResponseDto.setUpdateTime(cartMenu.getUpdateTime());
-
-            cartMenuResponseDtoList.add(cartMenuResponseDto);
-
-        }
-
-        return cartMenuResponseDtoList;
 
     }
 
