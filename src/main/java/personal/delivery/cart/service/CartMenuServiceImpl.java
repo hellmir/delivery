@@ -10,6 +10,9 @@ import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.cart.repository.CartMenuRepository;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.menu.Menu;
+import personal.delivery.order.dto.OrderDto;
+import personal.delivery.order.dto.OrderResponseDto;
+import personal.delivery.order.service.OrderService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ public class CartMenuServiceImpl implements CartMenuService {
     private final CartMenu cartMenu;
     private final CartMenuRepository cartMenuRepository;
     private final BeanConfiguration beanConfiguration;
+    private final OrderService orderService;
 
     @Override
     public CartMenu createCartMenu(Cart cart, Menu menu, int menuQuantity) {
@@ -87,6 +91,33 @@ public class CartMenuServiceImpl implements CartMenuService {
         cartMenuResponseDto.setUpdateTime(deletedCartMenu.getUpdateTime());
 
         return cartMenuResponseDto;
+
+    }
+
+    @Override
+    public OrderResponseDto orderCartMenu(CartMenuDto cartMenuDto) {
+
+        OrderDto orderDto = new OrderDto();
+
+        Optional<CartMenu> cartMenuToOrder = cartMenuRepository.findById(cartMenuDto.getMenuId());
+
+        if (cartMenuToOrder.isPresent()) {
+
+            orderDto.setMenuId(cartMenuDto.getMenuId());
+            orderDto.setOrderQuantity(cartMenuToOrder.get().getMenuQuantity());
+            orderDto.setEmail(cartMenuDto.getEmail());
+
+        } else {
+
+            throw new EntityNotFoundException();
+
+        }
+
+        OrderResponseDto cartMenuOrder = orderService.takeOrder(orderDto);
+
+        cartMenuRepository.delete(cartMenuToOrder.get());
+
+        return cartMenuOrder;
 
     }
 
