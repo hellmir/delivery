@@ -12,6 +12,4 @@ public interface CartService {
 
     CartMenuResponseDto addCart(CartMenuDto cartMenuDto);
 
-    OrderResponseDto orderCartMenu(CartMenuDto cartMenuDto);
-
 }

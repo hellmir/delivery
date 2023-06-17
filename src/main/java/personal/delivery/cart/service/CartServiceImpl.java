@@ -1,6 +1,5 @@
 package personal.delivery.cart.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +14,7 @@ import personal.delivery.member.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.repository.MenuRepository;
-import personal.delivery.order.dto.OrderDto;
-import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.service.OrderService;
-
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,7 +27,6 @@ public class CartServiceImpl implements CartService {
     private final MemberRepository memberRepository;
     private final CartMenuService cartMenuService;
     private final BeanConfiguration beanConfiguration;
-    private final OrderService orderService;
 
     @Override
     public Cart createCart(Member member) {
@@ -81,33 +75,6 @@ public class CartServiceImpl implements CartService {
             return cartMenuResponseDto;
 
         }
-
-    }
-
-    @Override
-    public OrderResponseDto orderCartMenu(CartMenuDto cartMenuDto) {
-
-        OrderDto orderDto = new OrderDto();
-
-        Optional<CartMenu> cartMenuToOrder = cartMenuRepository.findById(cartMenuDto.getMenuId());
-
-        if (cartMenuToOrder.isPresent()) {
-
-            orderDto.setMenuId(cartMenuDto.getMenuId());
-            orderDto.setOrderQuantity(cartMenuToOrder.get().getMenuQuantity());
-            orderDto.setEmail(cartMenuDto.getEmail());
-
-        } else {
-
-            throw new EntityNotFoundException();
-
-        }
-
-        OrderResponseDto cartMenuOrder = orderService.takeOrder(orderDto);
-
-        cartMenuRepository.delete(cartMenuToOrder.get());
-
-        return cartMenuOrder;
 
     }
 
