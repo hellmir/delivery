@@ -69,6 +69,28 @@ public class CartMenuServiceImpl implements CartMenuService {
     }
 
     @Override
+    public CartMenuResponseDto getCartMenu(Long id) {
+
+        Optional<CartMenu> cartMenu = cartMenuRepository.findById(id);
+        CartMenu selectedCartMenu;
+
+        if (cartMenu.isPresent()) {
+            selectedCartMenu = cartMenu.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
+
+        CartMenuResponseDto cartMenuResponseDto = new CartMenuResponseDto();
+
+        cartMenuResponseDto.setId(selectedCartMenu.getId());
+        cartMenuResponseDto.setMenu(selectedCartMenu.getMenu());
+        cartMenuResponseDto.setMenuQuantity(selectedCartMenu.getMenuQuantity());
+
+        return cartMenuResponseDto;
+
+    }
+
+    @Override
     public CartMenuResponseDto deleteCartMenu(CartMenuDto cartMenuDto) throws Exception {
 
         Optional<CartMenu> selectedCartMenu = cartMenuRepository.findById(cartMenuDto.getMenuId());

@@ -38,6 +38,13 @@ public class CartController {
 
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<CartMenuResponseDto> getMenu(@PathVariable Long id) {
+        CartMenuResponseDto cartMenuResponseDto = cartMenuService.getCartMenu(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(cartMenuResponseDto);
+    }
+
     @DeleteMapping()
     public ResponseEntity<CartMenuResponseDto> deleteCartMenu
             (@RequestBody CartMenuDto cartMenuDto) throws Exception {
@@ -52,7 +59,7 @@ public class CartController {
     public ResponseEntity<OrderResponseDto> orderCartMenu
             (@RequestBody CartMenuDto cartMenuDto) {
 
-        OrderResponseDto orderResponseDto = cartService.orderCartMenu(cartMenuDto);
+        OrderResponseDto orderResponseDto = cartMenuService.orderCartMenu(cartMenuDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
 

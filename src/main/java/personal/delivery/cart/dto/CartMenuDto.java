@@ -9,6 +9,9 @@ import lombok.Data;
 public class CartMenuDto {
 
     @NotNull
+    private Long id;
+
+    @NotNull
     private Long menuId;
 
     @Min(value = 1)
