@@ -17,6 +17,8 @@ public interface CartMenuService {
 
     List<CartMenuResponseDto> getCartMenuList();
 
+    CartMenuResponseDto getCartMenu(Long id);
+
     CartMenuResponseDto deleteCartMenu(CartMenuDto cartMenuDto) throws Exception;
 
     OrderResponseDto orderCartMenu(CartMenuDto cartMenuDto);
