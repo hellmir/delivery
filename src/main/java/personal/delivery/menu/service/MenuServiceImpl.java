@@ -49,18 +49,6 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuResponseDto getMenu(Long id) {
-
-        Menu selectedMenu = menuRepository.getById(id);
-
-        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(selectedMenu, MenuResponseDto.class);
-
-        return menuResponseDto;
-
-    }
-
-    @Override
     public List<MenuResponseDto> getAllMenu() {
 
         List<Menu> menuList = menuRepository.findAll();
@@ -70,6 +58,26 @@ public class MenuServiceImpl implements MenuService {
                 .collect(Collectors.toList());
 
         return menuResponseDtoList;
+
+    }
+
+    @Override
+    public MenuResponseDto getMenu(Long id) {
+
+        Optional<Menu> menu = menuRepository.findById(id);
+
+        Menu selectedMenu;
+
+        if (menu.isPresent()) {
+            selectedMenu = menu.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
+
+        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
+                .map(selectedMenu, MenuResponseDto.class);
+
+        return menuResponseDto;
 
     }
 
