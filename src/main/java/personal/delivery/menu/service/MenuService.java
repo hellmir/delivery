@@ -9,9 +9,9 @@ public interface MenuService {
 
     MenuResponseDto saveMenu(MenuDto menuDto);
 
-    MenuResponseDto getMenu(Long id);
-
     List<MenuResponseDto> getAllMenu();
+
+    MenuResponseDto getMenu(Long id);
 
     MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception;
 

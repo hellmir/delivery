@@ -14,7 +14,6 @@ import personal.delivery.member.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.repository.MenuRepository;
-import personal.delivery.order.service.OrderService;
 
 @Service
 @Transactional
