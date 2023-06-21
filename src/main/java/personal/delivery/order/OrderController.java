@@ -3,10 +3,7 @@ package personal.delivery.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import personal.delivery.order.dto.OrderDto;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.service.OrderService;
@@ -21,6 +18,13 @@ public class OrderController {
     @PostMapping()
     public ResponseEntity<OrderResponseDto> order(@RequestBody OrderDto orderDto) {
         OrderResponseDto orderResponseDto = orderService.takeOrder(orderDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
+    }
+
+    @GetMapping({"id"})
+    public ResponseEntity<OrderResponseDto> getOrder(@PathVariable Long id) {
+        OrderResponseDto orderResponseDto = orderService.getOrder(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
     }
