@@ -1,6 +1,6 @@
 package personal.delivery.member.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
@@ -14,16 +14,11 @@ import java.time.LocalDateTime;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BeanConfiguration beanConfiguration;
-
-    @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository, BeanConfiguration beanConfiguration) {
-        this.memberRepository = memberRepository;
-        this.beanConfiguration = beanConfiguration;
-    }
 
     public MemberResponseDto saveMember(Member member) {
 
@@ -38,14 +33,29 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public MemberResponseDto createMember(MemberDto memberDto) {
+    public MemberResponseDto createSeller(MemberDto memberDto) {
 
         Member member = Member.builder()
                 .name(memberDto.getName())
                 .email(memberDto.getEmail())
                 .password(memberDto.getPassword())
                 .address(memberDto.getAddress())
-                .role(Role.USER)
+                .role(Role.SELLER)
+                .registrationTime(LocalDateTime.now())
+                .build();
+
+        return saveMember(member);
+
+    }
+
+    public MemberResponseDto createCustomer(MemberDto memberDto) {
+
+        Member member = Member.builder()
+                .name(memberDto.getName())
+                .email(memberDto.getEmail())
+                .password(memberDto.getPassword())
+                .address(memberDto.getAddress())
+                .role(Role.CUSTOMER)
                 .registrationTime(LocalDateTime.now())
                 .build();
 

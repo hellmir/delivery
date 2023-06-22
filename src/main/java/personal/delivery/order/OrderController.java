@@ -22,9 +22,9 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
     }
 
-    @GetMapping({"id"})
+    @GetMapping("{id}")
     public ResponseEntity<OrderResponseDto> getOrder(@PathVariable Long id) {
-        OrderResponseDto orderResponseDto = orderService.getOrder(id);
+        OrderResponseDto orderResponseDto = orderService.gerOrder(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
     }

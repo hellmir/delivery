@@ -1,5 +1,5 @@
 package personal.delivery.constant;
 
 public enum OrderStatus {
-    ORDER, CANCEL, DELIVERY, ARRIVAL
+    WAITING, CANCEL, ACCEPTANCE, REFUSAL, DELIVERY, ARRIVAL
 }

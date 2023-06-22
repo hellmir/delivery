@@ -3,7 +3,6 @@ package personal.delivery.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +18,18 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping()
-    public ResponseEntity<MemberResponseDto> signUpMember(@RequestBody MemberDto memberDto) {
+    @PostMapping("sellers")
+    public ResponseEntity<MemberResponseDto> signUpSeller(@RequestBody MemberDto memberDto) {
 
-        MemberResponseDto memberResponseDto = memberService.createMember(memberDto);
+        MemberResponseDto memberResponseDto = memberService.createSeller(memberDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
+    }
+
+    @PostMapping("customers")
+    public ResponseEntity<MemberResponseDto> signUpCustomer(@RequestBody MemberDto memberDto) {
+
+        MemberResponseDto memberResponseDto = memberService.createCustomer(memberDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
     }
