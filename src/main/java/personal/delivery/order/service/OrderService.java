@@ -14,4 +14,6 @@ public interface OrderService {
 
     Order createOrder(Member member, List<OrderMenu> orderMenuList);
 
+    OrderResponseDto gerOrder(Long id);
+
 }
