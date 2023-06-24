@@ -1,4 +1,4 @@
-# 배달 애플리케이션
+# 배달 애플리케이션 API Server
 <br><br>
 
 ## URL
@@ -22,7 +22,7 @@
 
 ### 주문
 
-- **주문 조회 : /orders/{id}** (Get method)
+- **주문 조회 : /orders** (Get method)
 - **고객**
   - **주문 생성 : /orders** (Post method)
     <br>
@@ -37,6 +37,14 @@
   - **장바구니 메뉴 삭제 : /carts** (Delete method)
   - **장바구니 메뉴 주문 : /carts/orders** (Post method)
     <br>
+
+## Stack
+
+- Java 17
+- Spring Boot 3.0.4
+- Gradle 7.6.1
+- MariaDB 10.6.5
+- Docker 4.18.0
 
 ## ERD
 <br>
