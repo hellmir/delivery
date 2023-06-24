@@ -17,10 +17,12 @@ import personal.delivery.member.service.MemberService;
 public class MemberController {
 
     private final MemberService memberService;
+//    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("sellers")
     public ResponseEntity<MemberResponseDto> signUpSeller(@RequestBody MemberDto memberDto) {
 
+//        MemberResponseDto memberResponseDto = memberService.createMember(memberDto, passwordEncoder);
         MemberResponseDto memberResponseDto = memberService.createSeller(memberDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
@@ -29,6 +31,7 @@ public class MemberController {
     @PostMapping("customers")
     public ResponseEntity<MemberResponseDto> signUpCustomer(@RequestBody MemberDto memberDto) {
 
+//        MemberResponseDto memberResponseDto = memberService.createMember(memberDto, passwordEncoder);
         MemberResponseDto memberResponseDto = memberService.createCustomer(memberDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
