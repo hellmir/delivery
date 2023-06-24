@@ -22,11 +22,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<OrderResponseDto> getOrder(@PathVariable Long id) {
-        OrderResponseDto orderResponseDto = orderService.gerOrder(id);
+    @GetMapping()
+    public ResponseEntity<OrderResponseDto> getOrder(@RequestBody OrderDto orderDto) {
+        OrderResponseDto orderResponseDto = orderService.gerOrder(orderDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
     }
+
 
 }

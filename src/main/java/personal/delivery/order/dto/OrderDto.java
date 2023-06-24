@@ -8,7 +8,8 @@ import lombok.Data;
 @Data
 public class OrderDto {
 
-    @NotNull
+    private Long orderId;
+
     private Long menuId;
 
     @Min(value = 1)

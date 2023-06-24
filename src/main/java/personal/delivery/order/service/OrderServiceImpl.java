@@ -70,9 +70,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponseDto gerOrder(Long id) {
+    public OrderResponseDto gerOrder(OrderDto orderDto) {
 
-        Optional<Order> order = orderRepository.findById(id);
+        Member member = memberRepository.findByEmail(orderDto.getEmail());
+
+        Optional<Order> order = orderRepository.findById(orderDto.getOrderId());
 
         Order selectedOrder;
 
@@ -82,8 +84,25 @@ public class OrderServiceImpl implements OrderService {
             throw new EntityNotFoundException();
         }
 
-        OrderResponseDto orderResponseDto = beanConfiguration.modelMapper()
-                .map(selectedOrder, OrderResponseDto.class);
+        OrderResponseDto orderResponseDto = new OrderResponseDto();
+
+        orderResponseDto.setOrderTime(selectedOrder.getOrderTime());
+        orderResponseDto.setOrderStatus(selectedOrder.getOrderStatus());
+        orderResponseDto.setMemberName(selectedOrder.getMember().getName());
+        orderResponseDto.setMemberEmail(selectedOrder.getMember().getEmail());
+
+        for (OrderMenu orderMenu : selectedOrder.getOrderMenus()) {
+
+            orderResponseDto.setMenuName(orderMenu.getMenu().getName());
+            orderResponseDto.setCookingTime(orderMenu.getMenu().getCookingTime());
+            orderResponseDto.setMenuPrice(orderMenu.getMenu().getPrice());
+            orderResponseDto.setOrderQuantity(orderMenu.getOrderQuantity());
+            orderResponseDto.setTotalPrice(orderMenu.getMenuTotalPrice());
+
+        }
+
+        orderResponseDto.setRegistrationTime(selectedOrder.getRegistrationTime());
+        orderResponseDto.setUpdateTime(selectedOrder.getUpdateTime());
 
         return orderResponseDto;
 
@@ -127,28 +146,5 @@ public class OrderServiceImpl implements OrderService {
         return orderResponseDto;
 
     }
-
-/*     @Override
-   public Order takeOrders(List<OrderDto> orderDtoList) {
-
-        Member member = memberRepository.findByEmail(orderDtoList.get(0).getEmail());
-
-        List<OrderMenu> orderMenuList = new ArrayList<>();
-
-        for (OrderDto orderDto : orderDtoList) {
-
-            Menu menu = jpaMenuRepository.selectMenu(orderDto.getMenuId());
-
-            OrderMenu orderMenu = orderMenuService.createOrderMenu(menu, orderDto.getOrderQuantity());
-            orderMenuList.add(orderMenu);
-
-        }
-
-        Order cartOrder = createOrder(member, orderMenuList);
-        orderRepository.save(cartOrder);
-
-        return cartOrder;
-
-    }*/
 
 }
