@@ -49,4 +49,4 @@
 ## ERD
 <br>
 
-![ERD](https://github.com/hellmir/delivery/assets/128391669/3ef77942-e45f-4530-a99d-e005308feba0)
+![ERD](https://github.com/hellmir/delivery/assets/128391669/a1ca3f03-8164-45fa-93e0-f72e7fba45dc)
