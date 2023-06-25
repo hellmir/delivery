@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.constant.Role;
-import personal.delivery.member.Member;
+import personal.delivery.member.domain.Member;
 import personal.delivery.member.dto.MemberDto;
 import personal.delivery.member.dto.MemberResponseDto;
 import personal.delivery.member.repository.MemberRepository;
