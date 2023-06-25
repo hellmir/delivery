@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.constant.OrderStatus;
-import personal.delivery.member.Member;
+import personal.delivery.member.domain.Member;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
