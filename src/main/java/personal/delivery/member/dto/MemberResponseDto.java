@@ -2,6 +2,7 @@ package personal.delivery.member.dto;
 
 import lombok.Data;
 import personal.delivery.constant.Role;
+import personal.delivery.member.domain.Address;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +11,7 @@ public class MemberResponseDto {
 
     private String name;
     private String email;
-    private String address;
+    private Address address;
     private Role role;
 
     private LocalDateTime registrationTime;
