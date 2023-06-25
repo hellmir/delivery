@@ -1,10 +1,11 @@
-package personal.delivery.member;
+package personal.delivery.member.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.constant.Role;
+import personal.delivery.member.domain.Address;
 
 import java.time.LocalDateTime;
 
@@ -28,8 +29,8 @@ public class Member {
     @Column(nullable = false, length = 20)
     private String password;
 
-    @Column(length = 50)
-    private String address;
+    @Embedded
+    private Address address;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -38,13 +39,16 @@ public class Member {
     LocalDateTime updateTime;
 
     @Builder
-    public Member(String name, String email, String password, String address, Role role,
+    public Member(String name, String email, String password, Address address, Role role,
                   LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.name = name;
         this.email = email;
         this.password = password;
-        this.address = address;
+
+        Address inputAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode(), address.getDetailedAddress());
+        this.address = inputAddress;
+
         this.role = role;
         this.registrationTime = registrationTime;
         this.updateTime = updateTime;
