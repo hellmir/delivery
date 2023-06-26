@@ -12,7 +12,7 @@ public interface OrderService {
 
     OrderResponseDto takeOrder(OrderDto orderDto);
 
-    Order createOrder(Member member, List<OrderMenu> orderMenuList);
+    Order createOrder(OrderDto orderDto, Member member, List<OrderMenu> orderMenuList);
 
     OrderResponseDto gerOrder(OrderDto orderDto);
 

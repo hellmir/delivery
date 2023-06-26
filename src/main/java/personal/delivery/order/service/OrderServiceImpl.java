@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
         OrderMenu orderMenu = orderMenuService.createOrderMenu(menu, orderDto.getOrderQuantity());
         orderMenuList.add(orderMenu);
 
-        Order order = createOrder(member, orderMenuList);
+        Order order = createOrder(orderDto, member, orderMenuList);
 
         Order savedOrder = orderRepository.save(order);
 
@@ -51,13 +51,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order createOrder(Member member, List<OrderMenu> orderMenuList) {
+    public Order createOrder(OrderDto orderDto, Member member, List<OrderMenu> orderMenuList) {
 
         Order order = Order.builder()
                 .orderTime(LocalDateTime.now())
                 .orderStatus(OrderStatus.WAITING)
                 .member(member)
                 .orderMenus(orderMenuList)
+                .orderRequest(orderDto.getOrderRequest())
+                .deliveryRequest(orderDto.getDeliveryRequest())
                 .registrationTime(LocalDateTime.now())
                 .build();
 
@@ -141,6 +143,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderResponseDto.setTotalPrice(savedOrder.getTotalPrice());
+        orderResponseDto.setOrderRequest(savedOrder.getOrderRequest());
+        orderResponseDto.setDeliveryRequest(savedOrder.getDeliveryRequest());
         orderResponseDto.setRegistrationTime(savedOrder.getRegistrationTime());
 
         return orderResponseDto;

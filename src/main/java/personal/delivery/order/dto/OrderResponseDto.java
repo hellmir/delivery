@@ -17,6 +17,8 @@ public class OrderResponseDto {
     private int menuPrice;
     private int orderQuantity;
     private int totalPrice;
+    private String orderRequest;
+    private String deliveryRequest;
 
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
