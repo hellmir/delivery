@@ -37,17 +37,26 @@ public class Order {
 
     private Integer totalPrice;
 
+    @Column(length = 200)
+    private String orderRequest;
+
+    @Column(length = 200)
+    private String deliveryRequest;
+
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
     @Builder
     public Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member,
-                 List<OrderMenu> orderMenus, LocalDateTime registrationTime) {
+                 List<OrderMenu> orderMenus, String orderRequest, String deliveryRequest,
+                 LocalDateTime registrationTime) {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
         this.member = member;
         this.orderMenus = orderMenus;
+        this.orderRequest = orderRequest;
+        this.deliveryRequest = deliveryRequest;
         this.registrationTime = registrationTime;
 
     }

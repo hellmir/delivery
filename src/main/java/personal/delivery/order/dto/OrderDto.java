@@ -2,7 +2,6 @@ package personal.delivery.order.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -16,5 +15,8 @@ public class OrderDto {
     @Max(value = 999)
     private int orderQuantity;
 
+    private String orderRequest;
+    private String deliveryRequest;
     String email;
+
 }

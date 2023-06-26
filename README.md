@@ -1,8 +1,7 @@
 # 배달 애플리케이션 API Server
-<br><br>
+<br>
 
 ## URL
-<br>
 
 ### 메뉴
 
@@ -36,7 +35,7 @@
     - **장바구니 단일 메뉴 조회 : /carts/{id}** (Get method)
   - **장바구니 메뉴 삭제 : /carts** (Delete method)
   - **장바구니 메뉴 주문 : /carts/orders** (Post method)
-    <br>
+    <br><br>
 
 ## Stack
 
@@ -45,8 +44,8 @@
 - Gradle 7.6.1
 - MariaDB 10.6.5
 - Docker 4.18.0
-
-## ERD
 <br>
 
-![ERD](https://github.com/hellmir/delivery/assets/128391669/a1ca3f03-8164-45fa-93e0-f72e7fba45dc)
+## ERD
+
+![ERD](https://github.com/hellmir/delivery/assets/128391669/c73f4217-025a-4933-b8c1-ea6568d9f2da)
