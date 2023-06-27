@@ -81,7 +81,6 @@ public class MenuServiceImpl implements MenuService {
 
     }
 
-    @Transactional
     @Override
     public MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception {
 
