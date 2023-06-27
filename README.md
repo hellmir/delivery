@@ -38,10 +38,10 @@
 ### 장바구니
 
 - **고객**
-  - **장바구니 담기 : /carts** (Post method)
+  - **장바구니 담기 : /carts** (Post method)<br><br>
   - **장바구니 메뉴 조회**
     - **장바구니 전체 메뉴 조회 : /carts** (Get method)
-    - **장바구니 단일 메뉴 조회 : /carts/{id}** (Get method)
+    - **장바구니 단일 메뉴 조회 : /carts/{id}** (Get method)<br><br>
   - **장바구니 메뉴 삭제 : /carts** (Delete method)
   - **장바구니 메뉴 주문 : /carts/orders** (Post method)
 <br>
