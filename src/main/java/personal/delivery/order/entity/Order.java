@@ -74,4 +74,11 @@ public class Order {
 
     }
 
+    public void updateOrderStatus(OrderStatus orderStatus, LocalDateTime updateTime) {
+
+        this.orderStatus = orderStatus;
+        this.updateTime = updateTime;
+
+    }
+
 }

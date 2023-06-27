@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import personal.delivery.order.dto.OrderDto;
 import personal.delivery.order.dto.OrderResponseDto;
+import personal.delivery.order.dto.OrderStatusDto;
 import personal.delivery.order.service.OrderService;
 
 @RestController
@@ -29,5 +30,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
     }
 
+    @PatchMapping("{id}")
+    public ResponseEntity<OrderResponseDto> changeOrderStatus
+            (@PathVariable Long id, @RequestBody OrderStatusDto orderStatusDto) throws Exception {
+        OrderResponseDto orderResponseDto = orderService.changeOrderStatus(id, orderStatusDto.getIsOrderInProgress());
+
+        return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
+    }
 
 }

@@ -16,4 +16,6 @@ public interface OrderService {
 
     OrderResponseDto gerOrder(OrderDto orderDto);
 
+    OrderResponseDto changeOrderStatus(Long id, Boolean orderStatus);
+
 }

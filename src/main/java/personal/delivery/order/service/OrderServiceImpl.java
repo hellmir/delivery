@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.constant.OrderStatus;
+import personal.delivery.constant.Role;
 import personal.delivery.member.domain.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.Menu;
@@ -110,6 +111,52 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public OrderResponseDto changeOrderStatus(Long id, Boolean isOrdered) {
+
+        Optional<Order> order = orderRepository.findById(id);
+
+        if (order.isPresent()) {
+
+            if (isOrdered) {
+                if (order.get().getOrderStatus().equals(OrderStatus.WAITING)) {
+                    order.get().updateOrderStatus(OrderStatus.ACCEPTED, LocalDateTime.now());
+                } else if (order.get().getOrderStatus().equals(OrderStatus.ACCEPTED)) {
+                    order.get().updateOrderStatus(OrderStatus.COOKING, LocalDateTime.now());
+                } else if (order.get().getOrderStatus().equals(OrderStatus.COOKING)) {
+                    order.get().updateOrderStatus(OrderStatus.IN_DELIVERY, LocalDateTime.now());
+                } else if (order.get().getOrderStatus().equals(OrderStatus.IN_DELIVERY)) {
+                    order.get().updateOrderStatus(OrderStatus.DELIVERED, LocalDateTime.now());
+                }
+
+            } else {
+
+                if (order.get().getOrderStatus().equals(OrderStatus.WAITING)) {
+
+                    if (order.get().getMember().getRole().equals(Role.SELLER)) {
+                        order.get().updateOrderStatus(OrderStatus.REFUSED, LocalDateTime.now());
+                    } else if (order.get().getMember().getRole().equals(Role.CUSTOMER)) {
+                        order.get().updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
+                    }
+
+                } else if (order.get().getOrderStatus().equals(OrderStatus.ACCEPTED)) {
+                    order.get().updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
+                } else if (order.get().getOrderStatus().equals(OrderStatus.COOKING)) {
+                    order.get().updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
+                }
+
+            }
+
+        } else {
+            throw new EntityNotFoundException();
+        }
+
+        Order savedOrder = orderRepository.save(order.get());
+
+        return setOrderResponseDto(savedOrder);
+
+    }
+
     public int getMenuListTotalPrice(List<OrderMenu> orderMenus) {
 
         int totalPrice = 0;
@@ -146,6 +193,7 @@ public class OrderServiceImpl implements OrderService {
         orderResponseDto.setOrderRequest(savedOrder.getOrderRequest());
         orderResponseDto.setDeliveryRequest(savedOrder.getDeliveryRequest());
         orderResponseDto.setRegistrationTime(savedOrder.getRegistrationTime());
+        orderResponseDto.setUpdateTime(savedOrder.getUpdateTime());
 
         return orderResponseDto;
 
