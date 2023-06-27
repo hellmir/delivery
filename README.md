@@ -24,11 +24,15 @@
 ### 주문
 
 - **주문 조회 : /orders** (Get method)
-- **주문 진행/거절/취소 : /orders/{id}** (Patch method)
+<br>
+
+- **판매자**
+  - **주문 진행/거절 : /orders/{id}** (Patch method)
 <br>
 
 - **고객**
   - **주문 생성 : /orders** (Post method)
+  - **주문 취소 : /orders/{id}** (Patch method)
 <br>
  
 ### 장바구니
