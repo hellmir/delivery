@@ -139,9 +139,8 @@ public class OrderServiceImpl implements OrderService {
                         order.get().updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
                     }
 
-                } else if (order.get().getOrderStatus().equals(OrderStatus.ACCEPTED)) {
-                    order.get().updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
-                } else if (order.get().getOrderStatus().equals(OrderStatus.COOKING)) {
+                } else if (order.get().getOrderStatus().equals(OrderStatus.ACCEPTED)
+                        || order.get().getOrderStatus().equals(OrderStatus.COOKING)) {
                     order.get().updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
                 }
 
