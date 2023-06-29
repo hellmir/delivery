@@ -44,6 +44,7 @@ public class Menu {
     private String foodType;
 
     private Boolean popularMenu;
+
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
@@ -65,48 +66,6 @@ public class Menu {
         this.popularMenu = popularMenu;
         this.registrationTime = registrationTime;
         this.updateTime = updateTime;
-
-    }
-
-    public void updateName(String name) {
-        this.name = name;
-    }
-
-    public void updatePrice(Integer price) {
-        this.price = price;
-    }
-
-    public void updateSalesRate(Integer salesRate) {
-        this.salesRate = salesRate == -1 ? 0 : salesRate;
-    }
-
-    public void updateFlavor(String flavor) {
-        this.flavor = flavor;
-    }
-
-    public void updatePortions(Integer portions) {
-        this.portions = portions;
-    }
-
-    public void updateCookingTime(Integer cookingTime) {
-        this.cookingTime = cookingTime;
-    }
-
-    public void updateMenuType(String menuType) {
-        this.menuType = menuType;
-    }
-
-    public void updateFoodType(String foodType) {
-        this.foodType = foodType;
-    }
-
-    public void updateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public void addStock(int additionalStock) {
-
-        stock += additionalStock;
 
     }
 

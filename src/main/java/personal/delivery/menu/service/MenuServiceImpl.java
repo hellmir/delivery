@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.menu.Menu;
+import personal.delivery.menu.Menu.MenuBuilder;
 import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.repository.MenuRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,15 +64,8 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuResponseDto getMenu(Long id) {
 
-        Optional<Menu> menu = menuRepository.findById(id);
-
-        Menu selectedMenu;
-
-        if (menu.isPresent()) {
-            selectedMenu = menu.get();
-        } else {
-            throw new EntityNotFoundException();
-        }
+        Menu selectedMenu = menuRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
                 .map(selectedMenu, MenuResponseDto.class);
@@ -84,22 +77,69 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception {
 
-        Menu menu = Menu.builder()
-                .id(id)
-                .name(menuDto.getName())
-                .price(menuDto.getPrice())
-                .salesRate(menuDto.getSalesRate())
-                .stock(menuDto.getStock())
-                .flavor(menuDto.getFlavor())
-                .portions(menuDto.getPortions())
-                .cookingTime(menuDto.getCookingTime())
-                .menuType(menuDto.getMenuType())
-                .foodType(menuDto.getFoodType())
-                .build();
+        Menu menu = menuRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        Optional<Menu> selectedMenu = menuRepository.findById(id);
+        MenuBuilder menuBuilder = Menu.builder();
 
-        Menu changedMenu = pickColumnToChange(menu, selectedMenu);
+        menuBuilder.id(id);
+
+        if (menuDto.getName() != null) {
+            menuBuilder.name(menuDto.getName());
+        } else {
+            menuBuilder.name(menu.getName());
+        }
+
+        if (menuDto.getPrice() > 0) {
+            menuBuilder.price(menuDto.getPrice());
+        } else {
+            menuBuilder.price(menu.getPrice());
+        }
+
+        if (menuDto.getSalesRate() == -1) {
+            menuBuilder.salesRate(0);
+        } else {
+            menuBuilder.salesRate(menu.getSalesRate());
+        }
+
+        menuBuilder.stock(menu.getStock() + menuDto.getStock());
+
+
+        if (menuDto.getFlavor() != null) {
+            menuBuilder.flavor(menuDto.getFlavor());
+        } else {
+            menuBuilder.flavor(menu.getFlavor());
+        }
+
+        if (menuDto.getPortions() > 0) {
+            menuBuilder.portions(menuDto.getPortions());
+        } else {
+            menuBuilder.portions(menu.getPortions());
+        }
+
+        if (menuDto.getCookingTime() > 0) {
+            menuBuilder.cookingTime(menuDto.getCookingTime());
+        } else {
+            menuBuilder.cookingTime(menu.getCookingTime());
+        }
+
+        if (menuDto.getMenuType() != null) {
+            menuBuilder.menuType(menuDto.getMenuType());
+        } else {
+            menuBuilder.menuType(menu.getMenuType());
+        }
+
+        if (menuDto.getFoodType() != null) {
+            menuBuilder.foodType(menuDto.getFoodType());
+        } else {
+            menuBuilder.foodType(menu.getFoodType());
+        }
+
+        menuBuilder.updateTime(LocalDateTime.now());
+
+        Menu changedMenu = menuBuilder.build();
+
+        menuRepository.save(changedMenu);
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
                 .map(changedMenu, MenuResponseDto.class);
@@ -110,77 +150,18 @@ public class MenuServiceImpl implements MenuService {
 
     public MenuResponseDto deleteMenu(Long id) throws Exception {
 
-        Optional<Menu> selectedMenu = menuRepository.findById(id);
+        Menu menu = menuRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+
         Menu deletedMenu;
 
-        if (selectedMenu.isPresent()) {
-            Menu menu = selectedMenu.get();
-            menuRepository.delete(menu);
-            deletedMenu = menu;
-        } else {
-            throw new EntityNotFoundException();
-        }
+        menuRepository.delete(menu);
+        deletedMenu = menu;
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
                 .map(deletedMenu, MenuResponseDto.class);
 
         return menuResponseDto;
-
-    }
-
-    private Menu pickColumnToChange(Menu menu, Optional<Menu> selectedMenu) {
-
-        Menu updatedMenu;
-
-        if (selectedMenu.isPresent()) {
-
-            Menu updatingMenu = selectedMenu.get();
-
-            if (menu.getName() != null) {
-                updatingMenu.updateName(menu.getName());
-            }
-
-            if (menu.getPrice() > 0) {
-                updatingMenu.updatePrice(menu.getPrice());
-            }
-
-            if (menu.getSalesRate() > 0) {
-                updatingMenu.updateSalesRate(menu.getSalesRate());
-            }
-
-            if (menu.getStock() > 0) {
-                updatingMenu.addStock(menu.getStock());
-            }
-
-            if (menu.getFlavor() != null) {
-                updatingMenu.updateFlavor(menu.getFlavor());
-            }
-
-            if (menu.getPortions() > 0) {
-                updatingMenu.updatePortions(menu.getPortions());
-            }
-
-            if (menu.getCookingTime() > 0) {
-                updatingMenu.updateCookingTime(menu.getCookingTime());
-            }
-
-            if (menu.getMenuType() != null) {
-                updatingMenu.updateMenuType(menu.getMenuType());
-            }
-
-            if (menu.getFoodType() != null) {
-                updatingMenu.updateFoodType(menu.getFoodType());
-            }
-
-            updatingMenu.updateTime(LocalDateTime.now());
-
-            updatedMenu = menuRepository.save(updatingMenu);
-
-        } else {
-            throw new EntityNotFoundException();
-        }
-
-        return updatedMenu;
 
     }
 
