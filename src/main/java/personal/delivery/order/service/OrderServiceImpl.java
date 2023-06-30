@@ -20,7 +20,6 @@ import personal.delivery.order.entity.OrderMenu;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -77,15 +76,8 @@ public class OrderServiceImpl implements OrderService {
 
         Member member = memberRepository.findByEmail(orderDto.getEmail());
 
-        Optional<Order> order = orderRepository.findById(orderDto.getOrderId());
-
-        Order selectedOrder;
-
-        if (order.isPresent()) {
-            selectedOrder = order.get();
-        } else {
-            throw new EntityNotFoundException();
-        }
+        Order selectedOrder = orderRepository.findById(orderDto.getOrderId())
+                .orElseThrow(EntityNotFoundException::new);
 
         OrderResponseDto orderResponseDto = new OrderResponseDto();
 
@@ -114,43 +106,38 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponseDto changeOrderStatus(Long id, Boolean isOrdered) {
 
-        Optional<Order> order = orderRepository.findById(id);
+        Order order = orderRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (order.isPresent()) {
-
-            if (isOrdered) {
-                if (order.get().getOrderStatus().equals(OrderStatus.WAITING)) {
-                    order.get().updateOrderStatus(OrderStatus.ACCEPTED, LocalDateTime.now());
-                } else if (order.get().getOrderStatus().equals(OrderStatus.ACCEPTED)) {
-                    order.get().updateOrderStatus(OrderStatus.COOKING, LocalDateTime.now());
-                } else if (order.get().getOrderStatus().equals(OrderStatus.COOKING)) {
-                    order.get().updateOrderStatus(OrderStatus.IN_DELIVERY, LocalDateTime.now());
-                } else if (order.get().getOrderStatus().equals(OrderStatus.IN_DELIVERY)) {
-                    order.get().updateOrderStatus(OrderStatus.DELIVERED, LocalDateTime.now());
-                }
-
-            } else {
-
-                if (order.get().getOrderStatus().equals(OrderStatus.WAITING)) {
-
-                    if (order.get().getMember().getRole().equals(Role.SELLER)) {
-                        order.get().updateOrderStatus(OrderStatus.REFUSED, LocalDateTime.now());
-                    } else if (order.get().getMember().getRole().equals(Role.CUSTOMER)) {
-                        order.get().updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
-                    }
-
-                } else if (order.get().getOrderStatus().equals(OrderStatus.ACCEPTED)
-                        || order.get().getOrderStatus().equals(OrderStatus.COOKING)) {
-                    order.get().updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
-                }
-
+        if (isOrdered) {
+            if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
+                order.updateOrderStatus(OrderStatus.ACCEPTED, LocalDateTime.now());
+            } else if (order.getOrderStatus().equals(OrderStatus.ACCEPTED)) {
+                order.updateOrderStatus(OrderStatus.COOKING, LocalDateTime.now());
+            } else if (order.getOrderStatus().equals(OrderStatus.COOKING)) {
+                order.updateOrderStatus(OrderStatus.IN_DELIVERY, LocalDateTime.now());
+            } else if (order.getOrderStatus().equals(OrderStatus.IN_DELIVERY)) {
+                order.updateOrderStatus(OrderStatus.DELIVERED, LocalDateTime.now());
             }
 
         } else {
-            throw new EntityNotFoundException();
+
+            if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
+
+                if (order.getMember().getRole().equals(Role.SELLER)) {
+                    order.updateOrderStatus(OrderStatus.REFUSED, LocalDateTime.now());
+                } else if (order.getMember().getRole().equals(Role.CUSTOMER)) {
+                    order.updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
+                }
+
+            } else if (order.getOrderStatus().equals(OrderStatus.ACCEPTED)
+                    || order.getOrderStatus().equals(OrderStatus.COOKING)) {
+                order.updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
+            }
+
         }
 
-        Order savedOrder = orderRepository.save(order.get());
+        Order savedOrder = orderRepository.save(order);
 
         return setOrderResponseDto(savedOrder);
 
