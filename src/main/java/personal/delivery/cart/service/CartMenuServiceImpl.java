@@ -17,7 +17,6 @@ import personal.delivery.order.service.OrderService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -71,14 +70,8 @@ public class CartMenuServiceImpl implements CartMenuService {
     @Override
     public CartMenuResponseDto getCartMenu(Long id) {
 
-        Optional<CartMenu> cartMenu = cartMenuRepository.findById(id);
-        CartMenu selectedCartMenu;
-
-        if (cartMenu.isPresent()) {
-            selectedCartMenu = cartMenu.get();
-        } else {
-            throw new EntityNotFoundException();
-        }
+        CartMenu selectedCartMenu = cartMenuRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
 
         CartMenuResponseDto cartMenuResponseDto = new CartMenuResponseDto();
 
@@ -93,16 +86,13 @@ public class CartMenuServiceImpl implements CartMenuService {
     @Override
     public CartMenuResponseDto deleteCartMenu(CartMenuDto cartMenuDto) throws Exception {
 
-        Optional<CartMenu> selectedCartMenu = cartMenuRepository.findById(cartMenuDto.getMenuId());
+        CartMenu cartMenu = cartMenuRepository.findById(cartMenuDto.getMenuId())
+                .orElseThrow(EntityNotFoundException::new);
+
         CartMenu deletedCartMenu;
 
-        if (selectedCartMenu.isPresent()) {
-            CartMenu cartMenu = selectedCartMenu.get();
-            cartMenuRepository.delete(cartMenu);
-            deletedCartMenu = cartMenu;
-        } else {
-            throw new EntityNotFoundException();
-        }
+        cartMenuRepository.delete(cartMenu);
+        deletedCartMenu = cartMenu;
 
         CartMenuResponseDto cartMenuResponseDto = new CartMenuResponseDto();
 
@@ -121,23 +111,16 @@ public class CartMenuServiceImpl implements CartMenuService {
 
         OrderDto orderDto = new OrderDto();
 
-        Optional<CartMenu> cartMenuToOrder = cartMenuRepository.findById(cartMenuDto.getMenuId());
+        CartMenu cartMenuToOrder = cartMenuRepository.findById(cartMenuDto.getMenuId())
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (cartMenuToOrder.isPresent()) {
-
-            orderDto.setMenuId(cartMenuDto.getMenuId());
-            orderDto.setOrderQuantity(cartMenuToOrder.get().getMenuQuantity());
-            orderDto.setEmail(cartMenuDto.getEmail());
-
-        } else {
-
-            throw new EntityNotFoundException();
-
-        }
+        orderDto.setMenuId(cartMenuDto.getMenuId());
+        orderDto.setOrderQuantity(cartMenuToOrder.getMenuQuantity());
+        orderDto.setEmail(cartMenuDto.getEmail());
 
         OrderResponseDto cartMenuOrder = orderService.takeOrder(orderDto);
 
-        cartMenuRepository.delete(cartMenuToOrder.get());
+        cartMenuRepository.delete(cartMenuToOrder);
 
         return cartMenuOrder;
 
