@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import personal.delivery.exception.OutOfStockException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -44,6 +45,7 @@ public class Menu {
     private String foodType;
 
     private Boolean popularMenu;
+    private List<String> menuOption;
 
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
@@ -51,7 +53,8 @@ public class Menu {
     @Builder
     public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock,
                 String flavor, Integer portions, Integer cookingTime, String menuType,
-                String foodType, Boolean popularMenu, LocalDateTime registrationTime, LocalDateTime updateTime) {
+                String foodType, Boolean popularMenu, List<String> menuOption,
+                LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.id = id;
         this.name = name;
@@ -64,6 +67,7 @@ public class Menu {
         this.menuType = menuType;
         this.foodType = foodType;
         this.popularMenu = popularMenu;
+        this.menuOption = menuOption;
         this.registrationTime = registrationTime;
         this.updateTime = updateTime;
 

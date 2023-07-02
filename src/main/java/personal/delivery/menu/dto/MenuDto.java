@@ -2,6 +2,8 @@ package personal.delivery.menu.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MenuDto {
 
@@ -14,5 +16,6 @@ public class MenuDto {
     private int cookingTime;
     private String menuType;
     private String foodType;
+    private List<String> menuOption;
 
 }

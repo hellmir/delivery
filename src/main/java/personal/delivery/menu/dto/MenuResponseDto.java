@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +23,7 @@ public class MenuResponseDto {
     private String menuType;
     private String foodType;
     private boolean popularMenu;
+    private List<String> menuOption;
 
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
