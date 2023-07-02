@@ -57,4 +57,4 @@
 
 ## ERD
 
-![ERD](https://github.com/hellmir/delivery/assets/128391669/c73f4217-025a-4933-b8c1-ea6568d9f2da)
+![ERD](https://github.com/hellmir/delivery/assets/128391669/9be23c84-53f9-4ff8-99f6-8f04ee35312a)
