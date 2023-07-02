@@ -36,6 +36,7 @@ public class MenuServiceImpl implements MenuService {
                 .cookingTime(menuDto.getCookingTime())
                 .menuType(menuDto.getMenuType())
                 .foodType(menuDto.getFoodType())
+                .menuOption(menuDto.getMenuOption())
                 .registrationTime(LocalDateTime.now())
                 .build();
 
@@ -134,6 +135,14 @@ public class MenuServiceImpl implements MenuService {
         } else {
             menuBuilder.foodType(menu.getFoodType());
         }
+
+        if (menuDto.getMenuOption() != null) {
+            menuBuilder.menuOption(menuDto.getMenuOption());
+        } else {
+            menuBuilder.menuOption(menu.getMenuOption());
+        }
+
+        menuBuilder.registrationTime(menu.getRegistrationTime());
 
         menuBuilder.updateTime(LocalDateTime.now());
 
