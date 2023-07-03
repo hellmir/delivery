@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.constant.StockStatus;
 import personal.delivery.exception.OutOfStockException;
 
 import java.time.LocalDateTime;
@@ -32,6 +33,8 @@ public class Menu {
     @Column
     private Integer stock;
 
+    private StockStatus stockStatus;
+
     @Column(length = 10)
     private String flavor;
 
@@ -44,7 +47,7 @@ public class Menu {
     @Column(length = 10)
     private String foodType;
 
-    private Boolean popularMenu;
+    private Boolean isPopularMenu;
     private List<String> menuOption;
 
     private LocalDateTime registrationTime;
@@ -52,8 +55,8 @@ public class Menu {
 
     @Builder
     public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock,
-                String flavor, Integer portions, Integer cookingTime, String menuType,
-                String foodType, Boolean popularMenu, List<String> menuOption,
+                String flavor, Integer portions, Integer cookingTime,
+                String menuType, String foodType, Boolean isPopularMenu, List<String> menuOption,
                 LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.id = id;
@@ -61,12 +64,21 @@ public class Menu {
         this.price = price;
         this.salesRate = salesRate;
         this.stock = stock;
+
+        if (this.stock > 0) {
+            stockStatus = StockStatus.AVAILABLE;
+        } else if (this.stock == 0) {
+            stockStatus = StockStatus.OUT_OF_STOCK;
+        } else {
+            throw new OutOfStockException("재료 최소 수량 : 0");
+        }
+
         this.flavor = flavor;
         this.portions = portions;
         this.cookingTime = cookingTime;
         this.menuType = menuType;
         this.foodType = foodType;
-        this.popularMenu = popularMenu;
+        this.isPopularMenu = isPopularMenu;
         this.menuOption = menuOption;
         this.registrationTime = registrationTime;
         this.updateTime = updateTime;
@@ -85,7 +97,7 @@ public class Menu {
         name.replace("(인기메뉴)", "");
 
         if (salesRate >= 100) {
-            popularMenu = true;
+            isPopularMenu = true;
             name += "(인기메뉴)";
         }
 
@@ -94,11 +106,11 @@ public class Menu {
     private void adjustStockState(int presentStock) {
 
         if (presentStock == 0) {
-            name += "(재료 소진)";
+            stockStatus = StockStatus.OUT_OF_STOCK;
         }
 
         if (presentStock > 0) {
-            name.replace("(재료 소진)", "");
+            stockStatus = StockStatus.AVAILABLE;
         }
 
         if (presentStock < 0) {
