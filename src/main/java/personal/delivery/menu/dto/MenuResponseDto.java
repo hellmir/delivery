@@ -3,6 +3,7 @@ package personal.delivery.menu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import personal.delivery.constant.StockStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,12 +18,13 @@ public class MenuResponseDto {
     private int price;
     private int salesRate;
     private int stock;
+    private StockStatus stockStatus;
     private String flavor;
     private int portions;
     private int cookingTime;
     private String menuType;
     private String foodType;
-    private boolean popularMenu;
+    private boolean isPopularMenu;
     private List<String> menuOption;
 
     private LocalDateTime registrationTime;
