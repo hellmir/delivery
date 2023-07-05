@@ -65,8 +65,10 @@ public class Menu {
         this.salesRate = salesRate;
         this.stock = stock;
 
-        if (this.stock > 0) {
+        if (this.stock > 10) {
             stockStatus = StockStatus.AVAILABLE;
+        } else if (this.stock > 0) {
+            stockStatus = StockStatus.LOW_STOCK;
         } else if (this.stock == 0) {
             stockStatus = StockStatus.OUT_OF_STOCK;
         } else {
@@ -109,8 +111,10 @@ public class Menu {
             stockStatus = StockStatus.OUT_OF_STOCK;
         }
 
-        if (presentStock > 0) {
+        if (presentStock > 10) {
             stockStatus = StockStatus.AVAILABLE;
+        } else if (presentStock > 0) {
+            stockStatus = StockStatus.LOW_STOCK;
         }
 
         if (presentStock < 0) {
