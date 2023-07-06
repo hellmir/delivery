@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.constant.OrderStatus;
 import personal.delivery.constant.Role;
-import personal.delivery.member.domain.Member;
+import personal.delivery.member.eneity.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.repository.MenuRepository;

@@ -1,7 +1,7 @@
 package personal.delivery.member.dto;
 
 import lombok.Data;
-import personal.delivery.member.domain.Address;
+import personal.delivery.member.eneity.Address;
 
 @Data
 public class MemberDto {

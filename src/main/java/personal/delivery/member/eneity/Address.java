@@ -1,4 +1,4 @@
-package personal.delivery.member.domain;
+package personal.delivery.member.eneity;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

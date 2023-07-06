@@ -1,6 +1,6 @@
 package personal.delivery.member.service;
 
-import personal.delivery.member.domain.Member;
+import personal.delivery.member.eneity.Member;
 import personal.delivery.member.dto.MemberDto;
 import personal.delivery.member.dto.MemberResponseDto;
 
