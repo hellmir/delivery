@@ -1,15 +1,16 @@
 package personal.delivery.cart.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import personal.delivery.member.domain.Member;
+import personal.delivery.member.eneity.Member;
 
 @Entity
 @Getter
 @Table(name = "cart")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart {
 
     @Id

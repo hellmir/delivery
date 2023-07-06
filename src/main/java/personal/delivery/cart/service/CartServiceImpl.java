@@ -10,7 +10,7 @@ import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.cart.repository.CartMenuRepository;
 import personal.delivery.cart.repository.CartRepository;
 import personal.delivery.config.BeanConfiguration;
-import personal.delivery.member.domain.Member;
+import personal.delivery.member.eneity.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.repository.MenuRepository;
