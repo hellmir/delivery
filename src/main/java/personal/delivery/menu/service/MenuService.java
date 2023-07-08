@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface MenuService {
 
-    MenuResponseDto saveMenu(MenuDto menuDto);
+    MenuResponseDto saveMenu(Long shopId, MenuDto menuDto);
 
     List<MenuResponseDto> getAllMenu();
+
+    List<MenuResponseDto> getAllShopMenu(Long shopId);
 
     MenuResponseDto getMenu(Long id);
 

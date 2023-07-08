@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import personal.delivery.constant.StockStatus;
+import personal.delivery.shop.entity.Shop;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class MenuResponseDto {
 
     private Long id;
+    private Shop shop;
     private String name;
     private int price;
     private int salesRate;
