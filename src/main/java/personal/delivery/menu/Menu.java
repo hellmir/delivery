@@ -1,19 +1,19 @@
 package personal.delivery.menu;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.constant.StockStatus;
 import personal.delivery.exception.OutOfStockException;
+import personal.delivery.shop.entity.Shop;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Table(name = "menu")
 public class Menu {
 
@@ -21,6 +21,10 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
     @Column(length = 20)
     private String name;
@@ -55,12 +59,13 @@ public class Menu {
     private LocalDateTime updateTime;
 
     @Builder
-    public Menu(Long id, String name, Integer price, Integer salesRate, Integer stock,
+    public Menu(Long id, Shop shop, String name, Integer price, Integer salesRate, Integer stock,
                 String flavor, Integer portions, Integer cookingTime,
                 String menuType, String foodType, Boolean isPopularMenu, List<String> menuOption,
                 LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.id = id;
+        this.shop = shop;
         this.name = name;
         this.price = price;
         this.salesRate = salesRate;

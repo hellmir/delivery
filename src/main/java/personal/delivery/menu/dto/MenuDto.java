@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 public class MenuDto {
 
+    private Long shopId;
     private String name;
     private int price;
     private int salesRate;

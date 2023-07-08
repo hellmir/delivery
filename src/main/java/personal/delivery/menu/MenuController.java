@@ -12,41 +12,48 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("menu")
+@RequestMapping()
 @RequiredArgsConstructor
 public class MenuController {
 
     private final MenuService menuService;
 
-    @PostMapping()
-    public ResponseEntity<MenuResponseDto> createMenu(@RequestBody MenuDto menuDto) {
-        MenuResponseDto menuResponseDto = menuService.saveMenu(menuDto);
+    @PostMapping("{shopId}/menu")
+    public ResponseEntity<MenuResponseDto> createMenu(@PathVariable Long shopId, @RequestBody MenuDto menuDto) {
+        MenuResponseDto menuResponseDto = menuService.saveMenu(shopId, menuDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long id) {
-        MenuResponseDto menuResponseDto = menuService.getMenu(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
-    }
-
-    @GetMapping()
+    @GetMapping("menu")
     public ResponseEntity<List<MenuResponseDto>> getAllMenu() {
         List<MenuResponseDto> menuResponseDtoList = menuService.getAllMenu();
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDtoList);
     }
 
-    @PatchMapping("{id}")
+    @GetMapping("{shopId}/menu")
+    public ResponseEntity<List<MenuResponseDto>> getAllShopMenu(@PathVariable Long shopId) {
+        List<MenuResponseDto> menuResponseDtoList = menuService.getAllShopMenu(shopId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(menuResponseDtoList);
+    }
+
+    @GetMapping("{shopId}/menu/{id}")
+    public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long id) {
+        MenuResponseDto menuResponseDto = menuService.getMenu(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
+    }
+
+    @PatchMapping("{shopId}/menu/{id}")
     public ResponseEntity<MenuResponseDto> changeMenu(@PathVariable Long id, @RequestBody MenuDto menuDto) throws Exception {
         MenuResponseDto menuResponseDto = menuService.changeMenu(id, menuDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{shopId}/menu/{id}")
     public ResponseEntity<MenuResponseDto> deleteMenu(@PathVariable Long id) throws Exception {
         MenuResponseDto menuResponseDto = menuService.deleteMenu(id);
 

@@ -10,6 +10,8 @@ import personal.delivery.menu.Menu.MenuBuilder;
 import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.repository.MenuRepository;
+import personal.delivery.shop.entity.Shop;
+import personal.delivery.shop.repository.ShopRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,12 +23,16 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl implements MenuService {
 
     private final MenuRepository menuRepository;
+    private final ShopRepository shopRepository;
     private final BeanConfiguration beanConfiguration;
 
     @Override
-    public MenuResponseDto saveMenu(MenuDto menuDto) {
+    public MenuResponseDto saveMenu(Long shopId, MenuDto menuDto) {
+
+        Shop shop = shopRepository.getById(shopId);
 
         Menu menu = Menu.builder()
+                .shop(shop)
                 .name(menuDto.getName())
                 .price(menuDto.getPrice())
                 .salesRate(menuDto.getSalesRate())
@@ -53,6 +59,19 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuResponseDto> getAllMenu() {
 
         List<Menu> menuList = menuRepository.findAll();
+
+        List<MenuResponseDto> menuResponseDtoList = menuList.stream()
+                .map(menu -> beanConfiguration.modelMapper().map(menu, MenuResponseDto.class))
+                .collect(Collectors.toList());
+
+        return menuResponseDtoList;
+
+    }
+
+    @Override
+    public List<MenuResponseDto> getAllShopMenu(Long shopId) {
+
+        List<Menu> menuList = menuRepository.findAllByShop_Id(shopId);
 
         List<MenuResponseDto> menuResponseDtoList = menuList.stream()
                 .map(menu -> beanConfiguration.modelMapper().map(menu, MenuResponseDto.class))
