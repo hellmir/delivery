@@ -3,23 +3,30 @@
 
 ## URL
 
-### 메뉴
-
-- **메뉴 조회**
-  - **전체 메뉴 조회 : /menu** (Get method)
-  - **단일 메뉴 조회 : /menu/{id}** (Get method)
-    <br>
-
-- **판매자**
-  - **메뉴 등록 : /menu** (Post method)
-  - **메뉴 수정 : /menu** (Patch method)
-  - **메뉴 삭제 : /menu/{id}** (Delete method)
-    <br>
-
 ### 회원
 
 - **회원 가입 : /members** (Post method)
   <br>
+
+### 가게
+
+- **판매자**
+  - **가게 등록 : /shops** (Post method)
+    <br>
+
+### 메뉴
+
+- **메뉴 조회**
+  - **전체 메뉴 조회 : /menu** (Get method)
+  - **가게 전체 메뉴 조회 : /{shopId}/menu** (Get method)
+  - **단일 메뉴 조회 : /{shopId}/menu/{id}** (Get method)
+    <br>
+
+- **판매자**
+  - **메뉴 등록 : /{shopId}/menu** (Post method)
+  - **메뉴 수정 : /{shopId}/menu** (Patch method)
+  - **메뉴 삭제 : /{shopId}/menu/{id}** (Delete method)
+    <br>
 
 ### 주문
 
@@ -46,7 +53,7 @@
   - **장바구니 메뉴 주문 : /carts/orders** (Post method)
     <br>
 
-## Stack
+## Skill Set
 
 - Java 17
 - Spring Boot 3.0.4
