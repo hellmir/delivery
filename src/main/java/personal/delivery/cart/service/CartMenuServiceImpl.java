@@ -30,13 +30,17 @@ public class CartMenuServiceImpl implements CartMenuService {
     @Override
     public CartMenu createCartMenu(Cart cart, Menu menu, int menuQuantity) {
 
-        cartMenu.createCartMenu(cart, menu, menuQuantity, LocalDateTime.now());
+        CartMenu cartMenu = CartMenu.builder()
+                .cart(cart)
+                .menu(menu)
+                .menuQuantity(menuQuantity)
+                .registrationTime(LocalDateTime.now())
+                .build();
 
         return cartMenu;
 
     }
 
-    @Override
     public void addMenuQuantity(int menuQuantity) {
 
         cartMenu.updateMenuQuantity(cartMenu.getMenuQuantity() + menuQuantity, LocalDateTime.now());
