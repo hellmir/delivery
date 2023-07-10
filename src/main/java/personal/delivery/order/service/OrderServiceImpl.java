@@ -35,8 +35,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponseDto takeOrder(OrderDto orderDto) {
 
-        Menu menu = menuRepository.getReferenceById(orderDto.getMenuId());
+        Menu menu = menuRepository.findById(orderDto.getMenuId())
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 메뉴를 찾을 수 없습니다. (menuId: " + orderDto.getMenuId() + ")"));
+
         Member member = memberRepository.findByEmail(orderDto.getEmail());
+
+        if (member == null) {
+            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + orderDto.getEmail() + ")");
+        }
 
         List<OrderMenu> orderMenuList = new ArrayList<>();
         OrderMenu orderMenu = orderMenuService.createOrderMenu(menu, orderDto.getOrderQuantity());
@@ -77,7 +84,8 @@ public class OrderServiceImpl implements OrderService {
         Member member = memberRepository.findByEmail(orderDto.getEmail());
 
         Order selectedOrder = orderRepository.findById(orderDto.getOrderId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 주문을 찾을 수 없습니다. (orderId: " + orderDto.getOrderId() + ")"));
 
         OrderResponseDto orderResponseDto = new OrderResponseDto();
 
@@ -107,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponseDto changeOrderStatus(Long id, Boolean isOrdered) {
 
         Order order = orderRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException("해당 주문을 찾을 수 없습니다. (orderId: " + id + ")"));
 
         if (isOrdered) {
             if (order.getOrderStatus().equals(OrderStatus.WAITING)) {

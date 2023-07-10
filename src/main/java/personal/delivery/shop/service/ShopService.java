@@ -1,5 +1,6 @@
 package personal.delivery.shop.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +28,12 @@ public class ShopService {
 
         Member member = memberRepository.findByEmail(shopDto.getEmail());
 
+        if (member == null) {
+            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + shopDto.getEmail() + ")");
+        }
+
         if (member.getRole().equals(Role.CUSTOMER)) {
-            throw new IllegalArgumentException("권한이 없습니다.");
+            throw new IllegalArgumentException("권한이 없습니다. (role: " + member.getRole() + ")");
         }
 
         Shop shop = Shop.builder()
@@ -41,10 +46,10 @@ public class ShopService {
 
         ShopResponseDto shopResponseDto = new ShopResponseDto();
 
+        shopResponseDto.setId(savedShop.getId());
         shopResponseDto.setName(savedShop.getName());
         shopResponseDto.setEmail(savedShop.getMember().getEmail());
         shopResponseDto.setRegistrationTime(savedShop.getRegistrationTime());
-        System.out.println(savedShop.getRegistrationTime());
 
         return shopResponseDto;
 

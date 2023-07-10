@@ -41,8 +41,15 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartMenuResponseDto addCart(CartMenuDto cartMenuDto) {
 
-        Menu menu = menuRepository.getById(cartMenuDto.getMenuId());
+        Menu menu = menuRepository.findById(cartMenuDto.getMenuId())
+                .orElseThrow(() -> new IllegalArgumentException
+                        ("해당 메뉴를 찾을 수 없습니다. menuId: " + cartMenuDto.getMenuId()));
+
         Member member = memberRepository.findByEmail(cartMenuDto.getEmail());
+
+        if (member == null) {
+            throw new IllegalArgumentException("해당 회원을 찾을 수 없습니다. email: " + cartMenuDto.getEmail());
+        }
 
         Cart cart = cartRepository.findByMemberId(member.getId());
 
