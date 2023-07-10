@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.constant.Role;
-import personal.delivery.member.eneity.Member;
 import personal.delivery.member.dto.MemberDto;
 import personal.delivery.member.dto.MemberResponseDto;
+import personal.delivery.member.eneity.Member;
 import personal.delivery.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -68,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = memberRepository.findByEmail(member.getEmail());
 
         if (findMember != null) {
-            throw new IllegalStateException("이미 가입된 회원입니다.");
+            throw new IllegalStateException("이미 가입된 회원입니다. (email: " + member.getEmail() + ")");
 
         }
 

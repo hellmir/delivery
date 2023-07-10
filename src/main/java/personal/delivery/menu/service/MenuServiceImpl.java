@@ -29,7 +29,8 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuResponseDto saveMenu(Long shopId, MenuDto menuDto) {
 
-        Shop shop = shopRepository.getById(shopId);
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 가게를 찾을 수 없습니다. (shopId: " + shopId + ")"));
 
         Menu menu = Menu.builder()
                 .shop(shop)
@@ -42,7 +43,7 @@ public class MenuServiceImpl implements MenuService {
                 .cookingTime(menuDto.getCookingTime())
                 .menuType(menuDto.getMenuType())
                 .foodType(menuDto.getFoodType())
-                .menuOption(menuDto.getMenuOption())
+                .menuOptions(menuDto.getMenuOptions())
                 .registrationTime(LocalDateTime.now())
                 .build();
 
@@ -98,7 +99,7 @@ public class MenuServiceImpl implements MenuService {
     public MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception {
 
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException("해당 메뉴를 찾을 수 없습니다. (menuId: " + id + ")"));
 
         MenuBuilder menuBuilder = Menu.builder();
 
@@ -155,10 +156,10 @@ public class MenuServiceImpl implements MenuService {
             menuBuilder.foodType(menu.getFoodType());
         }
 
-        if (menuDto.getMenuOption() != null) {
-            menuBuilder.menuOption(menuDto.getMenuOption());
+        if (menuDto.getMenuOptions() != null) {
+            menuBuilder.menuOptions(menuDto.getMenuOptions());
         } else {
-            menuBuilder.menuOption(menu.getMenuOption());
+            menuBuilder.menuOptions(menu.getMenuOptions());
         }
 
         menuBuilder.registrationTime(menu.getRegistrationTime());
@@ -179,7 +180,7 @@ public class MenuServiceImpl implements MenuService {
     public MenuResponseDto deleteMenu(Long id) throws Exception {
 
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException("해당 메뉴를 찾을 수 없습니다. (menuId: " + id + ")"));
 
         Menu deletedMenu;
 

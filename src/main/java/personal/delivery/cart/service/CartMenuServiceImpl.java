@@ -75,7 +75,8 @@ public class CartMenuServiceImpl implements CartMenuService {
     public CartMenuResponseDto getCartMenu(Long id) {
 
         CartMenu selectedCartMenu = cartMenuRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 장바구니 메뉴를 찾을 수 없습니다. (cartId: " + id + ")"));
 
         CartMenuResponseDto cartMenuResponseDto = new CartMenuResponseDto();
 
@@ -91,7 +92,8 @@ public class CartMenuServiceImpl implements CartMenuService {
     public CartMenuResponseDto deleteCartMenu(CartMenuDto cartMenuDto) throws Exception {
 
         CartMenu cartMenu = cartMenuRepository.findById(cartMenuDto.getMenuId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 장바구니 메뉴를 찾을 수 없습니다. (cartId: " + cartMenuDto.getMenuId() + ")"));
 
         CartMenu deletedCartMenu;
 
@@ -116,7 +118,8 @@ public class CartMenuServiceImpl implements CartMenuService {
         OrderDto orderDto = new OrderDto();
 
         CartMenu cartMenuToOrder = cartMenuRepository.findById(cartMenuDto.getMenuId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 장바구니 메뉴를 찾을 수 없습니다. (cartId: " + cartMenuDto.getMenuId() + ")"));
 
         orderDto.setMenuId(cartMenuDto.getMenuId());
         orderDto.setOrderQuantity(cartMenuToOrder.getMenuQuantity());
