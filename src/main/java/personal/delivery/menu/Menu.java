@@ -53,15 +53,15 @@ public class Menu {
     private String foodType;
 
     private Boolean isPopularMenu;
-    private List<String> menuOption;
+    private List<String> menuOptions;
 
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
     @Builder
     public Menu(Long id, Shop shop, String name, Integer price, Integer salesRate, Integer stock,
-                String flavor, Integer portions, Integer cookingTime,
-                String menuType, String foodType, Boolean isPopularMenu, List<String> menuOption,
+                String flavor, Integer portions, Integer cookingTime, String menuType,
+                String foodType, Boolean isPopularMenu, List<String> menuOptions,
                 LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.id = id;
@@ -69,17 +69,14 @@ public class Menu {
         this.name = name;
         this.price = price;
         this.salesRate = salesRate;
+
+        if (stock < 0) {
+            throw new OutOfStockException("재료 최소 수량: 0");
+        }
+
         this.stock = stock;
 
-        if (this.stock > 10) {
-            stockStatus = StockStatus.AVAILABLE;
-        } else if (this.stock > 0) {
-            stockStatus = StockStatus.LOW_STOCK;
-        } else if (this.stock == 0) {
-            stockStatus = StockStatus.OUT_OF_STOCK;
-        } else {
-            throw new OutOfStockException("재료 최소 수량 : 0");
-        }
+        adjustStockState();
 
         this.flavor = flavor;
         this.portions = portions;
@@ -87,7 +84,7 @@ public class Menu {
         this.menuType = menuType;
         this.foodType = foodType;
         this.isPopularMenu = isPopularMenu;
-        this.menuOption = menuOption;
+        this.menuOptions = menuOptions;
         this.registrationTime = registrationTime;
         this.updateTime = updateTime;
 
@@ -95,11 +92,14 @@ public class Menu {
 
     public void useStockForSale(int orderQuantity) {
 
-        int presentStock = stock - orderQuantity;
+        if (orderQuantity > stock) {
+            throw new OutOfStockException("판매 불가: 재료 부족 (현재 재고: " + stock + ")");
+        }
 
-        adjustStockState(presentStock);
+        stock -= orderQuantity;
 
-        stock = presentStock;
+        adjustStockState();
+
         salesRate += orderQuantity;
 
         name.replace("(인기메뉴)", "");
@@ -111,21 +111,11 @@ public class Menu {
 
     }
 
-    private void adjustStockState(int presentStock) {
+    private void adjustStockState() {
 
-        if (presentStock == 0) {
-            stockStatus = StockStatus.OUT_OF_STOCK;
-        }
-
-        if (presentStock > 10) {
-            stockStatus = StockStatus.AVAILABLE;
-        } else if (presentStock > 0) {
-            stockStatus = StockStatus.LOW_STOCK;
-        }
-
-        if (presentStock < 0) {
-            throw new OutOfStockException("판매 불가 : 재료 부족");
-        }
+        stockStatus = stock > 10 ? StockStatus.AVAILABLE
+                : stock > 0 ? StockStatus.LOW_STOCK
+                : StockStatus.OUT_OF_STOCK;
 
     }
 
