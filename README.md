@@ -5,7 +5,9 @@
 
 ### 회원
 
-- **회원 가입 : /members** (Post method)
+- **회원 가입**
+- **판매자 : /members/sellers** (Post method)
+- **고객 : /members/customers** (Post method)
   <br>
 
 ### 가게
