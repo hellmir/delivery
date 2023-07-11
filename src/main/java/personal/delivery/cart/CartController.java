@@ -1,15 +1,18 @@
 package personal.delivery.cart;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import personal.delivery.cart.dto.CartMenuDto;
 import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.service.CartMenuServiceImpl;
 import personal.delivery.cart.service.CartService;
 import personal.delivery.order.dto.OrderResponseDto;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,7 +28,16 @@ public class CartController {
 
         CartMenuResponseDto cartMenuResponseDto = cartService.addCart(cartMenuDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(cartMenuResponseDto);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(cartMenuResponseDto.getId())
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(location);
+
+        return ResponseEntity.created(location).headers(headers).body(cartMenuResponseDto);
 
     }
 
@@ -51,7 +63,7 @@ public class CartController {
 
         CartMenuResponseDto cartMenuResponseDto = cartMenuService.deleteCartMenu(cartMenuDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(cartMenuResponseDto);
+        return ResponseEntity.noContent().build();
 
     }
 
@@ -61,7 +73,16 @@ public class CartController {
 
         OrderResponseDto orderResponseDto = cartMenuService.orderCartMenu(cartMenuDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(orderResponseDto.getId())
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(location);
+
+        return ResponseEntity.created(location).headers(headers).body(orderResponseDto);
 
     }
 
