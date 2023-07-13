@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import personal.delivery.menu.dto.MenuDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.service.MenuService;
+import personal.delivery.validation.group.OnCreate;
+import personal.delivery.validation.group.OnUpdate;
 
 import java.net.URI;
 import java.util.List;
@@ -22,7 +25,7 @@ public class MenuController {
     private final MenuService menuService;
 
     @PostMapping("{shopId}/menu")
-    public ResponseEntity<MenuResponseDto> createMenu(@PathVariable Long shopId, @RequestBody MenuDto menuDto) {
+    public ResponseEntity<MenuResponseDto> createMenu(@PathVariable Long shopId, @Validated(OnCreate.class) @RequestBody MenuDto menuDto) {
 
         MenuResponseDto menuResponseDto = menuService.saveMenu(shopId, menuDto);
 
@@ -67,7 +70,8 @@ public class MenuController {
     }
 
     @PatchMapping("{shopId}/menu/{id}")
-    public ResponseEntity<MenuResponseDto> changeMenu(@PathVariable Long id, MenuDto menuDto) throws Exception {
+    public ResponseEntity<MenuResponseDto> changeMenu
+            (@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody MenuDto menuDto) throws Exception {
 
         MenuResponseDto menuResponseDto = menuService.changeMenu(id, menuDto);
 
