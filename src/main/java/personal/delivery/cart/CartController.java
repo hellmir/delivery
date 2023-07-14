@@ -1,9 +1,11 @@
 package personal.delivery.cart;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import personal.delivery.cart.dto.CartMenuDto;
@@ -11,6 +13,7 @@ import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.service.CartMenuServiceImpl;
 import personal.delivery.cart.service.CartService;
 import personal.delivery.order.dto.OrderResponseDto;
+import personal.delivery.validation.group.OnCreate;
 
 import java.net.URI;
 import java.util.List;
@@ -24,7 +27,7 @@ public class CartController {
     private final CartMenuServiceImpl cartMenuService;
 
     @PostMapping()
-    public ResponseEntity<CartMenuResponseDto> addCartMenu(@RequestBody CartMenuDto cartMenuDto) {
+    public ResponseEntity<CartMenuResponseDto> addCartMenu(@Validated(OnCreate.class) @RequestBody CartMenuDto cartMenuDto) {
 
         CartMenuResponseDto cartMenuResponseDto = cartService.addCart(cartMenuDto);
 
@@ -59,7 +62,7 @@ public class CartController {
 
     @DeleteMapping()
     public ResponseEntity<CartMenuResponseDto> deleteCartMenu
-            (@RequestBody CartMenuDto cartMenuDto) throws Exception {
+            (@Valid @RequestBody CartMenuDto cartMenuDto) throws Exception {
 
         CartMenuResponseDto cartMenuResponseDto = cartMenuService.deleteCartMenu(cartMenuDto);
 
@@ -69,7 +72,7 @@ public class CartController {
 
     @PostMapping("orders")
     public ResponseEntity<OrderResponseDto> orderCartMenu
-            (@RequestBody CartMenuDto cartMenuDto) {
+            (@Valid @RequestBody CartMenuDto cartMenuDto) {
 
         OrderResponseDto orderResponseDto = cartMenuService.orderCartMenu(cartMenuDto);
 
