@@ -102,11 +102,12 @@ public class Menu {
 
         salesRate += orderQuantity;
 
-        name.replace("(인기메뉴)", "");
-
         if (salesRate >= 100) {
             isPopularMenu = true;
             name += "(인기메뉴)";
+        } else {
+            isPopularMenu = false;
+            name.replace("(인기메뉴)", "");
         }
 
     }

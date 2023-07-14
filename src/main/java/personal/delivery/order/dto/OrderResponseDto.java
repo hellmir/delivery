@@ -8,15 +8,16 @@ import java.time.LocalDateTime;
 @Data
 public class OrderResponseDto {
 
+    private Long id;
     private LocalDateTime orderTime;
     private OrderStatus orderStatus;
     private String memberName;
     private String memberEmail;
     private String menuName;
     private int cookingTime;
-    private int menuPrice;
-    private int orderQuantity;
-    private int totalPrice;
+    private Integer menuPrice;
+    private Integer orderQuantity;
+    private Integer totalPrice;
     private String orderRequest;
     private String deliveryRequest;
 
