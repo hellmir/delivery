@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
+import personal.delivery.exception.OutOfStockException;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.Menu.MenuBuilder;
 import personal.delivery.menu.dto.MenuDto;
@@ -36,7 +37,7 @@ public class MenuServiceImpl implements MenuService {
                 .shop(shop)
                 .name(menuDto.getName())
                 .price(menuDto.getPrice())
-                .salesRate(menuDto.getSalesRate())
+                .salesRate(0)
                 .stock(menuDto.getStock())
                 .flavor(menuDto.getFlavor())
                 .portions(menuDto.getPortions())
@@ -105,6 +106,8 @@ public class MenuServiceImpl implements MenuService {
 
         menuBuilder.id(id);
 
+        menuBuilder.shop(menu.getShop());
+
         if (menuDto.getName() != null) {
             menuBuilder.name(menuDto.getName());
         } else {
@@ -119,11 +122,15 @@ public class MenuServiceImpl implements MenuService {
 
         if (menuDto.getSalesRate() == -1) {
             menuBuilder.salesRate(0);
-        } else {
-            menuBuilder.salesRate(menu.getSalesRate());
         }
 
-        menuBuilder.stock(menu.getStock() + menuDto.getStock());
+        int modifiedStock = menu.getStock() + menuDto.getStock();
+
+        if (modifiedStock < 0) {
+            throw new OutOfStockException("재료 최소 수량: 0 (현재 재고: " + menu.getStock() + ")");
+        }
+
+        menuBuilder.stock(modifiedStock);
 
 
         if (menuDto.getFlavor() != null) {
