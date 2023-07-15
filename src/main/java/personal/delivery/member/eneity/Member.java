@@ -1,7 +1,6 @@
 package personal.delivery.member.eneity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +8,9 @@ import personal.delivery.constant.Role;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "member")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Table(name = "member")
 public class Member {
 
