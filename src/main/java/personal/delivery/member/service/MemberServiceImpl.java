@@ -69,7 +69,6 @@ public class MemberServiceImpl implements MemberService {
 
         if (findMember != null) {
             throw new IllegalStateException("이미 가입된 회원입니다. (email: " + member.getEmail() + ")");
-
         }
 
     }

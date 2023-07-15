@@ -1,5 +1,6 @@
 package personal.delivery.member;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("sellers")
-    public ResponseEntity<MemberResponseDto> signUpSeller(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<MemberResponseDto> signUpSeller(@Valid @RequestBody MemberDto memberDto) {
 
         MemberResponseDto memberResponseDto = memberService.createSeller(memberDto);
 
@@ -40,7 +41,7 @@ public class MemberController {
     }
 
     @PostMapping("customers")
-    public ResponseEntity<MemberResponseDto> signUpCustomer(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<MemberResponseDto> signUpCustomer(@Valid @RequestBody MemberDto memberDto) {
 
         MemberResponseDto memberResponseDto = memberService.createSeller(memberDto);
 
