@@ -107,7 +107,7 @@ public class MenuServiceImpl implements MenuService {
             throw new OutOfStockException("재료 최소 수량: 0 (현재 재고: " + menu.getStock() + ")");
         }
 
-        Menu changedMenu = Menu.builder()
+        Menu changingMenu = Menu.builder()
                 .id(id)
                 .shop(menu.getShop())
                 .name(menuDto.getName() != null ? menuDto.getName() : menu.getName())
@@ -124,7 +124,7 @@ public class MenuServiceImpl implements MenuService {
                 .updateTime(LocalDateTime.now())
                 .build();
 
-        menuRepository.save(changedMenu);
+        Menu changedMenu = menuRepository.save(changingMenu);
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
                 .map(changedMenu, MenuResponseDto.class);
