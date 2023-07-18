@@ -70,10 +70,6 @@ public class Menu {
         this.price = price;
         this.salesRate = salesRate;
 
-        if (stock < 0) {
-            throw new OutOfStockException("재료 최소 수량: 0");
-        }
-
         this.stock = stock;
 
         adjustStockState();
