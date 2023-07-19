@@ -7,6 +7,7 @@ import personal.delivery.cart.entity.Cart;
 import personal.delivery.member.eneity.Member;
 import personal.delivery.menu.Menu;
 import personal.delivery.order.entity.Order;
+import personal.delivery.order.entity.OrderMenu;
 
 @Configuration
 public class BeanConfiguration {
