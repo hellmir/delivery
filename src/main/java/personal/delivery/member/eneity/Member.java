@@ -45,7 +45,8 @@ public class Member {
         this.email = email;
         this.password = password;
 
-        Address inputAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode(), address.getDetailedAddress());
+        Address inputAddress = new Address
+                (address.getCity(), address.getStreet(), address.getZipcode(), address.getDetailedAddress());
         this.address = inputAddress;
 
         this.role = role;
