@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.config.BeanConfiguration;
 import personal.delivery.constant.OrderStatus;
 import personal.delivery.constant.Role;
 import personal.delivery.member.eneity.Member;
@@ -15,11 +14,14 @@ import personal.delivery.order.OrderRepository;
 import personal.delivery.order.dto.OrderDto;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.entity.Order;
+import personal.delivery.order.entity.Order.OrderBuilder;
 import personal.delivery.order.entity.OrderMenu;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -30,14 +32,9 @@ public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     private final OrderMenuService orderMenuService;
-    private final BeanConfiguration beanConfiguration;
 
     @Override
     public OrderResponseDto takeOrder(OrderDto orderDto) {
-
-        Menu menu = menuRepository.findById(orderDto.getMenuId())
-                .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 메뉴를 찾을 수 없습니다. (menuId: " + orderDto.getMenuId() + ")"));
 
         Member member = memberRepository.findByEmail(orderDto.getEmail());
 
@@ -45,11 +42,24 @@ public class OrderServiceImpl implements OrderService {
             throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + orderDto.getEmail() + ")");
         }
 
-        List<OrderMenu> orderMenuList = new ArrayList<>();
-        OrderMenu orderMenu = orderMenuService.createOrderMenu(menu, orderDto.getOrderQuantity());
-        orderMenuList.add(orderMenu);
+        Map<Menu, Integer> menuToOrderMap = new HashMap<>();
 
-        Order order = createOrder(orderDto, member, orderMenuList);
+        for (Long menuId : orderDto.getMenuIdAndQuantityMap().keySet()) {
+
+            menuToOrderMap.put(menuRepository.findById(menuId)
+                            .orElseThrow(() -> new EntityNotFoundException
+                                    ("해당 메뉴를 찾을 수 없습니다. (menuId: " + menuId + ")"))
+                    , orderDto.getMenuIdAndQuantityMap().get(menuId));
+
+        }
+
+        OrderBuilder orderBuilder = createOrder(orderDto, member);
+
+        Order order = orderBuilder.build();
+
+        List<OrderMenu> orderMenuList = orderMenuService.createOrderMenu(menuToOrderMap, order);
+
+        order = addOrderMenuListToOrder(orderBuilder, orderMenuList);
 
         Order savedOrder = orderRepository.save(order);
 
@@ -57,25 +67,23 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    @Override
-    public Order createOrder(OrderDto orderDto, Member member, List<OrderMenu> orderMenuList) {
+    private OrderBuilder createOrder(OrderDto orderDto, Member member) {
 
-        Order order = Order.builder()
+        return Order.builder()
                 .orderTime(LocalDateTime.now())
                 .orderStatus(OrderStatus.WAITING)
                 .member(member)
-                .orderMenus(orderMenuList)
                 .orderRequest(orderDto.getOrderRequest())
                 .deliveryRequest(orderDto.getDeliveryRequest())
-                .registrationTime(LocalDateTime.now())
+                .registrationTime(LocalDateTime.now());
+
+    }
+
+    private Order addOrderMenuListToOrder(OrderBuilder orderBuilder, List<OrderMenu> orderMenuList) {
+        return orderBuilder
+                .orderMenuList(orderMenuList)
+                .totalOrderPrice(orderMenuList.stream().mapToInt(OrderMenu::getTotalMenuPrice).sum())
                 .build();
-
-        List<OrderMenu> orderMenus = order.getOrderMenus();
-
-        order.computeTotalPrice(getMenuListTotalPrice(orderMenus));
-
-        return order;
-
     }
 
     @Override
@@ -83,31 +91,15 @@ public class OrderServiceImpl implements OrderService {
 
         Member member = memberRepository.findByEmail(orderDto.getEmail());
 
+        if (member == null) {
+            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + orderDto.getEmail() + ")");
+        }
+
         Order selectedOrder = orderRepository.findById(orderDto.getOrderId())
                 .orElseThrow(() -> new EntityNotFoundException
                         ("해당 주문을 찾을 수 없습니다. (orderId: " + orderDto.getOrderId() + ")"));
 
-        OrderResponseDto orderResponseDto = new OrderResponseDto();
-
-        orderResponseDto.setOrderTime(selectedOrder.getOrderTime());
-        orderResponseDto.setOrderStatus(selectedOrder.getOrderStatus());
-        orderResponseDto.setMemberName(selectedOrder.getMember().getName());
-        orderResponseDto.setMemberEmail(selectedOrder.getMember().getEmail());
-
-        for (OrderMenu orderMenu : selectedOrder.getOrderMenus()) {
-
-            orderResponseDto.setMenuName(orderMenu.getMenu().getName());
-            orderResponseDto.setCookingTime(orderMenu.getMenu().getCookingTime());
-            orderResponseDto.setMenuPrice(orderMenu.getMenu().getPrice());
-            orderResponseDto.setOrderQuantity(orderMenu.getOrderQuantity());
-            orderResponseDto.setTotalPrice(orderMenu.getMenuTotalPrice());
-
-        }
-
-        orderResponseDto.setRegistrationTime(selectedOrder.getRegistrationTime());
-        orderResponseDto.setUpdateTime(selectedOrder.getUpdateTime());
-
-        return orderResponseDto;
+        return setOrderResponseDto(selectedOrder);
 
     }
 
@@ -151,20 +143,6 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    public int getMenuListTotalPrice(List<OrderMenu> orderMenus) {
-
-        int totalPrice = 0;
-
-        for (OrderMenu orderMenu : orderMenus) {
-
-            totalPrice += orderMenu.getMenuTotalPrice();
-
-        }
-
-        return totalPrice;
-
-    }
-
     private OrderResponseDto setOrderResponseDto(Order savedOrder) {
 
         OrderResponseDto orderResponseDto = new OrderResponseDto();
@@ -172,19 +150,21 @@ public class OrderServiceImpl implements OrderService {
         orderResponseDto.setId(savedOrder.getId());
         orderResponseDto.setOrderTime(savedOrder.getOrderTime());
         orderResponseDto.setOrderStatus(savedOrder.getOrderStatus());
-        orderResponseDto.setMemberName(savedOrder.getMember().getName());
-        orderResponseDto.setMemberEmail(savedOrder.getMember().getEmail());
 
-        for (OrderMenu orderMenu : savedOrder.getOrderMenus()) {
+        for (OrderMenu orderMenu : savedOrder.getOrderMenuList()) {
 
-            orderResponseDto.setMenuName(orderMenu.getMenu().getName());
-            orderResponseDto.setCookingTime(orderMenu.getMenu().getCookingTime());
-            orderResponseDto.setMenuPrice(orderMenu.getMenu().getPrice());
-            orderResponseDto.setOrderQuantity(orderMenu.getOrderQuantity());
+            List<String> menuDetails = new ArrayList<>();
+
+            menuDetails.add("menuName: " + orderMenu.getMenu().getName());
+            menuDetails.add("menuPrice: " + orderMenu.getMenu().getPrice().toString());
+            menuDetails.add("orderQuantity: " + orderMenu.getOrderQuantity().toString());
+            menuDetails.add("totalMenuPrice: " + orderMenu.getTotalMenuPrice().toString());
+
+            orderResponseDto.addMenuDetails(menuDetails);
 
         }
 
-        orderResponseDto.setTotalPrice(savedOrder.getTotalPrice());
+        orderResponseDto.setTotalOrderPrice(savedOrder.getTotalOrderPrice());
         orderResponseDto.setOrderRequest(savedOrder.getOrderRequest());
         orderResponseDto.setDeliveryRequest(savedOrder.getDeliveryRequest());
         orderResponseDto.setRegistrationTime(savedOrder.getRegistrationTime());
