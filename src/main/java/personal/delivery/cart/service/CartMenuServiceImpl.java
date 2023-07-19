@@ -16,7 +16,9 @@ import personal.delivery.order.service.OrderService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -159,8 +161,10 @@ public class CartMenuServiceImpl implements CartMenuService {
                             + cartMenuDto.getEmail() + ", 장바구니 회원 이메일 주소: " + memberEmail + ")");
         }
 
-        orderDto.setMenuId(cartMenuToOrder.getMenu().getId());
-        orderDto.setOrderQuantity(cartMenuToOrder.getMenuQuantity());
+        Map<Long, Integer> menuIdAndQuantityMap = new HashMap<>();
+        menuIdAndQuantityMap.put(cartMenuToOrder.getMenu().getId(), cartMenuToOrder.getMenuQuantity());
+        orderDto.setMenuIdAndQuantityMap(menuIdAndQuantityMap);
+
         orderDto.setEmail(memberEmail);
 
         OrderResponseDto cartMenuOrder = orderService.takeOrder(orderDto);
