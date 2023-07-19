@@ -1,25 +1,35 @@
 package personal.delivery.order.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.menu.Menu;
+import personal.delivery.order.entity.Order;
 import personal.delivery.order.entity.OrderMenu;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class OrderMenuService {
 
-    private final OrderMenu orderMenu;
+    public List<OrderMenu> createOrderMenu(Map<Menu, Integer> menuToOrderMap, Order order) {
 
-    public OrderMenu createOrderMenu(Menu menu, int orderQuantity) {
+        List<OrderMenu> orderMenuList = new ArrayList<>();
 
-        orderMenu.createOrderMenu(menu, menu.getPrice(), orderQuantity);
+        for (Menu menuToOrder : menuToOrderMap.keySet()) {
 
-        menu.useStockForSale(orderQuantity);
+            OrderMenu orderMenu = OrderMenu.createOrderMenu
+                    (menuToOrder, order, menuToOrder.getPrice(), menuToOrderMap.get(menuToOrder));
 
-        return orderMenu;
+            orderMenuList.add(orderMenu);
+
+            menuToOrder.useStockForSale(orderMenu.getOrderQuantity());
+
+        }
+
+        return orderMenuList;
 
     }
 

@@ -4,6 +4,8 @@ import lombok.Data;
 import personal.delivery.constant.OrderStatus;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class OrderResponseDto {
@@ -11,17 +13,16 @@ public class OrderResponseDto {
     private Long id;
     private LocalDateTime orderTime;
     private OrderStatus orderStatus;
-    private String memberName;
-    private String memberEmail;
-    private String menuName;
-    private int cookingTime;
-    private Integer menuPrice;
-    private Integer orderQuantity;
-    private Integer totalPrice;
+    private List<List<String>> menuDetailsList = new ArrayList<>();
+    private Integer totalOrderPrice;
     private String orderRequest;
     private String deliveryRequest;
 
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
+
+    public void addMenuDetails(List<String> menuDetails) {
+        menuDetailsList.add(menuDetails);
+    }
 
 }
