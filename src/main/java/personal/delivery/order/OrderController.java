@@ -1,15 +1,18 @@
 package personal.delivery.order;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import personal.delivery.order.dto.OrderDto;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.dto.OrderStatusDto;
 import personal.delivery.order.service.OrderService;
+import personal.delivery.validation.group.OnCreate;
 
 import java.net.URI;
 
@@ -21,7 +24,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping()
-    public ResponseEntity<OrderResponseDto> order(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderResponseDto> createOrder(@Validated(OnCreate.class) @RequestBody OrderDto orderDto) {
 
         OrderResponseDto orderResponseDto = orderService.takeOrder(orderDto);
 
@@ -39,7 +42,7 @@ public class OrderController {
     }
 
     @GetMapping()
-    public ResponseEntity<OrderResponseDto> getOrder(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderResponseDto> getOrder(@Valid @RequestBody OrderDto orderDto) {
 
         OrderResponseDto orderResponseDto = orderService.gerOrder(orderDto);
 
@@ -51,7 +54,7 @@ public class OrderController {
     public ResponseEntity<OrderResponseDto> changeOrderStatus
             (@PathVariable Long id, @RequestBody OrderStatusDto orderStatusDto) throws Exception {
 
-        OrderResponseDto orderResponseDto = orderService.changeOrderStatus(id, orderStatusDto.getIsOrderInProgress());
+        OrderResponseDto orderResponseDto = orderService.changeOrderStatus(id, orderStatusDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
 
