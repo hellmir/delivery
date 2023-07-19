@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 public class OrderDto {
 
-    @NotEmpty(message = "주문 ID는 필수값입니다.")
+    @NotNull(message = "주문 ID는 필수값입니다.")
     private Long orderId;
 
     @NotEmpty(groups = OnCreate.class, message = "주문 목록은 필수값입니다.")
