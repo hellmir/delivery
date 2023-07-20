@@ -1,10 +1,12 @@
 package personal.delivery.order.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.menu.Menu;
 import personal.delivery.order.entity.Order;
 import personal.delivery.order.entity.OrderMenu;
+import personal.delivery.order.repository.OrderMenuRepository;
 
 import java.util.ArrayList;
 import java.util.List;
