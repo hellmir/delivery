@@ -24,9 +24,7 @@ public class Cart {
 
     @Builder
     public Cart(Member member) {
-
         this.member = member;
-
     }
 
 }

@@ -29,9 +29,12 @@ public class CartMenu {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
+    @Column(nullable = false)
     private Integer menuQuantity;
 
+    @Column(nullable = false)
     private LocalDateTime registrationTime;
+
     private LocalDateTime updateTime;
 
     @Builder

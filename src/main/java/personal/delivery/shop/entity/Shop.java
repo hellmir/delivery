@@ -19,13 +19,14 @@ public class Shop {
     @Column(name = "shop_id")
     private Long id;
 
-    @Column(length = 20)
+    @Column(nullable = false, length = 20)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(nullable = false)
     private LocalDateTime registrationTime;
 
     @Builder

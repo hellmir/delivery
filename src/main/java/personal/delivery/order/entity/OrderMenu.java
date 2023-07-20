@@ -23,8 +23,13 @@ public class OrderMenu {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @Column(nullable = false)
     private Integer menuPrice;
+
+    @Column(nullable = false)
     private Integer orderQuantity;
+
+    @Column(nullable = false)
     private Integer totalMenuPrice;
 
     private OrderMenu(Menu menu, Order order, Integer menuPrice, Integer orderQuantity) {
