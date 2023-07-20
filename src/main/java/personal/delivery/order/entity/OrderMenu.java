@@ -3,12 +3,10 @@ package personal.delivery.order.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 import personal.delivery.menu.Menu;
 
 @Entity
 @Getter
-@Component
 @NoArgsConstructor
 public class OrderMenu {
 
