@@ -31,10 +31,13 @@ public class Member {
     @Embedded
     private Address address;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(nullable = false)
     LocalDateTime registrationTime;
+
     LocalDateTime updateTime;
 
     @Builder
