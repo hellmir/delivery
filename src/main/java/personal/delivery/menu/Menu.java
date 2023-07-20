@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.constant.MenuType;
 import personal.delivery.constant.StockStatus;
 import personal.delivery.exception.OutOfStockException;
 import personal.delivery.shop.entity.Shop;
@@ -26,18 +27,20 @@ public class Menu {
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    @Column(length = 20)
+    @Column(nullable = false, length = 20)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private Integer price;
 
-    @Column
+    @Column(nullable = false)
     private Integer salesRate;
 
-    @Column
+    @Column(nullable = false)
     private Integer stock;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private StockStatus stockStatus;
 
     @Column(length = 10)
@@ -46,8 +49,8 @@ public class Menu {
     private Integer portions;
     private Integer cookingTime;
 
-    @Column(length = 5)
-    private String menuType;
+    @Enumerated(EnumType.STRING)
+    private MenuType menuType;
 
     @Column(length = 10)
     private String foodType;
@@ -55,12 +58,14 @@ public class Menu {
     private Boolean isPopularMenu;
     private List<String> menuOptions;
 
+    @Column(nullable = false)
     private LocalDateTime registrationTime;
+
     private LocalDateTime updateTime;
 
     @Builder
     public Menu(Long id, Shop shop, String name, Integer price, Integer salesRate, Integer stock,
-                String flavor, Integer portions, Integer cookingTime, String menuType,
+                String flavor, Integer portions, Integer cookingTime, MenuType menuType,
                 String foodType, Boolean isPopularMenu, List<String> menuOptions,
                 LocalDateTime registrationTime, LocalDateTime updateTime) {
 
