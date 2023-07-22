@@ -82,7 +82,7 @@ public class MenuController {
     @DeleteMapping("{shopId}/menu/{id}")
     public ResponseEntity<Void> deleteMenu(@PathVariable Long id) throws Exception {
 
-        MenuResponseDto menuResponseDto = menuService.deleteMenu(id);
+        menuService.deleteMenu(id);
 
         return ResponseEntity.noContent().build();
 

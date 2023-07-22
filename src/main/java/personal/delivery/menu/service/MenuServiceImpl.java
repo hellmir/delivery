@@ -133,20 +133,12 @@ public class MenuServiceImpl implements MenuService {
 
     }
 
-    public MenuResponseDto deleteMenu(Long id) throws Exception {
+    public void deleteMenu(Long id) throws Exception {
 
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 메뉴를 찾을 수 없습니다. (menuId: " + id + ")"));
 
-        Menu deletedMenu;
-
         menuRepository.delete(menu);
-        deletedMenu = menu;
-
-        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(deletedMenu, MenuResponseDto.class);
-
-        return menuResponseDto;
 
     }
 
