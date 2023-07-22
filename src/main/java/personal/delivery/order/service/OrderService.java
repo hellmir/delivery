@@ -2,6 +2,7 @@ package personal.delivery.order.service;
 
 import personal.delivery.order.dto.OrderDto;
 import personal.delivery.order.dto.OrderResponseDto;
+import personal.delivery.order.dto.OrderStatusDto;
 
 public interface OrderService {
 
@@ -9,6 +10,6 @@ public interface OrderService {
 
     OrderResponseDto gerOrder(OrderDto orderDto);
 
-    OrderResponseDto changeOrderStatus(Long id, Boolean orderStatus);
+    OrderResponseDto changeOrderStatus(Long id, OrderStatusDto orderStatusDto);
 
 }
