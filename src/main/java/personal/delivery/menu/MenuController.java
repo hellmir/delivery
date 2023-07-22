@@ -71,7 +71,7 @@ public class MenuController {
 
     @PatchMapping("{shopId}/menu/{id}")
     public ResponseEntity<MenuResponseDto> changeMenu
-            (@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody MenuDto menuDto) throws Exception {
+            (@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody MenuDto menuDto) {
 
         MenuResponseDto menuResponseDto = menuService.changeMenu(id, menuDto);
 
@@ -80,9 +80,9 @@ public class MenuController {
     }
 
     @DeleteMapping("{shopId}/menu/{id}")
-    public ResponseEntity<Void> deleteMenu(@PathVariable Long id) throws Exception {
+    public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
 
-        MenuResponseDto menuResponseDto = menuService.deleteMenu(id);
+        menuService.deleteMenu(id);
 
         return ResponseEntity.noContent().build();
 
