@@ -4,6 +4,7 @@ import lombok.Data;
 import personal.delivery.constant.OrderStatus;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class OrderResponseDto {
 
     private Long id;
     private LocalDateTime orderTime;
+    private LocalTime estimatedArrivalTime;
     private OrderStatus orderStatus;
     private List<List<String>> menuDetailsList = new ArrayList<>();
     private Integer totalOrderPrice;
