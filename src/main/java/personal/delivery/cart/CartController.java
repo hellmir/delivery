@@ -62,9 +62,9 @@ public class CartController {
 
     @DeleteMapping()
     public ResponseEntity<CartMenuResponseDto> deleteCartMenu
-            (@Valid @RequestBody CartMenuDto cartMenuDto) throws Exception {
+            (@Valid @RequestBody CartMenuDto cartMenuDto) {
 
-        CartMenuResponseDto cartMenuResponseDto = cartMenuService.deleteCartMenu(cartMenuDto);
+        cartMenuService.deleteCartMenu(cartMenuDto);
 
         return ResponseEntity.noContent().build();
 
