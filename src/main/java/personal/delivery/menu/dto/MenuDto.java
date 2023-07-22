@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import personal.delivery.constant.MenuType;
 import personal.delivery.validation.group.OnCreate;
 import personal.delivery.validation.group.OnUpdate;
 
@@ -41,7 +42,7 @@ public class MenuDto {
     @Min(groups = OnUpdate.class, value = 0, message = "조리시간은 음수값이 될 수 없습니다.")
     private int cookingTime;
 
-    private String menuType;
+    private MenuType menuType;
     private String foodType;
     private List<String> menuOptions;
 
