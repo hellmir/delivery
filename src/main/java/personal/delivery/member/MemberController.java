@@ -43,7 +43,7 @@ public class MemberController {
     @PostMapping("customers")
     public ResponseEntity<MemberResponseDto> signUpCustomer(@Valid @RequestBody MemberDto memberDto) {
 
-        MemberResponseDto memberResponseDto = memberService.createSeller(memberDto);
+        MemberResponseDto memberResponseDto = memberService.createCustomer(memberDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
