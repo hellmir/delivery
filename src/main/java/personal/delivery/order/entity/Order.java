@@ -9,6 +9,7 @@ import personal.delivery.constant.OrderStatus;
 import personal.delivery.member.eneity.Member;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -22,8 +23,12 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
+    @Column(nullable = false)
     private LocalDateTime orderTime;
 
+    private LocalTime estimatedArrivalTime;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
@@ -31,10 +36,11 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderMenu> orderMenuList;
 
-    private int totalOrderPrice;
+    @Column(nullable = false)
+    private Integer totalOrderPrice;
 
     @Column(length = 200)
     private String orderRequest;
@@ -42,7 +48,9 @@ public class Order {
     @Column(length = 200)
     private String deliveryRequest;
 
+    @Column(nullable = false)
     private LocalDateTime registrationTime;
+
     private LocalDateTime updateTime;
 
     @Builder
@@ -65,6 +73,10 @@ public class Order {
         this.orderStatus = orderStatus;
         this.updateTime = updateTime;
 
+    }
+
+    public void updateEstimatedArrivalTime(Integer estimatedRequiredTime) {
+        estimatedArrivalTime = LocalTime.now().plusMinutes(estimatedRequiredTime);
     }
 
 }

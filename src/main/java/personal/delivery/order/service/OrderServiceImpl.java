@@ -6,16 +6,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.constant.OrderStatus;
 import personal.delivery.constant.Role;
+import personal.delivery.exception.FailedToCancelOrderException;
 import personal.delivery.member.eneity.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.repository.MenuRepository;
-import personal.delivery.order.OrderRepository;
 import personal.delivery.order.dto.OrderDto;
 import personal.delivery.order.dto.OrderResponseDto;
+import personal.delivery.order.dto.OrderStatusDto;
 import personal.delivery.order.entity.Order;
 import personal.delivery.order.entity.Order.OrderBuilder;
 import personal.delivery.order.entity.OrderMenu;
+import personal.delivery.order.repository.OrderRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -85,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
                 .totalOrderPrice(orderMenuList.stream().mapToInt(OrderMenu::getTotalMenuPrice).sum())
                 .build();
     }
-
+    
     @Override
     public OrderResponseDto gerOrder(OrderDto orderDto) {
 
@@ -104,35 +106,64 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponseDto changeOrderStatus(Long id, Boolean isOrdered) {
+    public OrderResponseDto changeOrderStatus(Long id, OrderStatusDto orderStatusDto) {
+
+        Member member = memberRepository.findByEmail(orderStatusDto.getEmail());
 
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 주문을 찾을 수 없습니다. (orderId: " + id + ")"));
 
-        if (isOrdered) {
-            if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
-                order.updateOrderStatus(OrderStatus.ACCEPTED, LocalDateTime.now());
-            } else if (order.getOrderStatus().equals(OrderStatus.ACCEPTED)) {
-                order.updateOrderStatus(OrderStatus.COOKING, LocalDateTime.now());
-            } else if (order.getOrderStatus().equals(OrderStatus.COOKING)) {
-                order.updateOrderStatus(OrderStatus.IN_DELIVERY, LocalDateTime.now());
-            } else if (order.getOrderStatus().equals(OrderStatus.IN_DELIVERY)) {
-                order.updateOrderStatus(OrderStatus.DELIVERED, LocalDateTime.now());
+        if (orderStatusDto.getIsOrderInProgress()) {
+
+            if (member.getRole().equals(Role.SELLER)) {
+
+                if (order.getOrderStatus().equals(OrderStatus.IN_DELIVERY)) {
+
+                    order.updateOrderStatus(OrderStatus.DELIVERED, LocalDateTime.now());
+
+                    order.updateEstimatedArrivalTime(0);
+
+                }
+
+                if (order.getOrderStatus().equals(OrderStatus.COOKING)) {
+
+                    order.updateOrderStatus(OrderStatus.IN_DELIVERY, LocalDateTime.now());
+
+                    order.updateEstimatedArrivalTime(orderStatusDto.getEstimatedRequiredTime());
+
+                }
+
+                if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
+
+                    order.updateOrderStatus(OrderStatus.COOKING, LocalDateTime.now());
+
+                    order.updateEstimatedArrivalTime(orderStatusDto.getEstimatedRequiredTime());
+
+                }
+
             }
 
         } else {
 
-            if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
+            if (member.getRole().equals(Role.SELLER)) {
 
-                if (order.getMember().getRole().equals(Role.SELLER)) {
+                if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
                     order.updateOrderStatus(OrderStatus.REFUSED, LocalDateTime.now());
-                } else if (order.getMember().getRole().equals(Role.CUSTOMER)) {
+                } else {
                     order.updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
                 }
 
-            } else if (order.getOrderStatus().equals(OrderStatus.ACCEPTED)
-                    || order.getOrderStatus().equals(OrderStatus.COOKING)) {
-                order.updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
+            } else {
+
+                if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
+                    order.updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
+                } else {
+                    throw new FailedToCancelOrderException(
+                            "주문이 진행 중인 경우 취소할 수 없습니다. 주문을 취소하려면 판매자에게 문의해야 합니다. 현재 주문 상태: "
+                                    + order.getOrderStatus()
+                    );
+                }
+
             }
 
         }
@@ -149,6 +180,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderResponseDto.setId(savedOrder.getId());
         orderResponseDto.setOrderTime(savedOrder.getOrderTime());
+        orderResponseDto.setEstimatedArrivalTime(savedOrder.getEstimatedArrivalTime());
         orderResponseDto.setOrderStatus(savedOrder.getOrderStatus());
 
         for (OrderMenu orderMenu : savedOrder.getOrderMenuList()) {
