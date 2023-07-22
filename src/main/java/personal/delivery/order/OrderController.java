@@ -52,7 +52,7 @@ public class OrderController {
 
     @PatchMapping("{id}")
     public ResponseEntity<OrderResponseDto> changeOrderStatus
-            (@PathVariable Long id, @RequestBody OrderStatusDto orderStatusDto) throws Exception {
+            (@PathVariable Long id, @Valid @RequestBody OrderStatusDto orderStatusDto) {
 
         OrderResponseDto orderResponseDto = orderService.changeOrderStatus(id, orderStatusDto);
 

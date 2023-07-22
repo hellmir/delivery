@@ -96,7 +96,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception {
+    public MenuResponseDto changeMenu(Long id, MenuDto menuDto) {
 
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 메뉴를 찾을 수 없습니다. (menuId: " + id + ")"));
@@ -133,7 +133,7 @@ public class MenuServiceImpl implements MenuService {
 
     }
 
-    public void deleteMenu(Long id) throws Exception {
+    public void deleteMenu(Long id) {
 
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 메뉴를 찾을 수 없습니다. (menuId: " + id + ")"));

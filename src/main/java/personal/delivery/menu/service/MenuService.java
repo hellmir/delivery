@@ -15,8 +15,8 @@ public interface MenuService {
 
     MenuResponseDto getMenu(Long id);
 
-    MenuResponseDto changeMenu(Long id, MenuDto menuDto) throws Exception;
+    MenuResponseDto changeMenu(Long id, MenuDto menuDto);
 
-    void deleteMenu(Long id) throws Exception;
+    void deleteMenu(Long id);
 
 }
