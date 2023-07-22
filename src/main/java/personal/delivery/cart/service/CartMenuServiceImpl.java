@@ -91,7 +91,7 @@ public class CartMenuServiceImpl implements CartMenuService {
     }
 
     @Override
-    public CartMenuResponseDto deleteCartMenu(CartMenuDto cartMenuDto) throws Exception {
+    public void deleteCartMenu(CartMenuDto cartMenuDto) throws Exception {
 
         CartMenu cartMenu = cartMenuRepository.findById(cartMenuDto.getCartMenuId())
                 .orElseThrow(() -> new EntityNotFoundException
@@ -127,16 +127,6 @@ public class CartMenuServiceImpl implements CartMenuService {
 
         cartMenuRepository.delete(cartMenu);
         deletedCartMenu = cartMenu;
-
-        CartMenuResponseDto cartMenuResponseDto = new CartMenuResponseDto();
-
-        cartMenuResponseDto.setId(deletedCartMenu.getId());
-        cartMenuResponseDto.setMenu(deletedCartMenu.getMenu());
-        cartMenuResponseDto.setMenuQuantity(deletedCartMenu.getMenuQuantity());
-        cartMenuResponseDto.setRegistrationTime(deletedCartMenu.getRegistrationTime());
-        cartMenuResponseDto.setUpdateTime(deletedCartMenu.getUpdateTime());
-
-        return cartMenuResponseDto;
 
     }
 

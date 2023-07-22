@@ -19,7 +19,7 @@ public interface CartMenuService {
 
     CartMenuResponseDto getCartMenu(Long id);
 
-    CartMenuResponseDto deleteCartMenu(CartMenuDto cartMenuDto) throws Exception;
+    void deleteCartMenu(CartMenuDto cartMenuDto) throws Exception;
 
     OrderResponseDto orderCartMenu(CartMenuDto cartMenuDto);
 
