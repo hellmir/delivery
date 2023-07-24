@@ -32,10 +32,9 @@ public class OrderMenu {
     @Column(nullable = false)
     private Integer totalMenuPrice;
 
-    private OrderMenu(Menu menu, Order order, Integer menuPrice, Integer orderQuantity) {
+    private OrderMenu(Menu menu, Integer menuPrice, Integer orderQuantity) {
 
         this.menu = menu;
-        this.order = order;
         this.menuPrice = menuPrice;
         this.orderQuantity = orderQuantity;
 
@@ -43,8 +42,11 @@ public class OrderMenu {
 
     }
 
-    public static OrderMenu createOrderMenu(Menu menu, Order order, Integer menuPrice, Integer orderQuantity) {
-        return new OrderMenu(menu, order, menuPrice, orderQuantity);
+    public static OrderMenu createOrderMenu(Menu menu, Integer menuPrice, Integer orderQuantity) {
+        return new OrderMenu(menu, menuPrice, orderQuantity);
     }
 
+    public void updateOrder(Order savedOrder) {
+        order = savedOrder;
+    }
 }
