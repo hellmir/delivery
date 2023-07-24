@@ -59,11 +59,13 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderBuilder.build();
 
-        List<OrderMenu> orderMenuList = orderMenuService.createOrderMenu(menuToOrderMap, order);
+        List<OrderMenu> orderMenuList = orderMenuService.createOrderMenu(menuToOrderMap);
 
         order = addOrderMenuListToOrder(orderBuilder, orderMenuList);
 
         Order savedOrder = orderRepository.save(order);
+
+        orderMenuService.updateOrderToOrderMenuList(orderMenuList, savedOrder);
 
         return setOrderResponseDto(savedOrder);
 
@@ -87,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
                 .totalOrderPrice(orderMenuList.stream().mapToInt(OrderMenu::getTotalMenuPrice).sum())
                 .build();
     }
-    
+
     @Override
     public OrderResponseDto gerOrder(OrderDto orderDto) {
 
