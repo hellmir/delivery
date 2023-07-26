@@ -1,5 +1,6 @@
 package personal.delivery.shop;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class ShopController {
     private final ShopService shopService;
 
     @PostMapping()
-    public ResponseEntity<ShopResponseDto> createShop(@RequestBody ShopDto shopDto) {
+    public ResponseEntity<ShopResponseDto> createShop(@Valid @RequestBody ShopDto shopDto) {
 
         ShopResponseDto shopResponseDto = shopService.saveShop(shopDto);
 
