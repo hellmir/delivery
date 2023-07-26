@@ -30,6 +30,8 @@ public class ShopService {
 
         validateAuthority(member);
 
+        validateShopIsExist(shopDto);
+
         Shop shop = Shop.builder()
                 .name(shopDto.getName())
                 .member(member)
@@ -61,6 +63,16 @@ public class ShopService {
 
         if (member.getRole().equals(Role.CUSTOMER)) {
             throw new IllegalArgumentException("권한이 없습니다. (role: " + member.getRole() + ")");
+        }
+
+    }
+
+    private void validateShopIsExist(ShopDto shopDto) {
+
+        Shop shop = shopRepository.findByName(shopDto.getName());
+
+        if (shop != null) {
+            throw new IllegalStateException("해당 가게가 이미 존재합니다. (shopName: " + shopDto.getName() + ")");
         }
 
     }
