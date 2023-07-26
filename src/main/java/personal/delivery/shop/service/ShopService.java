@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.config.BeanConfiguration;
 import personal.delivery.constant.Role;
 import personal.delivery.member.eneity.Member;
 import personal.delivery.member.repository.MemberRepository;
@@ -22,19 +21,14 @@ public class ShopService {
 
     private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
-    private final BeanConfiguration beanConfiguration;
 
     public ShopResponseDto saveShop(ShopDto shopDto) {
 
         Member member = memberRepository.findByEmail(shopDto.getEmail());
 
-        if (member == null) {
-            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + shopDto.getEmail() + ")");
-        }
+        validateMemberIsExist(shopDto, member);
 
-        if (member.getRole().equals(Role.CUSTOMER)) {
-            throw new IllegalArgumentException("권한이 없습니다. (role: " + member.getRole() + ")");
-        }
+        validateAuthority(member);
 
         Shop shop = Shop.builder()
                 .name(shopDto.getName())
@@ -52,6 +46,22 @@ public class ShopService {
         shopResponseDto.setRegistrationTime(savedShop.getRegistrationTime());
 
         return shopResponseDto;
+
+    }
+
+    private void validateMemberIsExist(ShopDto shopDto, Member member) {
+
+        if (member == null) {
+            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + shopDto.getEmail() + ")");
+        }
+
+    }
+
+    private void validateAuthority(Member member) {
+
+        if (member.getRole().equals(Role.CUSTOMER)) {
+            throw new IllegalArgumentException("권한이 없습니다. (role: " + member.getRole() + ")");
+        }
 
     }
 
