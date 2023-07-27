@@ -6,7 +6,7 @@ import personal.delivery.validation.group.OnCreate;
 
 // TODO: DTO 이름 변경
 @Data
-public class CartMenuDto {
+public class CartMenuRequestDto {
 
     @NotNull(message = "장바구니 ID는 필수값입니다.")
     private Long cartId;

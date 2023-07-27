@@ -3,7 +3,7 @@ package personal.delivery.cart.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.cart.dto.CartMenuDto;
+import personal.delivery.cart.dto.CartMenuRequestDto;
 import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
@@ -39,16 +39,16 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartMenuResponseDto addCart(CartMenuDto cartMenuDto) {
+    public CartMenuResponseDto addCart(CartMenuRequestDto cartMenuRequestDto) {
 
-        Menu menu = menuRepository.findById(cartMenuDto.getMenuId())
+        Menu menu = menuRepository.findById(cartMenuRequestDto.getMenuId())
                 .orElseThrow(() -> new IllegalArgumentException
-                        ("해당 메뉴를 찾을 수 없습니다. menuId: " + cartMenuDto.getMenuId()));
+                        ("해당 메뉴를 찾을 수 없습니다. menuId: " + cartMenuRequestDto.getMenuId()));
 
-        Member member = memberRepository.findByEmail(cartMenuDto.getEmail());
+        Member member = memberRepository.findByEmail(cartMenuRequestDto.getEmail());
 
         if (member == null) {
-            throw new IllegalArgumentException("해당 회원을 찾을 수 없습니다. email: " + cartMenuDto.getEmail());
+            throw new IllegalArgumentException("해당 회원을 찾을 수 없습니다. email: " + cartMenuRequestDto.getEmail());
         }
 
         Cart cart = cartRepository.findByMemberId(member.getId());
@@ -62,7 +62,7 @@ public class CartServiceImpl implements CartService {
 
         if (savedCartMenu != null) {
 
-            cartMenuService.addMenuQuantity(cartMenuDto.getMenuQuantity());
+            cartMenuService.addMenuQuantity(cartMenuRequestDto.getMenuQuantity());
 
             CartMenuResponseDto cartMenuResponseDto = beanConfiguration.modelMapper()
                     .map(savedCartMenu, CartMenuResponseDto.class);
@@ -71,7 +71,7 @@ public class CartServiceImpl implements CartService {
 
         } else {
 
-            CartMenu cartMenu = cartMenuService.createCartMenu(cart, menu, cartMenuDto.getMenuQuantity());
+            CartMenu cartMenu = cartMenuService.createCartMenu(cart, menu, cartMenuRequestDto.getMenuQuantity());
 
             CartMenu newCartMenu = cartMenuRepository.save(cartMenu);
 

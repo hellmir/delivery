@@ -1,6 +1,6 @@
 package personal.delivery.cart.service;
 
-import personal.delivery.cart.dto.CartMenuDto;
+import personal.delivery.cart.dto.CartMenuRequestDto;
 import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
@@ -19,8 +19,8 @@ public interface CartMenuService {
 
     CartMenuResponseDto getCartMenu(Long id);
 
-    void deleteCartMenu(CartMenuDto cartMenuDto);
+    void deleteCartMenu(CartMenuRequestDto cartMenuRequestDto);
 
-    OrderResponseDto orderCartMenu(CartMenuDto cartMenuDto);
+    OrderResponseDto orderCartMenu(CartMenuRequestDto cartMenuRequestDto);
 
 }
