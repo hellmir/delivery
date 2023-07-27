@@ -6,15 +6,17 @@
 ### 회원
 
 - **회원 가입**
-- **판매자 : /members/sellers** (Post method)
-- **고객 : /members/customers** (Post method)
-  <br>
+  - **판매자 : /members/sellers** (Post method)
+  - **고객 : /members/customers** (Post method)
 
 ### 가게
 
+- **가게 조회**
+  - **전체 가게 조회 : /shops** (Get method)
+  <br><br>
+  
 - **판매자**
   - **가게 등록 : /shops** (Post method)
-    <br>
 
 ### 메뉴
 
@@ -22,38 +24,38 @@
   - **전체 메뉴 조회 : /menu** (Get method)
   - **가게 전체 메뉴 조회 : /{shopId}/menu** (Get method)
   - **단일 메뉴 조회 : /{shopId}/menu/{id}** (Get method)
-    <br>
+    <br><br>
 
 - **판매자**
   - **메뉴 등록 : /{shopId}/menu** (Post method)
   - **메뉴 수정 : /{shopId}/menu** (Patch method)
   - **메뉴 삭제 : /{shopId}/menu/{id}** (Delete method)
-    <br>
 
 ### 주문
 
-- **주문 조회 : /orders** (Get method)
-  <br>
+- **주문 조회**
+  - **전체 주문 조회 : /orders** (Get method)
+    <br><br>
 
 - **판매자**
   - **주문 진행/거절 : /orders/{id}** (Patch method)
-    <br>
+    <br><br>
 
 - **고객**
   - **주문 생성 : /orders** (Post method)
   - **주문 취소 : /orders/{id}** (Patch method)
-    <br>
 
 ### 장바구니
 
 - **고객**
-  - **장바구니 담기 : /carts** (Post method)<br><br>
+  - **장바구니 담기 : /carts** (Post method)
+  <br><br>
   - **장바구니 메뉴 조회**
     - **장바구니 전체 메뉴 조회 : /carts** (Get method)
-    - **장바구니 단일 메뉴 조회 : /carts/{id}** (Get method)<br><br>
+    - **장바구니 단일 메뉴 조회 : /carts/{id}** (Get method)
+    <br><br>
   - **장바구니 메뉴 삭제 : /carts** (Delete method)
   - **장바구니 메뉴 주문 : /carts/orders** (Post method)
-    <br>
 
 ## Skill Set
 
