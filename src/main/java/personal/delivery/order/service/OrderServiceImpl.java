@@ -176,16 +176,16 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    private OrderResponseDto setOrderResponseDto(Order savedOrder) {
+    private OrderResponseDto setOrderResponseDto(Order order) {
 
         OrderResponseDto orderResponseDto = new OrderResponseDto();
 
-        orderResponseDto.setId(savedOrder.getId());
-        orderResponseDto.setOrderTime(savedOrder.getOrderTime());
-        orderResponseDto.setEstimatedArrivalTime(savedOrder.getEstimatedArrivalTime());
-        orderResponseDto.setOrderStatus(savedOrder.getOrderStatus());
+        orderResponseDto.setId(order.getId());
+        orderResponseDto.setOrderTime(order.getOrderTime());
+        orderResponseDto.setEstimatedArrivalTime(order.getEstimatedArrivalTime());
+        orderResponseDto.setOrderStatus(order.getOrderStatus());
 
-        for (OrderMenu orderMenu : savedOrder.getOrderMenuList()) {
+        for (OrderMenu orderMenu : order.getOrderMenuList()) {
 
             List<String> menuDetails = new ArrayList<>();
 
@@ -198,11 +198,11 @@ public class OrderServiceImpl implements OrderService {
 
         }
 
-        orderResponseDto.setTotalOrderPrice(savedOrder.getTotalOrderPrice());
-        orderResponseDto.setOrderRequest(savedOrder.getOrderRequest());
-        orderResponseDto.setDeliveryRequest(savedOrder.getDeliveryRequest());
-        orderResponseDto.setRegistrationTime(savedOrder.getRegistrationTime());
-        orderResponseDto.setUpdateTime(savedOrder.getUpdateTime());
+        orderResponseDto.setTotalOrderPrice(order.getTotalOrderPrice());
+        orderResponseDto.setOrderRequest(order.getOrderRequest());
+        orderResponseDto.setDeliveryRequest(order.getDeliveryRequest());
+        orderResponseDto.setRegistrationTime(order.getRegistrationTime());
+        orderResponseDto.setUpdateTime(order.getUpdateTime());
 
         return orderResponseDto;
 
