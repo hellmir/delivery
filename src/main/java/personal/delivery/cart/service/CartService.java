@@ -1,6 +1,6 @@
 package personal.delivery.cart.service;
 
-import personal.delivery.cart.dto.CartMenuDto;
+import personal.delivery.cart.dto.CartMenuRequestDto;
 import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.member.eneity.Member;
@@ -9,6 +9,6 @@ public interface CartService {
 
     Cart createCart(Member member);
 
-    CartMenuResponseDto addCart(CartMenuDto cartMenuDto);
+    CartMenuResponseDto addCart(CartMenuRequestDto cartMenuRequestDto);
 
 }

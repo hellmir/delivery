@@ -12,7 +12,7 @@ import personal.delivery.validation.group.OnUpdate;
 import java.util.List;
 
 @Data
-public class MenuDto {
+public class MenuRequestDto {
 
     private Long shopId;
 

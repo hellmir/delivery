@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.exception.OutOfStockException;
 import personal.delivery.menu.Menu;
-import personal.delivery.menu.dto.MenuDto;
+import personal.delivery.menu.dto.MenuRequestDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.repository.MenuRepository;
 import personal.delivery.shop.entity.Shop;
@@ -27,23 +27,23 @@ public class MenuServiceImpl implements MenuService {
     private final BeanConfiguration beanConfiguration;
 
     @Override
-    public MenuResponseDto saveMenu(Long shopId, MenuDto menuDto) {
+    public MenuResponseDto saveMenu(Long shopId, MenuRequestDto menuRequestDto) {
 
         Shop shop = shopRepository.findById(shopId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 가게를 찾을 수 없습니다. (shopId: " + shopId + ")"));
 
         Menu menu = Menu.builder()
                 .shop(shop)
-                .name(menuDto.getName())
-                .price(menuDto.getPrice())
+                .name(menuRequestDto.getName())
+                .price(menuRequestDto.getPrice())
                 .salesRate(0)
-                .stock(menuDto.getStock())
-                .flavor(menuDto.getFlavor())
-                .portions(menuDto.getPortions())
-                .cookingTime(menuDto.getCookingTime())
-                .menuType(menuDto.getMenuType())
-                .foodType(menuDto.getFoodType())
-                .menuOptions(menuDto.getMenuOptions())
+                .stock(menuRequestDto.getStock())
+                .flavor(menuRequestDto.getFlavor())
+                .portions(menuRequestDto.getPortions())
+                .cookingTime(menuRequestDto.getCookingTime())
+                .menuType(menuRequestDto.getMenuType())
+                .foodType(menuRequestDto.getFoodType())
+                .menuOptions(menuRequestDto.getMenuOptions())
                 .registrationTime(LocalDateTime.now())
                 .build();
 
@@ -96,12 +96,12 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuResponseDto changeMenu(Long id, MenuDto menuDto) {
+    public MenuResponseDto changeMenu(Long id, MenuRequestDto menuRequestDto) {
 
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 메뉴를 찾을 수 없습니다. (menuId: " + id + ")"));
 
-        int modifiedStock = menu.getStock() + menuDto.getStock();
+        int modifiedStock = menu.getStock() + menuRequestDto.getStock();
 
         if (modifiedStock < 0) {
             throw new OutOfStockException("재료 최소 수량: 0 (현재 재고: " + menu.getStock() + ")");
@@ -110,16 +110,16 @@ public class MenuServiceImpl implements MenuService {
         Menu changingMenu = Menu.builder()
                 .id(id)
                 .shop(menu.getShop())
-                .name(menuDto.getName() != null ? menuDto.getName() : menu.getName())
-                .price(menuDto.getPrice() > 0 ? menuDto.getPrice() : menu.getPrice())
-                .salesRate(menuDto.getSalesRate() == -1 ? 0 : menu.getSalesRate())
+                .name(menuRequestDto.getName() != null ? menuRequestDto.getName() : menu.getName())
+                .price(menuRequestDto.getPrice() > 0 ? menuRequestDto.getPrice() : menu.getPrice())
+                .salesRate(menuRequestDto.getSalesRate() == -1 ? 0 : menu.getSalesRate())
                 .stock(modifiedStock)
-                .flavor(menuDto.getFlavor() != null ? menuDto.getFlavor() : menu.getFlavor())
-                .portions(menuDto.getPortions() > 0 ? menuDto.getPortions() : menu.getPortions())
-                .cookingTime(menuDto.getCookingTime() > 0 ? menuDto.getCookingTime() : menu.getCookingTime())
-                .menuType(menuDto.getMenuType() != null ? menuDto.getMenuType() : menu.getMenuType())
-                .foodType(menuDto.getFoodType() != null ? menuDto.getFoodType() : menu.getFoodType())
-                .menuOptions(menuDto.getMenuOptions() != null ? menuDto.getMenuOptions() : menu.getMenuOptions())
+                .flavor(menuRequestDto.getFlavor() != null ? menuRequestDto.getFlavor() : menu.getFlavor())
+                .portions(menuRequestDto.getPortions() > 0 ? menuRequestDto.getPortions() : menu.getPortions())
+                .cookingTime(menuRequestDto.getCookingTime() > 0 ? menuRequestDto.getCookingTime() : menu.getCookingTime())
+                .menuType(menuRequestDto.getMenuType() != null ? menuRequestDto.getMenuType() : menu.getMenuType())
+                .foodType(menuRequestDto.getFoodType() != null ? menuRequestDto.getFoodType() : menu.getFoodType())
+                .menuOptions(menuRequestDto.getMenuOptions() != null ? menuRequestDto.getMenuOptions() : menu.getMenuOptions())
                 .registrationTime(menu.getRegistrationTime())
                 .updateTime(LocalDateTime.now())
                 .build();

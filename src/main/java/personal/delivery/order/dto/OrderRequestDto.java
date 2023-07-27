@@ -7,7 +7,7 @@ import personal.delivery.validation.group.OnCreate;
 import java.util.Map;
 
 @Data
-public class OrderDto {
+public class OrderRequestDto {
 
     @NotNull(message = "주문 ID는 필수값입니다.")
     private Long orderId;

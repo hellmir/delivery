@@ -8,7 +8,7 @@ import lombok.Data;
 import personal.delivery.member.eneity.Address;
 
 @Data
-public class MemberDto {
+public class MemberRequestDto {
 
     @NotBlank(message = "이름은 필수값입니다.")
     private String name;

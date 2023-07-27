@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.config.BeanConfiguration;
 import personal.delivery.constant.Role;
-import personal.delivery.member.dto.MemberDto;
+import personal.delivery.member.dto.MemberRequestDto;
 import personal.delivery.member.dto.MemberResponseDto;
 import personal.delivery.member.eneity.Member;
 import personal.delivery.member.repository.MemberRepository;
@@ -33,13 +33,13 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public MemberResponseDto createSeller(MemberDto memberDto) {
+    public MemberResponseDto createSeller(MemberRequestDto memberRequestDto) {
 
         Member member = Member.builder()
-                .name(memberDto.getName())
-                .email(memberDto.getEmail())
-                .password(memberDto.getPassword())
-                .address(memberDto.getAddress())
+                .name(memberRequestDto.getName())
+                .email(memberRequestDto.getEmail())
+                .password(memberRequestDto.getPassword())
+                .address(memberRequestDto.getAddress())
                 .role(Role.SELLER)
                 .registrationTime(LocalDateTime.now())
                 .build();
@@ -48,13 +48,13 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public MemberResponseDto createCustomer(MemberDto memberDto) {
+    public MemberResponseDto createCustomer(MemberRequestDto memberRequestDto) {
 
         Member member = Member.builder()
-                .name(memberDto.getName())
-                .email(memberDto.getEmail())
-                .password(memberDto.getPassword())
-                .address(memberDto.getAddress())
+                .name(memberRequestDto.getName())
+                .email(memberRequestDto.getEmail())
+                .password(memberRequestDto.getPassword())
+                .address(memberRequestDto.getAddress())
                 .role(Role.CUSTOMER)
                 .registrationTime(LocalDateTime.now())
                 .build();

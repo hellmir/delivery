@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderStatusDto {
+public class OrderStatusChangeDto {
 
     @NotBlank(message = "이메일 주소는 필수값입니다.")
     @Email(message = "이메일 주소 형식이 잘못되었습니다.")
