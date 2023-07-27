@@ -1,15 +1,15 @@
 package personal.delivery.order.service;
 
-import personal.delivery.order.dto.OrderDto;
+import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;
-import personal.delivery.order.dto.OrderStatusDto;
+import personal.delivery.order.dto.OrderStatusChangeDto;
 
 public interface OrderService {
 
-    OrderResponseDto takeOrder(OrderDto orderDto);
+    OrderResponseDto takeOrder(OrderRequestDto orderRequestDto);
 
-    OrderResponseDto gerOrder(OrderDto orderDto);
+    OrderResponseDto gerOrder(OrderRequestDto orderRequestDto);
 
-    OrderResponseDto changeOrderStatus(Long id, OrderStatusDto orderStatusDto);
+    OrderResponseDto changeOrderStatus(Long id, OrderStatusChangeDto orderStatusChangeDto);
 
 }

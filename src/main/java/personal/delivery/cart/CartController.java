@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import personal.delivery.cart.dto.CartMenuDto;
+import personal.delivery.cart.dto.CartMenuRequestDto;
 import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.service.CartMenuServiceImpl;
 import personal.delivery.cart.service.CartService;
@@ -27,9 +27,9 @@ public class CartController {
     private final CartMenuServiceImpl cartMenuService;
 
     @PostMapping()
-    public ResponseEntity<CartMenuResponseDto> addCartMenu(@Validated(OnCreate.class) @RequestBody CartMenuDto cartMenuDto) {
+    public ResponseEntity<CartMenuResponseDto> addCartMenu(@Validated(OnCreate.class) @RequestBody CartMenuRequestDto cartMenuRequestDto) {
 
-        CartMenuResponseDto cartMenuResponseDto = cartService.addCart(cartMenuDto);
+        CartMenuResponseDto cartMenuResponseDto = cartService.addCart(cartMenuRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -62,9 +62,9 @@ public class CartController {
 
     @DeleteMapping()
     public ResponseEntity<CartMenuResponseDto> deleteCartMenu
-            (@Valid @RequestBody CartMenuDto cartMenuDto) {
+            (@Valid @RequestBody CartMenuRequestDto cartMenuRequestDto) {
 
-        cartMenuService.deleteCartMenu(cartMenuDto);
+        cartMenuService.deleteCartMenu(cartMenuRequestDto);
 
         return ResponseEntity.noContent().build();
 
@@ -72,9 +72,9 @@ public class CartController {
 
     @PostMapping("orders")
     public ResponseEntity<OrderResponseDto> orderCartMenu
-            (@Valid @RequestBody CartMenuDto cartMenuDto) {
+            (@Valid @RequestBody CartMenuRequestDto cartMenuRequestDto) {
 
-        OrderResponseDto orderResponseDto = cartMenuService.orderCartMenu(cartMenuDto);
+        OrderResponseDto orderResponseDto = cartMenuService.orderCartMenu(cartMenuRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

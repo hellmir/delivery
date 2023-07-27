@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import personal.delivery.order.dto.OrderDto;
+import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;
-import personal.delivery.order.dto.OrderStatusDto;
+import personal.delivery.order.dto.OrderStatusChangeDto;
 import personal.delivery.order.service.OrderService;
 import personal.delivery.validation.group.OnCreate;
 
@@ -24,9 +24,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping()
-    public ResponseEntity<OrderResponseDto> createOrder(@Validated(OnCreate.class) @RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderResponseDto> createOrder(@Validated(OnCreate.class) @RequestBody OrderRequestDto orderRequestDto) {
 
-        OrderResponseDto orderResponseDto = orderService.takeOrder(orderDto);
+        OrderResponseDto orderResponseDto = orderService.takeOrder(orderRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -42,9 +42,9 @@ public class OrderController {
     }
 
     @GetMapping()
-    public ResponseEntity<OrderResponseDto> getOrder(@Valid @RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderResponseDto> getOrder(@Valid @RequestBody OrderRequestDto orderRequestDto) {
 
-        OrderResponseDto orderResponseDto = orderService.gerOrder(orderDto);
+        OrderResponseDto orderResponseDto = orderService.gerOrder(orderRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
 
@@ -52,9 +52,9 @@ public class OrderController {
 
     @PatchMapping("{id}")
     public ResponseEntity<OrderResponseDto> changeOrderStatus
-            (@PathVariable Long id, @Valid @RequestBody OrderStatusDto orderStatusDto) {
+            (@PathVariable Long id, @Valid @RequestBody OrderStatusChangeDto orderStatusChangeDto) {
 
-        OrderResponseDto orderResponseDto = orderService.changeOrderStatus(id, orderStatusDto);
+        OrderResponseDto orderResponseDto = orderService.changeOrderStatus(id, orderStatusChangeDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
 

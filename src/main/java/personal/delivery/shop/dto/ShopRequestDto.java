@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class ShopDto {
+public class ShopRequestDto {
 
     @NotBlank(message = "가게 이름은 필수값입니다.")
     private String name;

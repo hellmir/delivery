@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import personal.delivery.menu.dto.MenuDto;
+import personal.delivery.menu.dto.MenuRequestDto;
 import personal.delivery.menu.dto.MenuResponseDto;
 import personal.delivery.menu.service.MenuService;
 import personal.delivery.validation.group.OnCreate;
@@ -25,9 +25,9 @@ public class MenuController {
     private final MenuService menuService;
 
     @PostMapping("{shopId}/menu")
-    public ResponseEntity<MenuResponseDto> createMenu(@PathVariable Long shopId, @Validated(OnCreate.class) @RequestBody MenuDto menuDto) {
+    public ResponseEntity<MenuResponseDto> createMenu(@PathVariable Long shopId, @Validated(OnCreate.class) @RequestBody MenuRequestDto menuRequestDto) {
 
-        MenuResponseDto menuResponseDto = menuService.saveMenu(shopId, menuDto);
+        MenuResponseDto menuResponseDto = menuService.saveMenu(shopId, menuRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -71,9 +71,9 @@ public class MenuController {
 
     @PatchMapping("{shopId}/menu/{id}")
     public ResponseEntity<MenuResponseDto> changeMenu
-            (@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody MenuDto menuDto) {
+            (@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody MenuRequestDto menuRequestDto) {
 
-        MenuResponseDto menuResponseDto = menuService.changeMenu(id, menuDto);
+        MenuResponseDto menuResponseDto = menuService.changeMenu(id, menuRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
 

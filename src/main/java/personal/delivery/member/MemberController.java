@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import personal.delivery.member.dto.MemberDto;
+import personal.delivery.member.dto.MemberRequestDto;
 import personal.delivery.member.dto.MemberResponseDto;
 import personal.delivery.member.service.MemberService;
 
@@ -23,9 +23,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("sellers")
-    public ResponseEntity<MemberResponseDto> signUpSeller(@Valid @RequestBody MemberDto memberDto) {
+    public ResponseEntity<MemberResponseDto> signUpSeller(@Valid @RequestBody MemberRequestDto memberRequestDto) {
 
-        MemberResponseDto memberResponseDto = memberService.createSeller(memberDto);
+        MemberResponseDto memberResponseDto = memberService.createSeller(memberRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -41,9 +41,9 @@ public class MemberController {
     }
 
     @PostMapping("customers")
-    public ResponseEntity<MemberResponseDto> signUpCustomer(@Valid @RequestBody MemberDto memberDto) {
+    public ResponseEntity<MemberResponseDto> signUpCustomer(@Valid @RequestBody MemberRequestDto memberRequestDto) {
 
-        MemberResponseDto memberResponseDto = memberService.createCustomer(memberDto);
+        MemberResponseDto memberResponseDto = memberService.createCustomer(memberRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

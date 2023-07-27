@@ -36,6 +36,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleIllegalState(IllegalStateException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
     @ExceptionHandler(FailedToCancelOrderException.class)
     public ResponseEntity<String> handleFailedToCancelOrder(FailedToCancelOrderException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

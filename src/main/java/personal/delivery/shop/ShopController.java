@@ -3,27 +3,26 @@ package personal.delivery.shop;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import personal.delivery.shop.dto.ShopDto;
+import personal.delivery.shop.dto.ShopRequestDto;
 import personal.delivery.shop.dto.ShopResponseDto;
-import personal.delivery.shop.service.ShopService;
+import personal.delivery.shop.service.ShopServiceImpl;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("shops")
 @RequiredArgsConstructor
 public class ShopController {
 
-    private final ShopService shopService;
+    private final ShopServiceImpl shopService;
 
     @PostMapping()
-    public ResponseEntity<ShopResponseDto> createShop(@Valid @RequestBody ShopDto shopDto) {
+    public ResponseEntity<ShopResponseDto> createShop(@Valid @RequestBody ShopRequestDto shopDto) {
 
         ShopResponseDto shopResponseDto = shopService.saveShop(shopDto);
 
@@ -37,6 +36,15 @@ public class ShopController {
         headers.setLocation(location);
 
         return ResponseEntity.created(location).headers(headers).body(shopResponseDto);
+
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<ShopResponseDto>> getAllShops() {
+
+        List<ShopResponseDto> shopResponseDtoList = shopService.getAllShop();
+
+        return ResponseEntity.status(HttpStatus.OK).body(shopResponseDtoList);
 
     }
 
