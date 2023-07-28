@@ -1,4 +1,4 @@
-package personal.delivery.menu;
+package personal.delivery.menu.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -18,13 +18,13 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping()
+@RequestMapping("{shopId}/menus")
 @RequiredArgsConstructor
-public class MenuController {
+public class ShopMenuController {
 
     private final MenuService menuService;
 
-    @PostMapping("{shopId}/menu")
+    @PostMapping()
     public ResponseEntity<MenuResponseDto> createMenu(@PathVariable Long shopId, @Validated(OnCreate.class) @RequestBody MenuRequestDto menuRequestDto) {
 
         MenuResponseDto menuResponseDto = menuService.saveMenu(shopId, menuRequestDto);
@@ -42,16 +42,7 @@ public class MenuController {
 
     }
 
-    @GetMapping("menu")
-    public ResponseEntity<List<MenuResponseDto>> getAllMenu() {
-
-        List<MenuResponseDto> menuResponseDtoList = menuService.getAllMenu();
-
-        return ResponseEntity.status(HttpStatus.OK).body(menuResponseDtoList);
-
-    }
-
-    @GetMapping("{shopId}/menu")
+    @GetMapping()
     public ResponseEntity<List<MenuResponseDto>> getAllShopMenu(@PathVariable Long shopId) {
 
         List<MenuResponseDto> menuResponseDtoList = menuService.getAllShopMenu(shopId);
@@ -60,7 +51,7 @@ public class MenuController {
 
     }
 
-    @GetMapping("{shopId}/menu/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long id) {
 
         MenuResponseDto menuResponseDto = menuService.getMenu(id);
@@ -69,7 +60,7 @@ public class MenuController {
 
     }
 
-    @PatchMapping("{shopId}/menu/{id}")
+    @PatchMapping("{id}")
     public ResponseEntity<MenuResponseDto> changeMenu
             (@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody MenuRequestDto menuRequestDto) {
 
@@ -79,7 +70,7 @@ public class MenuController {
 
     }
 
-    @DeleteMapping("{shopId}/menu/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
 
         menuService.deleteMenu(id);

@@ -50,7 +50,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ShopResponseDto> getAllShop() {
+    public List<ShopResponseDto> getAllShops() {
 
         List<Shop> shopList = shopRepository.findAll();
 
@@ -61,6 +61,16 @@ public class ShopServiceImpl implements ShopService {
         }
 
         return shopResponseDtoList;
+
+    }
+
+    @Override
+    public ShopResponseDto getShop(Long id) {
+
+        Shop shop = shopRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당 가게를 찾을 수 없습니다. (shopId: " + id + ")"));
+
+        return setShopResponseDto(shop);
 
     }
 

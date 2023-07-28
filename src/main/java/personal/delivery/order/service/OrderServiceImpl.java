@@ -17,7 +17,7 @@ import personal.delivery.order.dto.OrderStatusChangeDto;
 import personal.delivery.order.entity.Order;
 import personal.delivery.order.entity.Order.OrderBuilder;
 import personal.delivery.order.entity.OrderMenu;
-import personal.delivery.order.repository.OrderRepository;
+import personal.delivery.order.OrderRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
