@@ -9,6 +9,6 @@ public interface ShopService {
 
     ShopResponseDto saveShop(ShopRequestDto shopDto);
 
-    List<ShopResponseDto> getAllShop();
+    List<ShopResponseDto> getAllShops();
 
 }

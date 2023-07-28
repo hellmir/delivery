@@ -50,7 +50,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ShopResponseDto> getAllShop() {
+    public List<ShopResponseDto> getAllShops() {
 
         List<Shop> shopList = shopRepository.findAll();
 

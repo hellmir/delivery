@@ -4,7 +4,6 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import personal.delivery.validation.group.OnCreate;
 
-// TODO: DTO 이름 변경
 @Data
 public class CartMenuRequestDto {
 
