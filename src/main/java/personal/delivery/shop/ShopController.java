@@ -42,7 +42,7 @@ public class ShopController {
     @GetMapping()
     public ResponseEntity<List<ShopResponseDto>> getAllShops() {
 
-        List<ShopResponseDto> shopResponseDtoList = shopService.getAllShop();
+        List<ShopResponseDto> shopResponseDtoList = shopService.getAllShops();
 
         return ResponseEntity.status(HttpStatus.OK).body(shopResponseDtoList);
 
