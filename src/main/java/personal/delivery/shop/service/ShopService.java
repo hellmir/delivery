@@ -11,4 +11,5 @@ public interface ShopService {
 
     List<ShopResponseDto> getAllShops();
 
+    ShopResponseDto getShop(Long id);
 }

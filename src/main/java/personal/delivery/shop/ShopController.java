@@ -48,4 +48,13 @@ public class ShopController {
 
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ShopResponseDto> getShop(@PathVariable Long id) {
+
+        ShopResponseDto shopResponseDto = shopService.getShop(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(shopResponseDto);
+
+    }
+
 }
