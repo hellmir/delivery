@@ -13,6 +13,7 @@
 
 - **가게 조회**
   - **전체 가게 조회 : /shops** (Get method)
+  - **단일 가게 조회 : /shops** (Get method)
   <br><br>
   
 - **판매자**
@@ -20,16 +21,17 @@
 
 ### 메뉴
 
-- **메뉴 조회**
-  - **전체 메뉴 조회 : /menu** (Get method)
-  - **가게 전체 메뉴 조회 : /{shopId}/menu** (Get method)
-  - **단일 메뉴 조회 : /{shopId}/menu/{id}** (Get method)
+- **전체 메뉴 조회 : /menus** (Get method)
+<br><br>
+- **가게 메뉴 조회**
+  - **가게 전체 메뉴 조회 : /{shopId}/menus** (Get method)
+  - **단일 메뉴 조회 : /{shopId}/menus/{id}** (Get method)
     <br><br>
 
 - **판매자**
-  - **메뉴 등록 : /{shopId}/menu** (Post method)
-  - **메뉴 수정 : /{shopId}/menu** (Patch method)
-  - **메뉴 삭제 : /{shopId}/menu/{id}** (Delete method)
+  - **메뉴 등록 : /{shopId}/menus** (Post method)
+  - **메뉴 수정 : /{shopId}/menus** (Patch method)
+  - **메뉴 삭제 : /{shopId}/menus/{id}** (Delete method)
 
 ### 주문
 
