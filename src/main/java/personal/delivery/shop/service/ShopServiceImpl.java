@@ -65,12 +65,21 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public ShopResponseDto getShop(Long id) {
+    public List<ShopResponseDto> getDistinctShops(String searchWord) {
 
-        Shop shop = shopRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("해당 가게를 찾을 수 없습니다. (shopId: " + id + ")"));
+        List<Shop> shopList = shopRepository.findByNameContaining(searchWord);
 
-        return setShopResponseDto(shop);
+        if (shopList.isEmpty()) {
+            throw new EntityNotFoundException("해당 검색어를 포함하는 가게가 없습니다. (name: " + searchWord + ")");
+        }
+
+        List<ShopResponseDto> shopResponseDtoList = new ArrayList<>();
+
+        for (Shop shop : shopList) {
+            shopResponseDtoList.add(setShopResponseDto(shop));
+        }
+
+        return shopResponseDtoList;
 
     }
 
