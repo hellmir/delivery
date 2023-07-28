@@ -48,12 +48,12 @@ public class ShopController {
 
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<ShopResponseDto> getShop(@PathVariable Long id) {
+    @GetMapping("search")
+    public ResponseEntity<List<ShopResponseDto>> getSearchedShops(@RequestParam String searchWord) {
 
-        ShopResponseDto shopResponseDto = shopService.getShop(id);
+        List<ShopResponseDto> shopResponseDtoList = shopService.getDistinctShops(searchWord);
 
-        return ResponseEntity.status(HttpStatus.OK).body(shopResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(shopResponseDtoList);
 
     }
 

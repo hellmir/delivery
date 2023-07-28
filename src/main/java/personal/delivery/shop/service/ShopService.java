@@ -11,5 +11,5 @@ public interface ShopService {
 
     List<ShopResponseDto> getAllShops();
 
-    ShopResponseDto getShop(Long id);
+    List<ShopResponseDto> getDistinctShops(String shopName);
 }
