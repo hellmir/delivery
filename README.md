@@ -13,7 +13,7 @@
 
 - **가게 조회**
   - **전체 가게 조회 : /shops** (Get method)
-  - **가게 검색 : /shops/search?searchWord=value** (Get method)
+  - **가게 검색 : /shops/searches?searchWord=value** (Get method)
   <br><br>
   
 - **판매자**
