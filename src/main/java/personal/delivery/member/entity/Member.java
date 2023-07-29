@@ -1,4 +1,4 @@
-package personal.delivery.member.eneity;
+package personal.delivery.member.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;

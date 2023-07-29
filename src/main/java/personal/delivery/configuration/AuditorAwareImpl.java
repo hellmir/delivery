@@ -1,4 +1,4 @@
-package personal.delivery.config;
+package personal.delivery.configuration;
 
 
 import org.springframework.data.domain.AuditorAware;
