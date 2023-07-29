@@ -1,13 +1,12 @@
-package personal.delivery.config;
+package personal.delivery.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import personal.delivery.cart.entity.Cart;
-import personal.delivery.member.eneity.Member;
+import personal.delivery.member.entity.Member;
 import personal.delivery.menu.Menu;
 import personal.delivery.order.entity.Order;
-import personal.delivery.order.entity.OrderMenu;
 
 @Configuration
 public class BeanConfiguration {
