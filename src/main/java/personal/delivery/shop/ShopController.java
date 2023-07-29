@@ -48,7 +48,7 @@ public class ShopController {
 
     }
 
-    @GetMapping("search")
+    @GetMapping("searches")
     public ResponseEntity<List<ShopResponseDto>> getSearchedShops(@RequestParam String searchWord) {
 
         List<ShopResponseDto> shopResponseDtoList = shopService.getDistinctShops(searchWord);
