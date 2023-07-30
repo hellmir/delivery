@@ -15,7 +15,7 @@ public class MemberResponseDto {
     private Address address;
     private Role role;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
+    private LocalDateTime registeredTime;
+    private LocalDateTime updatedTime;
 
 }

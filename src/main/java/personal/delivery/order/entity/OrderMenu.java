@@ -3,12 +3,15 @@ package personal.delivery.order.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.base.BaseEntity;
 import personal.delivery.menu.Menu;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class OrderMenu {
+public class OrderMenu extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -32,6 +35,9 @@ public class OrderMenu {
     @Column(nullable = false)
     private Integer totalMenuPrice;
 
+    private LocalDateTime registrationTime;
+    private LocalDateTime updateTime;
+
     private OrderMenu(Menu menu, Integer menuPrice, Integer orderQuantity) {
 
         this.menu = menu;
@@ -49,4 +55,5 @@ public class OrderMenu {
     public void updateOrder(Order savedOrder) {
         order = savedOrder;
     }
+
 }

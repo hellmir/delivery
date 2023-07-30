@@ -7,9 +7,10 @@ import java.time.LocalDateTime;
 @Data
 public class ShopResponseDto {
 
-    Long id;
-    String name;
-    String email;
-    LocalDateTime registrationTime;
+    private Long id;
+    private String name;
+    private String email;
+    private LocalDateTime registeredTime;
+    private LocalDateTime updatedTime;
 
 }

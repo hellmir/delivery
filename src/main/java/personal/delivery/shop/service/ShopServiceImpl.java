@@ -13,7 +13,6 @@ import personal.delivery.shop.dto.ShopResponseDto;
 import personal.delivery.shop.entity.Shop;
 import personal.delivery.shop.repository.ShopRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,6 @@ public class ShopServiceImpl implements ShopService {
         Shop shop = Shop.builder()
                 .name(shopDto.getName())
                 .member(member)
-                .registrationTime(LocalDateTime.now())
                 .build();
 
         Shop savedShop = shopRepository.save(shop);
@@ -117,7 +115,8 @@ public class ShopServiceImpl implements ShopService {
         shopResponseDto.setId(shop.getId());
         shopResponseDto.setName(shop.getName());
         shopResponseDto.setEmail(shop.getMember().getEmail());
-        shopResponseDto.setRegistrationTime(shop.getRegistrationTime());
+        shopResponseDto.setRegisteredTime(shop.getRegisteredTime());
+        shopResponseDto.setUpdatedTime(shop.getUpdatedTime());
 
         return shopResponseDto;
 

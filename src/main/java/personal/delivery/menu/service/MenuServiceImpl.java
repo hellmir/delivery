@@ -44,7 +44,6 @@ public class MenuServiceImpl implements MenuService {
                 .menuType(menuRequestDto.getMenuType())
                 .foodType(menuRequestDto.getFoodType())
                 .menuOptions(menuRequestDto.getMenuOptions())
-                .registrationTime(LocalDateTime.now())
                 .build();
 
         Menu savedMenu = menuRepository.save(menu);
@@ -116,11 +115,13 @@ public class MenuServiceImpl implements MenuService {
                 .stock(modifiedStock)
                 .flavor(menuRequestDto.getFlavor() != null ? menuRequestDto.getFlavor() : menu.getFlavor())
                 .portions(menuRequestDto.getPortions() > 0 ? menuRequestDto.getPortions() : menu.getPortions())
-                .cookingTime(menuRequestDto.getCookingTime() > 0 ? menuRequestDto.getCookingTime() : menu.getCookingTime())
+                .cookingTime(menuRequestDto.getCookingTime() > 0
+                        ? menuRequestDto.getCookingTime() : menu.getCookingTime())
                 .menuType(menuRequestDto.getMenuType() != null ? menuRequestDto.getMenuType() : menu.getMenuType())
                 .foodType(menuRequestDto.getFoodType() != null ? menuRequestDto.getFoodType() : menu.getFoodType())
-                .menuOptions(menuRequestDto.getMenuOptions() != null ? menuRequestDto.getMenuOptions() : menu.getMenuOptions())
-                .registrationTime(menu.getRegistrationTime())
+                .menuOptions(menuRequestDto.getMenuOptions() != null
+                        ? menuRequestDto.getMenuOptions() : menu.getMenuOptions())
+                .registrationTime((menu.getRegisteredTime()))
                 .updateTime(LocalDateTime.now())
                 .build();
 
@@ -128,6 +129,9 @@ public class MenuServiceImpl implements MenuService {
 
         MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
                 .map(changedMenu, MenuResponseDto.class);
+
+        menuResponseDto.setRegisteredTime(menu.getRegistrationTime());
+        menuResponseDto.setUpdatedTime(changedMenu.getUpdateTime());
 
         return menuResponseDto;
 

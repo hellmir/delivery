@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.base.BaseEntity;
 import personal.delivery.constant.OrderStatus;
 import personal.delivery.member.entity.Member;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,14 +49,13 @@ public class Order {
     @Column(length = 200)
     private String deliveryRequest;
 
-    @Column(nullable = false)
     private LocalDateTime registrationTime;
-
     private LocalDateTime updateTime;
 
     @Builder
-    public Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member, List<OrderMenu> orderMenuList,
-                 int totalOrderPrice, String orderRequest, String deliveryRequest, LocalDateTime registrationTime) {
+    private Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member, List<OrderMenu> orderMenuList,
+                 int totalOrderPrice, String orderRequest, String deliveryRequest,
+                  LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
@@ -65,14 +65,12 @@ public class Order {
         this.orderRequest = orderRequest;
         this.deliveryRequest = deliveryRequest;
         this.registrationTime = registrationTime;
+        this.updateTime = updateTime;
 
     }
 
-    public void updateOrderStatus(OrderStatus orderStatus, LocalDateTime updateTime) {
-
+    public void updateOrderStatus(OrderStatus orderStatus, LocalDateTime updatedTime) {
         this.orderStatus = orderStatus;
-        this.updateTime = updateTime;
-
     }
 
     public void updateEstimatedArrivalTime(Integer estimatedRequiredTime) {

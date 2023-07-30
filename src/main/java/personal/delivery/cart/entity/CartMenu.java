@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+import personal.delivery.base.BaseEntity;
 import personal.delivery.menu.Menu;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "cart_menu")
 @Component
 @NoArgsConstructor
-public class CartMenu {
+public class CartMenu extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -32,34 +33,24 @@ public class CartMenu {
     @Column(nullable = false)
     private Integer menuQuantity;
 
-    @Column(nullable = false)
     private LocalDateTime registrationTime;
-
     private LocalDateTime updateTime;
 
     @Builder
-    public CartMenu(Long id, Cart cart, Menu menu, Integer menuQuantity, LocalDateTime registrationTime, LocalDateTime updateTime) {
+    private CartMenu(Long id, Cart cart, Menu menu, Integer menuQuantity,
+                     LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.cart = cart;
         this.menu = menu;
         this.menuQuantity = menuQuantity;
         this.registrationTime = registrationTime;
-
-    }
-
-    public void createCartMenu(Cart cart, Menu menu, int menuQuantity, LocalDateTime registrationTime) {
-
-        this.cart = cart;
-        this.menu = menu;
-        this.menuQuantity = menuQuantity;
-        this.registrationTime = registrationTime;
-
-    }
-
-    public void updateMenuQuantity(Integer menuQuantity, LocalDateTime updateTime) {
-
-        this.menuQuantity = menuQuantity;
         this.updateTime = updateTime;
+
+    }
+
+    public void updateMenuQuantity(Integer menuQuantity) {
+        this.menuQuantity = menuQuantity;
+
 
     }
 

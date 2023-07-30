@@ -5,13 +5,17 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.base.BaseEntity;
 import personal.delivery.member.entity.Member;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Table(name = "cart")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Cart {
+@NoArgsConstructor
+public class Cart extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +26,16 @@ public class Cart {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private LocalDateTime registrationTime;
+    private LocalDateTime updateTime;
+
     @Builder
-    public Cart(Member member) {
+    private Cart(Member member, LocalDateTime registrationTime, LocalDateTime updateTime) {
+
         this.member = member;
+        this.registrationTime = registrationTime;
+        this.updateTime = updateTime;
+
     }
 
 }

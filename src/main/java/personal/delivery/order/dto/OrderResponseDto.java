@@ -20,8 +20,8 @@ public class OrderResponseDto {
     private String orderRequest;
     private String deliveryRequest;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
+    private LocalDateTime registeredTime;
+    private LocalDateTime updatedTime;
 
     public void addMenuDetails(List<String> menuDetails) {
         menuDetailsList.add(menuDetails);

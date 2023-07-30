@@ -10,8 +10,6 @@ import personal.delivery.member.dto.MemberResponseDto;
 import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
 
-import java.time.LocalDateTime;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -19,19 +17,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BeanConfiguration beanConfiguration;
-
-    public MemberResponseDto saveMember(Member member) {
-
-        validateDuplicateMember(member);
-
-        Member savedMember = memberRepository.save(member);
-
-        MemberResponseDto memberResponseDto = beanConfiguration.modelMapper()
-                .map(savedMember, MemberResponseDto.class);
-
-        return memberResponseDto;
-
-    }
 
     public MemberResponseDto createSeller(MemberRequestDto memberRequestDto) {
 
@@ -41,7 +26,6 @@ public class MemberServiceImpl implements MemberService {
                 .password(memberRequestDto.getPassword())
                 .address(memberRequestDto.getAddress())
                 .role(Role.SELLER)
-                .registrationTime(LocalDateTime.now())
                 .build();
 
         return saveMember(member);
@@ -56,10 +40,22 @@ public class MemberServiceImpl implements MemberService {
                 .password(memberRequestDto.getPassword())
                 .address(memberRequestDto.getAddress())
                 .role(Role.CUSTOMER)
-                .registrationTime(LocalDateTime.now())
                 .build();
 
         return saveMember(member);
+
+    }
+
+    private MemberResponseDto saveMember(Member member) {
+
+        validateDuplicateMember(member);
+
+        Member savedMember = memberRepository.save(member);
+
+        MemberResponseDto memberResponseDto = beanConfiguration.modelMapper()
+                .map(savedMember, MemberResponseDto.class);
+
+        return memberResponseDto;
 
     }
 

@@ -3,6 +3,7 @@ package personal.delivery.menu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import personal.delivery.constant.MenuType;
 import personal.delivery.constant.StockStatus;
 import personal.delivery.shop.entity.Shop;
 
@@ -24,12 +25,12 @@ public class MenuResponseDto {
     private String flavor;
     private int portions;
     private int cookingTime;
-    private String menuType;
+    private MenuType menuType;
     private String foodType;
     private boolean isPopularMenu;
-    private List<String> menuOption;
+    private List<String> menuOptions;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
+    private LocalDateTime registeredTime;
+    private LocalDateTime updatedTime;
 
 }
