@@ -47,36 +47,57 @@ public class CartServiceImpl implements CartService {
 
         Member member = memberRepository.findByEmail(cartMenuRequestDto.getEmail());
 
+        validateMemberIsExist(cartMenuRequestDto, member);
+
+        Cart cart = cartRepository.findByMemberId(member.getId());
+
+        Cart existingCart = checkCartIsExist(cart, member);
+
+        CartMenu cartMenu = cartMenuRepository.findByCartIdAndMenuId(existingCart.getId(), menu.getId());
+
+        return checkCartMenuIsExist(cartMenuRequestDto, menu, cart, cartMenu);
+
+    }
+
+    private void validateMemberIsExist(CartMenuRequestDto cartMenuRequestDto, Member member) {
+
         if (member == null) {
             throw new IllegalArgumentException("해당 회원을 찾을 수 없습니다. email: " + cartMenuRequestDto.getEmail());
         }
 
-        Cart cart = cartRepository.findByMemberId(member.getId());
+    }
+
+    private Cart checkCartIsExist(Cart cart, Member member) {
 
         if (cart == null) {
             cart = createCart(member);
             cartRepository.save(cart);
         }
 
-        CartMenu savedCartMenu = cartMenuRepository.findByCartIdAndMenuId(cart.getId(), menu.getId());
+        return cart;
 
-        if (savedCartMenu != null) {
+    }
+
+    private CartMenuResponseDto checkCartMenuIsExist
+            (CartMenuRequestDto cartMenuRequestDto, Menu menu, Cart cart, CartMenu cartMenu) {
+
+        if (cartMenu != null) {
 
             cartMenuService.addMenuQuantity(cartMenuRequestDto.getMenuQuantity());
 
             CartMenuResponseDto cartMenuResponseDto = beanConfiguration.modelMapper()
-                    .map(savedCartMenu, CartMenuResponseDto.class);
+                    .map(cartMenu, CartMenuResponseDto.class);
 
             return cartMenuResponseDto;
 
         } else {
 
-            CartMenu cartMenu = cartMenuService.createCartMenu(cart, menu, cartMenuRequestDto.getMenuQuantity());
+            CartMenu newCartMenu = cartMenuService.createCartMenu(cart, menu, cartMenuRequestDto.getMenuQuantity());
 
-            CartMenu newCartMenu = cartMenuRepository.save(cartMenu);
+            CartMenu savedCartMenu = cartMenuRepository.save(cartMenu);
 
             CartMenuResponseDto cartMenuResponseDto = beanConfiguration.modelMapper()
-                    .map(newCartMenu, CartMenuResponseDto.class);
+                    .map(savedCartMenu, CartMenuResponseDto.class);
 
             return cartMenuResponseDto;
 
