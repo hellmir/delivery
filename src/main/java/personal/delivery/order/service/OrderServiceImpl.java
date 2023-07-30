@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.constant.OrderStatus;
 import personal.delivery.constant.Role;
 import personal.delivery.exception.FailedToCancelOrderException;
-import personal.delivery.member.eneity.Member;
+import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.repository.MenuRepository;
@@ -78,8 +78,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderStatus(OrderStatus.WAITING)
                 .member(member)
                 .orderRequest(orderRequestDto.getOrderRequest())
-                .deliveryRequest(orderRequestDto.getDeliveryRequest())
-                .registrationTime(LocalDateTime.now());
+                .deliveryRequest(orderRequestDto.getDeliveryRequest());
 
     }
 
@@ -201,8 +200,8 @@ public class OrderServiceImpl implements OrderService {
         orderResponseDto.setTotalOrderPrice(order.getTotalOrderPrice());
         orderResponseDto.setOrderRequest(order.getOrderRequest());
         orderResponseDto.setDeliveryRequest(order.getDeliveryRequest());
-        orderResponseDto.setRegistrationTime(order.getRegistrationTime());
-        orderResponseDto.setUpdateTime(order.getUpdateTime());
+        orderResponseDto.setRegisteredTime(order.getRegisteredTime());
+        orderResponseDto.setUpdatedTime(order.getUpdatedTime());
 
         return orderResponseDto;
 

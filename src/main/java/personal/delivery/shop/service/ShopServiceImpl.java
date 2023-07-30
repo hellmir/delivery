@@ -4,16 +4,15 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.config.BeanConfiguration;
+import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.constant.Role;
-import personal.delivery.member.eneity.Member;
+import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.shop.dto.ShopRequestDto;
 import personal.delivery.shop.dto.ShopResponseDto;
 import personal.delivery.shop.entity.Shop;
 import personal.delivery.shop.repository.ShopRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,6 @@ public class ShopServiceImpl implements ShopService {
         Shop shop = Shop.builder()
                 .name(shopDto.getName())
                 .member(member)
-                .registrationTime(LocalDateTime.now())
                 .build();
 
         Shop savedShop = shopRepository.save(shop);
@@ -117,7 +115,8 @@ public class ShopServiceImpl implements ShopService {
         shopResponseDto.setId(shop.getId());
         shopResponseDto.setName(shop.getName());
         shopResponseDto.setEmail(shop.getMember().getEmail());
-        shopResponseDto.setRegistrationTime(shop.getRegistrationTime());
+        shopResponseDto.setRegisteredTime(shop.getRegisteredTime());
+        shopResponseDto.setUpdatedTime(shop.getUpdatedTime());
 
         return shopResponseDto;
 

@@ -8,7 +8,7 @@ import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.cart.repository.CartMenuRepository;
-import personal.delivery.config.BeanConfiguration;
+import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.menu.Menu;
 import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;
@@ -32,20 +32,17 @@ public class CartMenuServiceImpl implements CartMenuService {
     @Override
     public CartMenu createCartMenu(Cart cart, Menu menu, int menuQuantity) {
 
-        CartMenu cartMenu = CartMenu.builder()
+        return CartMenu.builder()
                 .cart(cart)
                 .menu(menu)
                 .menuQuantity(menuQuantity)
-                .registrationTime(LocalDateTime.now())
                 .build();
-
-        return cartMenu;
 
     }
 
     public void addMenuQuantity(int menuQuantity) {
 
-        cartMenu.updateMenuQuantity(cartMenu.getMenuQuantity() + menuQuantity, LocalDateTime.now());
+        cartMenu.updateMenuQuantity(cartMenu.getMenuQuantity() + menuQuantity);
 
     }
 
@@ -62,8 +59,8 @@ public class CartMenuServiceImpl implements CartMenuService {
             cartMenuResponseDto.setId(cartMenu.getId());
             cartMenuResponseDto.setMenu(cartMenu.getMenu());
             cartMenuResponseDto.setMenuQuantity(cartMenu.getMenuQuantity());
-            cartMenuResponseDto.setRegistrationTime(cartMenu.getRegistrationTime());
-            cartMenuResponseDto.setUpdateTime(cartMenu.getUpdateTime());
+            cartMenuResponseDto.setRegisteredTime(cartMenu.getRegisteredTime());
+            cartMenuResponseDto.setUpdatedTime(cartMenu.getUpdatedTime());
 
             cartMenuResponseDtoList.add(cartMenuResponseDto);
 
@@ -123,10 +120,7 @@ public class CartMenuServiceImpl implements CartMenuService {
                             + cartMenuRequestDto.getEmail() + ", 장바구니 회원 email: " + memberEmail + ")");
         }
 
-        CartMenu deletedCartMenu;
-
         cartMenuRepository.delete(cartMenu);
-        deletedCartMenu = cartMenu;
 
     }
 
