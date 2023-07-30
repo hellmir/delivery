@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.base.BaseEntity;
 import personal.delivery.constant.MenuType;
 import personal.delivery.constant.StockStatus;
 import personal.delivery.exception.OutOfStockException;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "menu")
-public class Menu {
+public class Menu extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,13 +59,11 @@ public class Menu {
     private Boolean isPopularMenu;
     private List<String> menuOptions;
 
-    @Column(nullable = false)
     private LocalDateTime registrationTime;
-
     private LocalDateTime updateTime;
 
     @Builder
-    public Menu(Long id, Shop shop, String name, Integer price, Integer salesRate, Integer stock,
+    private Menu(Long id, Shop shop, String name, Integer price, Integer salesRate, Integer stock,
                 String flavor, Integer portions, Integer cookingTime, MenuType menuType,
                 String foodType, Boolean isPopularMenu, List<String> menuOptions,
                 LocalDateTime registrationTime, LocalDateTime updateTime) {
@@ -88,6 +87,7 @@ public class Menu {
         this.menuOptions = menuOptions;
         this.registrationTime = registrationTime;
         this.updateTime = updateTime;
+
 
     }
 

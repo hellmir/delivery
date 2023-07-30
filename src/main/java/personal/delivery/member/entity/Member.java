@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import personal.delivery.base.BaseEntity;
 import personal.delivery.constant.Role;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @Column(name = "member_id")
@@ -35,14 +36,12 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(nullable = false)
-    LocalDateTime registrationTime;
-
-    LocalDateTime updateTime;
+    private LocalDateTime registrationTime;
+    private LocalDateTime updateTime;
 
     @Builder
-    public Member(String name, String email, String password, Address address, Role role,
-                  LocalDateTime registrationTime, LocalDateTime updateTime) {
+    private Member(String name, String email, String password, Address address, Role role,
+                   LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.name = name;
         this.email = email;
@@ -53,6 +52,7 @@ public class Member {
         this.address = inputAddress;
 
         this.role = role;
+
         this.registrationTime = registrationTime;
         this.updateTime = updateTime;
 

@@ -78,8 +78,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderStatus(OrderStatus.WAITING)
                 .member(member)
                 .orderRequest(orderRequestDto.getOrderRequest())
-                .deliveryRequest(orderRequestDto.getDeliveryRequest())
-                .registrationTime(LocalDateTime.now());
+                .deliveryRequest(orderRequestDto.getDeliveryRequest());
 
     }
 
@@ -201,8 +200,8 @@ public class OrderServiceImpl implements OrderService {
         orderResponseDto.setTotalOrderPrice(order.getTotalOrderPrice());
         orderResponseDto.setOrderRequest(order.getOrderRequest());
         orderResponseDto.setDeliveryRequest(order.getDeliveryRequest());
-        orderResponseDto.setRegistrationTime(order.getRegistrationTime());
-        orderResponseDto.setUpdateTime(order.getUpdateTime());
+        orderResponseDto.setRegisteredTime(order.getRegisteredTime());
+        orderResponseDto.setUpdatedTime(order.getUpdatedTime());
 
         return orderResponseDto;
 
