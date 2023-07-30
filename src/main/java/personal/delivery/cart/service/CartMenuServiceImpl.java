@@ -8,7 +8,7 @@ import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.cart.repository.CartMenuRepository;
-import personal.delivery.config.BeanConfiguration;
+import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.menu.Menu;
 import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;

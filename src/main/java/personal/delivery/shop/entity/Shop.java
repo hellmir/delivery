@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import personal.delivery.member.eneity.Member;
+import personal.delivery.base.BaseEntity;
+import personal.delivery.member.entity.Member;
 
 import java.time.LocalDateTime;
 

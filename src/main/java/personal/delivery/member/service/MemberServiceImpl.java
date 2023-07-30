@@ -3,11 +3,11 @@ package personal.delivery.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.config.BeanConfiguration;
+import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.constant.Role;
 import personal.delivery.member.dto.MemberRequestDto;
 import personal.delivery.member.dto.MemberResponseDto;
-import personal.delivery.member.eneity.Member;
+import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
