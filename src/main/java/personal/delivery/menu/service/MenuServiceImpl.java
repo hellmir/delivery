@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.config.BeanConfiguration;
+import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.exception.OutOfStockException;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.dto.MenuRequestDto;

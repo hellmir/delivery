@@ -2,7 +2,7 @@ package personal.delivery.member.dto;
 
 import lombok.Data;
 import personal.delivery.constant.Role;
-import personal.delivery.member.eneity.Address;
+import personal.delivery.member.entity.Address;
 
 import java.time.LocalDateTime;
 
