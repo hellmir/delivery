@@ -1,7 +1,6 @@
 package personal.delivery.cart.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "cart")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 public class Cart extends BaseEntity {
 

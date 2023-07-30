@@ -33,7 +33,7 @@ public class BeanConfiguration {
 
     @Bean
     public Cart cart() {
-        return new Cart(member());
+        return new Cart();
     }
 
 }
