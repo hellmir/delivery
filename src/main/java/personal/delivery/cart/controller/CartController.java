@@ -1,4 +1,4 @@
-package personal.delivery.cart;
+package personal.delivery.cart.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("carts")
+@RequestMapping("members/{memberId}/carts")
 @RequiredArgsConstructor
 public class CartController {
 
@@ -27,7 +27,8 @@ public class CartController {
     private final CartMenuServiceImpl cartMenuService;
 
     @PostMapping()
-    public ResponseEntity<CartMenuResponseDto> addCartMenu(@Validated(OnCreate.class) @RequestBody CartMenuRequestDto cartMenuRequestDto) {
+    public ResponseEntity<CartMenuResponseDto> addCartMenu
+            (@Validated(OnCreate.class) @RequestBody CartMenuRequestDto cartMenuRequestDto) {
 
         CartMenuResponseDto cartMenuResponseDto = cartService.addCart(cartMenuRequestDto);
 

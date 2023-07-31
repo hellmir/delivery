@@ -1,4 +1,4 @@
-package personal.delivery.order;
+package personal.delivery.order.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import personal.delivery.order.entity.Order;

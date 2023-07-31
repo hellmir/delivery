@@ -59,7 +59,7 @@
   - **장바구니 메뉴 삭제 : /carts** (Delete method)
   - **장바구니 메뉴 주문 : /carts/orders** (Post method)
 
-## Skill Set
+## Skills
 
 - Java 17
 - Spring Boot 3.0.4
@@ -70,5 +70,5 @@
 
 ## ERD
 
-![ERD](https://github.com/hellmir/delivery/assets/128391669/dacdca7c-36d5-406d-bb57-3f6c5b7ad598)
+![ERD](https://github.com/hellmir/delivery/assets/128391669/e8a06ed4-6968-41a3-8721-072877f8e32e)
 

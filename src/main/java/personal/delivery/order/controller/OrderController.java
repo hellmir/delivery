@@ -1,4 +1,4 @@
-package personal.delivery.order;
+package personal.delivery.order.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +17,16 @@ import personal.delivery.validation.group.OnCreate;
 import java.net.URI;
 
 @RestController
-@RequestMapping("orders")
+@RequestMapping("shops/{shopId}/orders")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
     @PostMapping()
-    public ResponseEntity<OrderResponseDto> createOrder(@Validated(OnCreate.class) @RequestBody OrderRequestDto orderRequestDto) {
+    public ResponseEntity<OrderResponseDto> createOrder
+            (@PathVariable Long shopId,
+             @Validated(OnCreate.class) @RequestBody OrderRequestDto orderRequestDto) {
 
         OrderResponseDto orderResponseDto = orderService.takeOrder(orderRequestDto);
 

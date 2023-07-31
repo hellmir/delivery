@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import personal.delivery.base.BaseEntity;
 import personal.delivery.constant.OrderStatus;
 import personal.delivery.member.entity.Member;
+import personal.delivery.shop.entity.Shop;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,6 +35,10 @@ public class Order extends BaseEntity {
     private OrderStatus orderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member-id")
+    private Shop shop;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -53,9 +58,9 @@ public class Order extends BaseEntity {
     private LocalDateTime updateTime;
 
     @Builder
-    private Order(LocalDateTime orderTime, OrderStatus orderStatus, Member member, List<OrderMenu> orderMenuList,
-                 int totalOrderPrice, String orderRequest, String deliveryRequest,
-                  LocalDateTime registrationTime, LocalDateTime updateTime) {
+    private Order(LocalDateTime orderTime, OrderStatus orderStatus, Shop shop, Member member,
+                  List<OrderMenu> orderMenuList, int totalOrderPrice, String orderRequest,
+                  String deliveryRequest, LocalDateTime registrationTime, LocalDateTime updateTime) {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
