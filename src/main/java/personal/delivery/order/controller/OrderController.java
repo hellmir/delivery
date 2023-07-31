@@ -1,4 +1,4 @@
-package personal.delivery.order;
+package personal.delivery.order.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
