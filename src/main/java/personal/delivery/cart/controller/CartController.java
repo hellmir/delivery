@@ -1,4 +1,4 @@
-package personal.delivery.cart;
+package personal.delivery.cart.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
