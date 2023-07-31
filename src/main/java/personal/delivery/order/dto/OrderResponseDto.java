@@ -12,6 +12,7 @@ import java.util.List;
 public class OrderResponseDto {
 
     private Long id;
+    private String shopName;
     private LocalDateTime orderTime;
     private LocalTime estimatedArrivalTime;
     private OrderStatus orderStatus;
