@@ -18,14 +18,15 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("{shopId}/menus")
+@RequestMapping("shops/{shopId}/menus")
 @RequiredArgsConstructor
 public class ShopMenuController {
 
     private final MenuService menuService;
 
     @PostMapping()
-    public ResponseEntity<MenuResponseDto> createMenu(@PathVariable Long shopId, @Validated(OnCreate.class) @RequestBody MenuRequestDto menuRequestDto) {
+    public ResponseEntity<MenuResponseDto> createMenu
+            (@PathVariable Long shopId, @Validated(OnCreate.class) @RequestBody MenuRequestDto menuRequestDto) {
 
         MenuResponseDto menuResponseDto = menuService.saveMenu(shopId, menuRequestDto);
 
