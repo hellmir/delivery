@@ -8,13 +8,11 @@ import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.cart.repository.CartMenuRepository;
-import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.menu.Menu;
 import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.service.OrderService;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +24,6 @@ public class CartMenuServiceImpl implements CartMenuService {
 
     private final CartMenu cartMenu;
     private final CartMenuRepository cartMenuRepository;
-    private final BeanConfiguration beanConfiguration;
     private final OrderService orderService;
 
     @Override
@@ -108,16 +105,16 @@ public class CartMenuServiceImpl implements CartMenuService {
                             + cartMenuRequestDto.getCartId() + ", 삭제 요청 메뉴의 cartID: " + cartId + ")");
         }
 
-        String memberEmail = cartMenu.getCart().getMember().getEmail();
+        Long memberId = cartMenu.getCart().getMember().getId();
 
-        if (memberEmail == null) {
+        if (memberId == null) {
             throw new EntityNotFoundException
                     ("해당 장바구니의 회원을 찾을 수 없습니다. (cartId: "
-                            + cartMenu.getCart().getId() + ", memberEmail: null)");
-        } else if (!memberEmail.equals(cartMenuRequestDto.getEmail())) {
+                            + cartMenu.getCart().getId() + ", memberId: null)");
+        } else if (!memberId.equals(cartMenuRequestDto.getMemberId())) {
             throw new EntityNotFoundException
-                    ("삭제 요청 이메일 주소가 해당 장바구니 회원의 이메일 주소와 일치하지 않습니다. (입력한 email: "
-                            + cartMenuRequestDto.getEmail() + ", 장바구니 회원 email: " + memberEmail + ")");
+                    ("삭제 요청 회원의 ID가 해당 장바구니 회원의 ID와 일치하지 않습니다. (요청 ID: "
+                            + cartMenuRequestDto.getMemberId() + ", 장바구니 회원 ID: " + memberId + ")");
         }
 
         cartMenuRepository.delete(cartMenu);
@@ -133,23 +130,23 @@ public class CartMenuServiceImpl implements CartMenuService {
                 .orElseThrow(() -> new EntityNotFoundException
                         ("해당 장바구니 메뉴를 찾을 수 없습니다. (cartMenuId: " + cartMenuRequestDto.getCartMenuId() + ")"));
 
-        String memberEmail = cartMenuToOrder.getCart().getMember().getEmail();
+        Long memberId = cartMenu.getCart().getMember().getId();
 
-        if (memberEmail == null) {
+        if (memberId == null) {
             throw new EntityNotFoundException
                     ("해당 장바구니의 회원을 찾을 수 없습니다. (cartId: "
-                            + cartMenuToOrder.getCart().getId() + ", memberEmail: null)");
-        } else if (!memberEmail.equals(cartMenuRequestDto.getEmail())) {
+                            + cartMenuToOrder.getCart().getId() + ", memberId: null)");
+        } else if (!memberId.equals(cartMenuRequestDto.getMemberId())) {
             throw new EntityNotFoundException
-                    ("주문 요청 이메일 주소가 해당 장바구니 회원의 이메일 주소와 일치하지 않습니다. (입력한 이메일 주소: "
-                            + cartMenuRequestDto.getEmail() + ", 장바구니 회원 이메일 주소: " + memberEmail + ")");
+                    ("주문 요청 회원의 ID가 해당 장바구니 회원의 ID와 일치하지 않습니다. (입력한 이메일 주소: "
+                            + cartMenuRequestDto.getMemberId() + ", 장바구니 회원 이메일 주소: " + memberId + ")");
         }
 
         Map<Long, Integer> menuIdAndQuantityMap = new HashMap<>();
         menuIdAndQuantityMap.put(cartMenuToOrder.getMenu().getId(), cartMenuToOrder.getMenuQuantity());
         orderRequestDto.setMenuIdAndQuantityMap(menuIdAndQuantityMap);
 
-        orderRequestDto.setEmail(memberEmail);
+        orderRequestDto.setMemberId(orderRequestDto.getMemberId());
 
         OrderResponseDto cartMenuOrder = orderService.takeOrder(orderRequestDto);
 
