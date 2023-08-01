@@ -1,7 +1,6 @@
 package personal.delivery.cart.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,7 @@ public class CartMenu extends BaseEntity {
     @Column(name = "cart_menu_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
@@ -30,28 +29,32 @@ public class CartMenu extends BaseEntity {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
+    private Integer menuPrice;
+
     @Column(nullable = false)
-    private Integer menuQuantity;
+    private int menuQuantity;
+
+    private int totalCartMenuPrice;
 
     private LocalDateTime registrationTime;
     private LocalDateTime updateTime;
 
-    @Builder
-    private CartMenu(Long id, Cart cart, Menu menu, Integer menuQuantity,
-                     LocalDateTime registrationTime, LocalDateTime updateTime) {
-
-        this.cart = cart;
+    private CartMenu(Menu menu, Integer menuPrice) {
         this.menu = menu;
-        this.menuQuantity = menuQuantity;
-        this.registrationTime = registrationTime;
-        this.updateTime = updateTime;
-
+        this.menuPrice = menuPrice;
     }
 
-    public void updateMenuQuantity(Integer menuQuantity) {
-        this.menuQuantity = menuQuantity;
-
-
+    public static CartMenu createCartMenu(Menu menuToAddCart, Integer menuPrice) {
+        return new CartMenu(menuToAddCart, menuPrice);
     }
 
+    public void addMenuQuantityAndComputeTotalPrice(Integer menuQuantity) {
+        this.menuQuantity += menuQuantity;
+
+        totalCartMenuPrice += menuPrice * menuQuantity;
+    }
+
+    public void updateCart(Cart savedCart) {
+        cart = savedCart;
+    }
 }
