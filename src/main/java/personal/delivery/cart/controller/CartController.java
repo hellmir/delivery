@@ -8,15 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import personal.delivery.cart.dto.CartMenuRequestDto;
 import personal.delivery.cart.dto.CartMenuResponseDto;
+import personal.delivery.cart.dto.CartRequestDto;
+import personal.delivery.cart.dto.CartResponseDto;
 import personal.delivery.cart.service.CartMenuServiceImpl;
 import personal.delivery.cart.service.CartService;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.validation.group.OnCreate;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("members/{memberId}/carts")
@@ -27,15 +27,16 @@ public class CartController {
     private final CartMenuServiceImpl cartMenuService;
 
     @PostMapping()
-    public ResponseEntity<CartMenuResponseDto> addCartMenu
-            (@Validated(OnCreate.class) @RequestBody CartMenuRequestDto cartMenuRequestDto) {
+    public ResponseEntity<CartResponseDto> addCartMenu
+            (@PathVariable Long memberId,
+             @Validated(OnCreate.class) @RequestBody CartRequestDto cartRequestDto) {
 
-        CartMenuResponseDto cartMenuResponseDto = cartService.addCart(cartMenuRequestDto);
+        CartResponseDto cartMenuResponseDto = cartService.addCart(memberId, cartRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(cartMenuResponseDto.getId())
+                .buildAndExpand(cartMenuResponseDto.getCartId())
                 .toUri();
 
         HttpHeaders headers = new HttpHeaders();
@@ -45,27 +46,27 @@ public class CartController {
 
     }
 
-    @GetMapping()
-    public ResponseEntity<List<CartMenuResponseDto>> getCartMenuList() {
+    @GetMapping("{id}")
+    public ResponseEntity<CartResponseDto> getCart(@PathVariable Long id) {
 
-        List<CartMenuResponseDto> cartMenuResponseDtoList = cartMenuService.getCartMenuList();
+        CartResponseDto cartResponseDto = cartService.getCart(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(cartMenuResponseDtoList);
+        return ResponseEntity.status(HttpStatus.OK).body(cartResponseDto);
 
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<CartMenuResponseDto> getMenu(@PathVariable Long id) {
-        CartMenuResponseDto cartMenuResponseDto = cartMenuService.getCartMenu(id);
+    @GetMapping("cart-menus/{cartMenuId}")
+    public ResponseEntity<CartMenuResponseDto> getCartMenu(@PathVariable Long cartMenuId) {
+        CartMenuResponseDto cartMenuResponseDto = cartMenuService.getCartMenu(cartMenuId);
 
         return ResponseEntity.status(HttpStatus.OK).body(cartMenuResponseDto);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<CartMenuResponseDto> deleteCartMenu
-            (@Valid @RequestBody CartMenuRequestDto cartMenuRequestDto) {
+    @DeleteMapping("cart-menus/{cartMenuId}")
+    public ResponseEntity<CartResponseDto> deleteCartMenu
+            (@PathVariable Long cartMenuId, @RequestBody CartRequestDto cartRequestDto) {
 
-        cartMenuService.deleteCartMenu(cartMenuRequestDto);
+        cartMenuService.deleteCartMenu(cartMenuId, cartRequestDto);
 
         return ResponseEntity.noContent().build();
 
@@ -73,9 +74,9 @@ public class CartController {
 
     @PostMapping("orders")
     public ResponseEntity<OrderResponseDto> orderCartMenu
-            (@Valid @RequestBody CartMenuRequestDto cartMenuRequestDto) {
+            (@Valid @RequestBody CartRequestDto cartRequestDto) {
 
-        OrderResponseDto orderResponseDto = cartMenuService.orderCartMenu(cartMenuRequestDto);
+        OrderResponseDto orderResponseDto = cartMenuService.orderCartMenu(cartRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

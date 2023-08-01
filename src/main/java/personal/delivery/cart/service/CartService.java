@@ -1,14 +1,12 @@
 package personal.delivery.cart.service;
 
-import personal.delivery.cart.dto.CartMenuRequestDto;
-import personal.delivery.cart.dto.CartMenuResponseDto;
-import personal.delivery.cart.entity.Cart;
-import personal.delivery.member.entity.Member;
+import personal.delivery.cart.dto.CartRequestDto;
+import personal.delivery.cart.dto.CartResponseDto;
 
 public interface CartService {
 
-    Cart createCart(Member member);
+    CartResponseDto addCart(Long memberId, CartRequestDto cartRequestDto);
 
-    CartMenuResponseDto addCart(CartMenuRequestDto cartMenuRequestDto);
+    CartResponseDto getCart(Long id);
 
 }
