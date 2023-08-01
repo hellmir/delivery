@@ -1,26 +1,25 @@
 package personal.delivery.cart.service;
 
-import personal.delivery.cart.dto.CartMenuRequestDto;
 import personal.delivery.cart.dto.CartMenuResponseDto;
+import personal.delivery.cart.dto.CartRequestDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.menu.Menu;
 import personal.delivery.order.dto.OrderResponseDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CartMenuService {
 
-    CartMenu createCartMenu(Cart cart, Menu menu, int menuQuantity);
+    List<CartMenu> createCartMenuOrAddQuantity(Map<Menu, Integer> menuToAddCartMap);
 
-    void addMenuQuantity(int menuQuantity);
-
-    List<CartMenuResponseDto> getCartMenuList();
+    void updateCartToCartMenu(List<CartMenu> cartMenuList, Cart savedCart);
 
     CartMenuResponseDto getCartMenu(Long id);
 
-    void deleteCartMenu(CartMenuRequestDto cartMenuRequestDto);
+    void deleteCartMenu(Long cartMenuId, CartRequestDto cartRequestDto);
 
-    OrderResponseDto orderCartMenu(CartMenuRequestDto cartMenuRequestDto);
+    OrderResponseDto orderCartMenu(CartRequestDto cartRequestDto);
 
 }
