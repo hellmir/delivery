@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import personal.delivery.exception.FailedToCancelOrderException;
 import personal.delivery.exception.OutOfStockException;
+import personal.delivery.exception.TryToAddCartOfDifferentShopMenuException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,4 +52,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
+    @ExceptionHandler(TryToAddCartOfDifferentShopMenuException.class)
+    public ResponseEntity<String> handleTryToAddCartOfDifferentShopMenuException
+            (TryToAddCartOfDifferentShopMenuException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
 }
+
