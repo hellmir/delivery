@@ -35,12 +35,12 @@ public class Order extends BaseEntity {
     private OrderStatus orderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member-id")
     private Shop shop;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderMenu> orderMenuList;
@@ -64,7 +64,6 @@ public class Order extends BaseEntity {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
-        this.shop = shop;
         this.member = member;
         this.orderMenuList = orderMenuList;
         this.totalOrderPrice = totalOrderPrice;
