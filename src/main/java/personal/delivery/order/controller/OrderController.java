@@ -28,7 +28,7 @@ public class OrderController {
             (@PathVariable Long shopId,
              @Validated(OnCreate.class) @RequestBody OrderRequestDto orderRequestDto) {
 
-        OrderResponseDto orderResponseDto = orderService.takeOrder(orderRequestDto);
+        OrderResponseDto orderResponseDto = orderService.takeOrder(shopId, orderRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -54,9 +54,10 @@ public class OrderController {
 
     @PatchMapping("{id}")
     public ResponseEntity<OrderResponseDto> changeOrderStatus
-            (@PathVariable Long id, @Valid @RequestBody OrderStatusChangeDto orderStatusChangeDto) {
+            (@PathVariable Long shopId, @PathVariable Long id,
+             @Valid @RequestBody OrderStatusChangeDto orderStatusChangeDto) {
 
-        OrderResponseDto orderResponseDto = orderService.changeOrderStatus(id, orderStatusChangeDto);
+        OrderResponseDto orderResponseDto = orderService.changeOrderStatus(shopId, id, orderStatusChangeDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(orderResponseDto);
 

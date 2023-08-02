@@ -12,8 +12,6 @@ import java.util.Map;
 @Data
 public class OrderRequestDto {
 
-    private Long shopId;
-
     @NotNull(groups = OnCreate.class, message = "회원 ID는 필수값입니다.")
     @NotNull(message = "회원 ID는 필수값입니다.")
     private Long memberId;
