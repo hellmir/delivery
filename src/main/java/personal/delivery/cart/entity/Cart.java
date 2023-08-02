@@ -44,8 +44,6 @@ public class Cart extends BaseEntity {
     private Cart(Shop shop, Member member, List<CartMenu> cartMenuList, int totalCartPrice,
                  LocalDateTime registrationTime, LocalDateTime updateTime) {
 
-        validateShopIsSameWithExistingOne(shop);
-
         this.shop = shop;
         this.member = member;
         this.cartMenuList = cartMenuList;
@@ -55,11 +53,9 @@ public class Cart extends BaseEntity {
 
     }
 
-    private void validateShopIsSameWithExistingOne(Shop shop) {
+    public void validateShopIsSameWithExistingOne(Shop shop) {
 
-        if (this.shop == null) {
-            this.shop = shop;
-        } else if (shop.getId() != this.shop.getId()) {
+        if (shop.getId() != this.shop.getId()) {
             throw new TryToAddCartOfDifferentShopMenuException
                     ("한 가게의 메뉴만 장바구니에 추가할 수 있습니다. 추가하려는 메뉴의 shopId: " + shop.getId()
                             + " 기존에 추가된 메뉴의 shopId: " + this.shop.getId());
