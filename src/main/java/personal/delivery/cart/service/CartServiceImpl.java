@@ -111,6 +111,8 @@ public class CartServiceImpl implements CartService {
 
         if (cart == null) {
             return createCart(shop, member, cartMenuList);
+        } else {
+            cart.validateShopIsSameWithExistingOne(shop);
         }
 
         return cart;
