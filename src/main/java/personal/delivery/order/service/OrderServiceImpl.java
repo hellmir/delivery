@@ -4,8 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.constant.OrderStatus;
-import personal.delivery.constant.Role;
 import personal.delivery.exception.FailedToCancelOrderException;
 import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
@@ -15,9 +13,10 @@ import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.dto.OrderStatusChangeDto;
 import personal.delivery.order.entity.Order;
-import personal.delivery.order.entity.Order.OrderBuilder;
 import personal.delivery.order.entity.OrderMenu;
-import personal.delivery.order.OrderRepository;
+import personal.delivery.order.repository.OrderRepository;
+import personal.delivery.shop.entity.Shop;
+import personal.delivery.shop.repository.ShopRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,43 +24,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static personal.delivery.constant.OrderStatus.*;
+import static personal.delivery.constant.Role.SELLER;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final MenuRepository menuRepository;
+    private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     private final OrderMenuService orderMenuService;
 
     @Override
-    public OrderResponseDto takeOrder(OrderRequestDto orderRequestDto) {
+    public OrderResponseDto takeOrder(Long shopId, OrderRequestDto orderRequestDto) {
 
-        Member member = memberRepository.findByEmail(orderRequestDto.getEmail());
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 가게를 찾을 수 없습니다. (memberId: " + shopId + ")"));
 
-        if (member == null) {
-            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + orderRequestDto.getEmail() + ")");
-        }
+        Member member = memberRepository.findById(orderRequestDto.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 회원을 찾을 수 없습니다. (memberId: " + orderRequestDto.getMemberId() + ")"));
 
-        Map<Menu, Integer> menuToOrderMap = new HashMap<>();
-
-        for (Long menuId : orderRequestDto.getMenuIdAndQuantityMap().keySet()) {
-
-            menuToOrderMap.put(menuRepository.findById(menuId)
-                            .orElseThrow(() -> new EntityNotFoundException
-                                    ("해당 메뉴를 찾을 수 없습니다. (menuId: " + menuId + ")"))
-                    , orderRequestDto.getMenuIdAndQuantityMap().get(menuId));
-
-        }
-
-        OrderBuilder orderBuilder = createOrder(orderRequestDto, member);
-
-        Order order = orderBuilder.build();
+        Map<Menu, Integer> menuToOrderMap = createMenuToOrderMap(orderRequestDto);
 
         List<OrderMenu> orderMenuList = orderMenuService.createOrderMenu(menuToOrderMap);
 
-        order = addOrderMenuListToOrder(orderBuilder, orderMenuList);
+        Order order = createOrder(orderRequestDto, shop, member, orderMenuList);
 
         Order savedOrder = orderRepository.save(order);
 
@@ -71,32 +63,12 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    private OrderBuilder createOrder(OrderRequestDto orderRequestDto, Member member) {
-
-        return Order.builder()
-                .orderTime(LocalDateTime.now())
-                .orderStatus(OrderStatus.WAITING)
-                .member(member)
-                .orderRequest(orderRequestDto.getOrderRequest())
-                .deliveryRequest(orderRequestDto.getDeliveryRequest());
-
-    }
-
-    private Order addOrderMenuListToOrder(OrderBuilder orderBuilder, List<OrderMenu> orderMenuList) {
-        return orderBuilder
-                .orderMenuList(orderMenuList)
-                .totalOrderPrice(orderMenuList.stream().mapToInt(OrderMenu::getTotalMenuPrice).sum())
-                .build();
-    }
-
     @Override
     public OrderResponseDto gerOrder(OrderRequestDto orderRequestDto) {
 
-        Member member = memberRepository.findByEmail(orderRequestDto.getEmail());
-
-        if (member == null) {
-            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + orderRequestDto.getEmail() + ")");
-        }
+        Member member = memberRepository.findById(orderRequestDto.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 회원을 찾을 수 없습니다. (memberId: " + orderRequestDto.getMemberId() + ")"));
 
         Order selectedOrder = orderRepository.findById(orderRequestDto.getOrderId())
                 .orElseThrow(() -> new EntityNotFoundException
@@ -107,65 +79,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponseDto changeOrderStatus(Long id, OrderStatusChangeDto orderStatusChangeDto) {
+    public OrderResponseDto changeOrderStatus(Long shopId, Long id, OrderStatusChangeDto orderStatusChangeDto) {
 
-        Member member = memberRepository.findByEmail(orderStatusChangeDto.getEmail());
+        Member member = memberRepository.findById(orderStatusChangeDto.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 회원을 찾을 수 없습니다. (memberId: " + orderStatusChangeDto.getMemberId() + ")"));
 
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 주문을 찾을 수 없습니다. (orderId: " + id + ")"));
 
-        if (orderStatusChangeDto.getIsOrderInProgress()) {
+        if (member.getRole().equals(SELLER)) {
 
-            if (member.getRole().equals(Role.SELLER)) {
+            order = orderStatusChangeDto.getIsOrderInProgress()
+                    ? progressOrder(order, orderStatusChangeDto) : disContinueOrder(order);
 
-                if (order.getOrderStatus().equals(OrderStatus.IN_DELIVERY)) {
+        } else if (!orderStatusChangeDto.getIsOrderInProgress()) {
 
-                    order.updateOrderStatus(OrderStatus.DELIVERED, LocalDateTime.now());
-
-                    order.updateEstimatedArrivalTime(0);
-
-                }
-
-                if (order.getOrderStatus().equals(OrderStatus.COOKING)) {
-
-                    order.updateOrderStatus(OrderStatus.IN_DELIVERY, LocalDateTime.now());
-
-                    order.updateEstimatedArrivalTime(orderStatusChangeDto.getEstimatedRequiredTime());
-
-                }
-
-                if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
-
-                    order.updateOrderStatus(OrderStatus.COOKING, LocalDateTime.now());
-
-                    order.updateEstimatedArrivalTime(orderStatusChangeDto.getEstimatedRequiredTime());
-
-                }
-
-            }
+            order = cancelOrder(order);
 
         } else {
 
-            if (member.getRole().equals(Role.SELLER)) {
-
-                if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
-                    order.updateOrderStatus(OrderStatus.REFUSED, LocalDateTime.now());
-                } else {
-                    order.updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
-                }
-
-            } else {
-
-                if (order.getOrderStatus().equals(OrderStatus.WAITING)) {
-                    order.updateOrderStatus(OrderStatus.CANCELED, LocalDateTime.now());
-                } else {
-                    throw new FailedToCancelOrderException(
-                            "주문이 진행 중인 경우 취소할 수 없습니다. 주문을 취소하려면 판매자에게 문의해야 합니다. 현재 주문 상태: "
-                                    + order.getOrderStatus()
-                    );
-                }
-
-            }
+            throw new SecurityException("고객은 주문 진행 권한이 없습니다.");
 
         }
 
@@ -175,11 +109,97 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    private Map<Menu, Integer> createMenuToOrderMap(OrderRequestDto orderRequestDto) {
+
+        Map<Menu, Integer> menuToOrderMap = new HashMap<>();
+
+        for (Long menuId : orderRequestDto.getMenuIdAndQuantityMap().keySet()) {
+
+            menuToOrderMap.put(menuRepository.findById
+                            (menuId).orElseThrow(() -> new EntityNotFoundException
+                            ("해당 메뉴를 찾을 수 없습니다. (menuId: " + menuId + ")"))
+                    , orderRequestDto.getMenuIdAndQuantityMap().get(menuId));
+
+        }
+
+        return menuToOrderMap;
+
+    }
+
+    private Order createOrder
+            (OrderRequestDto orderRequestDto, Shop shop, Member member, List<OrderMenu> orderMenuList) {
+
+        return Order.builder()
+                .orderTime(LocalDateTime.now())
+                .orderStatus(WAITING)
+                .shop(shop)
+                .member(member)
+                .orderMenuList(orderMenuList)
+                .totalOrderPrice(orderMenuList.stream().mapToInt(OrderMenu::getTotalMenuPrice).sum())
+                .orderRequest(orderRequestDto.getOrderRequest())
+                .deliveryRequest(orderRequestDto.getDeliveryRequest())
+                .build();
+
+    }
+
+    private Order progressOrder(Order order, OrderStatusChangeDto orderStatusChangeDto) {
+
+        if (order.getOrderStatus().equals(WAITING)) {
+
+            order.updateOrderStatus(COOKING);
+
+            order.updateEstimatedArrivalTime(orderStatusChangeDto.getEstimatedRequiredTime());
+
+        } else if (order.getOrderStatus().equals(COOKING)) {
+
+            order.updateOrderStatus(IN_DELIVERY);
+
+            order.updateEstimatedArrivalTime(orderStatusChangeDto.getEstimatedRequiredTime());
+
+        } else {
+
+            order.updateOrderStatus(DELIVERED);
+
+            order.updateEstimatedArrivalTime(0);
+
+        }
+
+        return order;
+
+    }
+
+    private Order disContinueOrder(Order order) {
+
+        if (order.getOrderStatus().equals(WAITING)) {
+            order.updateOrderStatus(REFUSED);
+        } else if (!order.getOrderStatus().equals(REFUNDED)) {
+            order.updateOrderStatus(CANCELED);
+        }
+
+        return order;
+
+    }
+
+    private Order cancelOrder(Order order) {
+
+        if (order.getOrderStatus().equals(WAITING)) {
+            order.updateOrderStatus(CANCELED);
+        } else {
+            throw new FailedToCancelOrderException
+                    ("주문이 진행 중인 경우 취소할 수 없습니다. 주문을 취소하려면 판매자에게 문의해야 합니다. 현재 주문 상태: "
+                            + order.getOrderStatus());
+        }
+
+        return order;
+
+    }
+
     private OrderResponseDto setOrderResponseDto(Order order) {
 
         OrderResponseDto orderResponseDto = new OrderResponseDto();
 
         orderResponseDto.setId(order.getId());
+        orderResponseDto.setShopName(order.getShop().getName());
         orderResponseDto.setOrderTime(order.getOrderTime());
         orderResponseDto.setEstimatedArrivalTime(order.getEstimatedArrivalTime());
         orderResponseDto.setOrderStatus(order.getOrderStatus());

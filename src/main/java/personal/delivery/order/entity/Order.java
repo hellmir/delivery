@@ -74,7 +74,7 @@ public class Order extends BaseEntity {
 
     }
 
-    public void updateOrderStatus(OrderStatus orderStatus, LocalDateTime updatedTime) {
+    public void updateOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
