@@ -23,7 +23,6 @@ public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
-    private final BeanConfiguration beanConfiguration;
 
     @Override
     public ShopResponseDto saveShop(ShopRequestDto shopDto) {

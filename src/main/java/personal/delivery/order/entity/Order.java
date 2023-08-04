@@ -64,6 +64,7 @@ public class Order extends BaseEntity {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
+        this.shop = shop;
         this.member = member;
         this.orderMenuList = orderMenuList;
         this.totalOrderPrice = totalOrderPrice;
