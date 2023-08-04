@@ -21,10 +21,10 @@ import static personal.delivery.constant.MenuType.*;
 public class MenuRepositoryTest {
 
     @Autowired
-    private MenuRepository menuRepository;
+    private ShopRepository shopRepository;
 
     @Autowired
-    private ShopRepository shopRepository;
+    private MenuRepository menuRepository;
 
     @DisplayName("선택한 가게의 모든 메뉴들을 조회한다.")
     @Test
