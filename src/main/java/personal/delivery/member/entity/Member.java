@@ -43,11 +43,7 @@ public class Member extends BaseEntity {
         this.name = name;
         this.email = email;
         this.password = password;
-
-        Address inputAddress = new Address
-                (address.getCity(), address.getStreet(), address.getZipcode(), address.getDetailedAddress());
-        this.address = inputAddress;
-
+        this.address = address;
         this.role = role;
 
         setRegisteredTime(registeredTime);
