@@ -65,9 +65,25 @@
 - Spring Boot 3.0.4
 - Gradle 7.6.1
 - MariaDB 10.6.5
-- Docker 4.18.0
   <br>
 
 ## ERD
 
 ![ERD](https://github.com/hellmir/delivery/assets/128391669/8ee5b3a0-b144-44a3-a8b9-b955ebd761a7)
+
+## Class Diagrams
+
+### Member
+![Member](https://github.com/hellmir/delivery/assets/128391669/94661b34-4962-4155-a427-0215676bc1b2)
+
+### Shop
+![Shop](https://github.com/hellmir/delivery/assets/128391669/d53b2156-5a25-4033-9d46-45b044d5efa1)
+
+### Menu
+![Menu](https://github.com/hellmir/delivery/assets/128391669/269fb621-e922-440b-a171-f7f5d4123c45)
+
+### Order
+![Order](https://github.com/hellmir/delivery/assets/128391669/4be3a2fb-b1ec-42e7-8e55-93669f06c52b)
+
+### Cart
+![Cart](https://github.com/hellmir/delivery/assets/128391669/878c30b2-944f-480a-b945-9c9d403903c2)
