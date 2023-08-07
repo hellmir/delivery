@@ -35,9 +35,6 @@ public class OrderMenu extends BaseEntity {
     @Column(nullable = false)
     private Integer totalMenuPrice;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
-
     private OrderMenu(Menu menu, Integer menuPrice, Integer orderQuantity) {
 
         this.menu = menu;

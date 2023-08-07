@@ -59,14 +59,11 @@ public class Menu extends BaseEntity {
     private Boolean isPopularMenu;
     private List<String> menuOptions;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
-
     @Builder
     private Menu(Long id, Shop shop, String name, Integer price, Integer salesRate, Integer stock,
-                String flavor, Integer portions, Integer cookingTime, MenuType menuType,
-                String foodType, Boolean isPopularMenu, List<String> menuOptions,
-                LocalDateTime registrationTime, LocalDateTime updateTime) {
+                 String flavor, Integer portions, Integer cookingTime, MenuType menuType,
+                 String foodType, Boolean isPopularMenu, List<String> menuOptions,
+                 LocalDateTime registeredTime, LocalDateTime updatedTime) {
 
         this.id = id;
         this.shop = shop;
@@ -85,8 +82,10 @@ public class Menu extends BaseEntity {
         this.foodType = foodType;
         this.isPopularMenu = isPopularMenu;
         this.menuOptions = menuOptions;
-        this.registrationTime = registrationTime;
-        this.updateTime = updateTime;
+
+        setRegisteredTime(registeredTime);
+
+        setUpdatedTime(updatedTime);
 
 
     }
