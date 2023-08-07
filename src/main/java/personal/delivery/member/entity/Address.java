@@ -22,13 +22,4 @@ public class Address {
     @NotBlank(message = "상세 주소는 필수값입니다.")
     private String detailedAddress;
 
-    public Address(String city, String street, String zipcode, String detailedAddress) {
-
-        this.city = city;
-        this.street = street;
-        this.zipcode = zipcode;
-        this.detailedAddress = detailedAddress;
-
-    }
-
 }
