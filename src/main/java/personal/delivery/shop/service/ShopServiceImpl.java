@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.constant.Role;
 import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
@@ -16,6 +15,8 @@ import personal.delivery.shop.repository.ShopRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static personal.delivery.constant.Role.CUSTOMER;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -25,18 +26,18 @@ public class ShopServiceImpl implements ShopService {
     private final MemberRepository memberRepository;
 
     @Override
-    public ShopResponseDto saveShop(ShopRequestDto shopDto) {
+    public ShopResponseDto saveShop(ShopRequestDto shopRequestDto) {
 
-        Member member = memberRepository.findByEmail(shopDto.getEmail());
+        Member member = memberRepository.findByEmail(shopRequestDto.getEmail());
 
-        validateMemberIsExist(shopDto, member);
+        validateMemberIsExist(shopRequestDto, member);
 
         validateAuthority(member);
 
-        validateShopIsExist(shopDto);
+        validateShopIsExist(shopRequestDto);
 
         Shop shop = Shop.builder()
-                .name(shopDto.getName())
+                .name(shopRequestDto.getName())
                 .member(member)
                 .build();
 
@@ -80,28 +81,28 @@ public class ShopServiceImpl implements ShopService {
 
     }
 
-    private void validateMemberIsExist(ShopRequestDto shopDto, Member member) {
+    private void validateMemberIsExist(ShopRequestDto shopRequestDto, Member member) {
 
         if (member == null) {
-            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + shopDto.getEmail() + ")");
+            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + shopRequestDto.getEmail() + ")");
         }
 
     }
 
     private void validateAuthority(Member member) {
 
-        if (member.getRole().equals(Role.CUSTOMER)) {
+        if (member.getRole().equals(CUSTOMER)) {
             throw new IllegalArgumentException("권한이 없습니다. (role: " + member.getRole() + ")");
         }
 
     }
 
-    private void validateShopIsExist(ShopRequestDto shopDto) {
+    private void validateShopIsExist(ShopRequestDto shopRequestDto) {
 
-        Shop shop = shopRepository.findByName(shopDto.getName());
+        Shop shop = shopRepository.findByName(shopRequestDto.getName());
 
         if (shop != null) {
-            throw new IllegalStateException("해당 가게가 이미 존재합니다. (shopName: " + shopDto.getName() + ")");
+            throw new IllegalStateException("해당 가게가 이미 존재합니다. (shopName: " + shopRequestDto.getName() + ")");
         }
 
     }
