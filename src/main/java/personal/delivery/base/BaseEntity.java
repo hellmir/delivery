@@ -20,4 +20,12 @@ public abstract class BaseEntity extends BaseTimeEntity {
     @LastModifiedBy
     private String modifiedBy;
 
+    protected void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    protected void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
 }

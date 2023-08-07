@@ -36,9 +36,6 @@ public class CartMenu extends BaseEntity {
 
     private int totalCartMenuPrice;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
-
     private CartMenu(Menu menu, Integer menuPrice) {
         this.menu = menu;
         this.menuPrice = menuPrice;
@@ -57,4 +54,5 @@ public class CartMenu extends BaseEntity {
     public void updateCart(Cart savedCart) {
         cart = savedCart;
     }
+
 }

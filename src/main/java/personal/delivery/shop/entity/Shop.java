@@ -27,16 +27,15 @@ public class Shop extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
-
     @Builder
-    private Shop(String name, Member member, LocalDateTime registrationTime, LocalDateTime updateTime) {
+    private Shop(String name, Member member, LocalDateTime registeredTime, LocalDateTime updatedTime) {
 
         this.name = name;
         this.member = member;
-        this.registrationTime = registrationTime;
-        this.updateTime = updateTime;
+
+        setRegisteredTime(registeredTime);
+
+        setUpdatedTime(updatedTime);
 
     }
 

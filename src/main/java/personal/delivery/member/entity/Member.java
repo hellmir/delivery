@@ -36,25 +36,19 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
-
     @Builder
     private Member(String name, String email, String password, Address address, Role role,
-                   LocalDateTime registrationTime, LocalDateTime updateTime) {
+                   LocalDateTime registeredTime, LocalDateTime updatedTime) {
 
         this.name = name;
         this.email = email;
         this.password = password;
-
-        Address inputAddress = new Address
-                (address.getCity(), address.getStreet(), address.getZipcode(), address.getDetailedAddress());
-        this.address = inputAddress;
-
+        this.address = address;
         this.role = role;
 
-        this.registrationTime = registrationTime;
-        this.updateTime = updateTime;
+        setRegisteredTime(registeredTime);
+
+        setUpdatedTime(updatedTime);
 
     }
 
