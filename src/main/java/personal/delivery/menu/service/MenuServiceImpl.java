@@ -2,9 +2,9 @@ package personal.delivery.menu.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.exception.OutOfStockException;
 import personal.delivery.menu.Menu;
 import personal.delivery.menu.dto.MenuRequestDto;
@@ -24,7 +24,7 @@ public class MenuServiceImpl implements MenuService {
 
     private final MenuRepository menuRepository;
     private final ShopRepository shopRepository;
-    private final BeanConfiguration beanConfiguration;
+    private final ModelMapper modelMapper;
 
     @Override
     public MenuResponseDto saveMenu(Long shopId, MenuRequestDto menuRequestDto) {
@@ -48,10 +48,7 @@ public class MenuServiceImpl implements MenuService {
 
         Menu savedMenu = menuRepository.save(menu);
 
-        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(savedMenu, MenuResponseDto.class);
-
-        return menuResponseDto;
+        return modelMapper.map(savedMenu, MenuResponseDto.class);
 
     }
 
@@ -61,7 +58,7 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> menuList = menuRepository.findAll();
 
         List<MenuResponseDto> menuResponseDtoList = menuList.stream()
-                .map(menu -> beanConfiguration.modelMapper().map(menu, MenuResponseDto.class))
+                .map(menu -> modelMapper.map(menu, MenuResponseDto.class))
                 .collect(Collectors.toList());
 
         return menuResponseDtoList;
@@ -74,7 +71,7 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> menuList = menuRepository.findAllByShop_Id(shopId);
 
         List<MenuResponseDto> menuResponseDtoList = menuList.stream()
-                .map(menu -> beanConfiguration.modelMapper().map(menu, MenuResponseDto.class))
+                .map(menu -> modelMapper.map(menu, MenuResponseDto.class))
                 .collect(Collectors.toList());
 
         return menuResponseDtoList;
@@ -87,10 +84,7 @@ public class MenuServiceImpl implements MenuService {
         Menu selectedMenu = menuRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(selectedMenu, MenuResponseDto.class);
-
-        return menuResponseDto;
+        return modelMapper.map(selectedMenu, MenuResponseDto.class);
 
     }
 
@@ -121,17 +115,16 @@ public class MenuServiceImpl implements MenuService {
                 .foodType(menuRequestDto.getFoodType() != null ? menuRequestDto.getFoodType() : menu.getFoodType())
                 .menuOptions(menuRequestDto.getMenuOptions() != null
                         ? menuRequestDto.getMenuOptions() : menu.getMenuOptions())
-                .registrationTime((menu.getRegisteredTime()))
-                .updateTime(LocalDateTime.now())
+                .registeredTime(menu.getRegisteredTime())
+                .updatedTime(LocalDateTime.now())
                 .build();
 
         Menu changedMenu = menuRepository.save(changingMenu);
+        MenuResponseDto menuResponseDto = modelMapper.map(changedMenu, MenuResponseDto.class);
 
-        MenuResponseDto menuResponseDto = beanConfiguration.modelMapper()
-                .map(changedMenu, MenuResponseDto.class);
+        menuResponseDto.setRegisteredTime(menu.getRegisteredTime());
 
-        menuResponseDto.setRegisteredTime(menu.getRegistrationTime());
-        menuResponseDto.setUpdatedTime(changedMenu.getUpdateTime());
+        menuResponseDto.setUpdatedTime(changedMenu.getUpdatedTime());
 
         return menuResponseDto;
 

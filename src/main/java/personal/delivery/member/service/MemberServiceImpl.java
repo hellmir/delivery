@@ -1,9 +1,9 @@
 package personal.delivery.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.configuration.BeanConfiguration;
 import personal.delivery.constant.Role;
 import personal.delivery.member.dto.MemberRequestDto;
 import personal.delivery.member.dto.MemberResponseDto;
@@ -16,8 +16,9 @@ import personal.delivery.member.repository.MemberRepository;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final BeanConfiguration beanConfiguration;
+    private final ModelMapper modelMapper;
 
+    @Override
     public MemberResponseDto createSeller(MemberRequestDto memberRequestDto) {
 
         Member member = Member.builder()
@@ -32,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Override
     public MemberResponseDto createCustomer(MemberRequestDto memberRequestDto) {
 
         Member member = Member.builder()
@@ -52,10 +54,7 @@ public class MemberServiceImpl implements MemberService {
 
         Member savedMember = memberRepository.save(member);
 
-        MemberResponseDto memberResponseDto = beanConfiguration.modelMapper()
-                .map(savedMember, MemberResponseDto.class);
-
-        return memberResponseDto;
+        return modelMapper.map(savedMember, MemberResponseDto.class);
 
     }
 
