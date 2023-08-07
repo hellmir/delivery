@@ -54,13 +54,10 @@ public class Order extends BaseEntity {
     @Column(length = 200)
     private String deliveryRequest;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
-
     @Builder
     private Order(LocalDateTime orderTime, OrderStatus orderStatus, Shop shop, Member member,
                   List<OrderMenu> orderMenuList, int totalOrderPrice, String orderRequest,
-                  String deliveryRequest, LocalDateTime registrationTime, LocalDateTime updateTime) {
+                  String deliveryRequest, LocalDateTime registeredTime, LocalDateTime updatedTime) {
 
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
@@ -70,8 +67,10 @@ public class Order extends BaseEntity {
         this.totalOrderPrice = totalOrderPrice;
         this.orderRequest = orderRequest;
         this.deliveryRequest = deliveryRequest;
-        this.registrationTime = registrationTime;
-        this.updateTime = updateTime;
+
+        setRegisteredTime(registeredTime);
+
+        setUpdatedTime(updatedTime);
 
     }
 

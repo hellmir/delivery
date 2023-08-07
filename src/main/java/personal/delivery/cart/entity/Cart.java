@@ -37,19 +37,18 @@ public class Cart extends BaseEntity {
     @Column
     private int totalCartPrice;
 
-    private LocalDateTime registrationTime;
-    private LocalDateTime updateTime;
-
     @Builder
     private Cart(Shop shop, Member member, List<CartMenu> cartMenuList, int totalCartPrice,
-                 LocalDateTime registrationTime, LocalDateTime updateTime) {
+                 LocalDateTime registeredTime, LocalDateTime updatedTime) {
 
         this.shop = shop;
         this.member = member;
         this.cartMenuList = cartMenuList;
         this.totalCartPrice = totalCartPrice;
-        this.registrationTime = registrationTime;
-        this.updateTime = updateTime;
+
+        setRegisteredTime(registeredTime);
+
+        setUpdatedTime(updatedTime);
 
     }
 
