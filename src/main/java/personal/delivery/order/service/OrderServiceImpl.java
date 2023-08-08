@@ -32,9 +32,9 @@ import static personal.delivery.constant.Role.SELLER;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final MenuRepository menuRepository;
     private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
+    private final MenuRepository menuRepository;
     private final OrderRepository orderRepository;
     private final OrderMenuService orderMenuService;
 

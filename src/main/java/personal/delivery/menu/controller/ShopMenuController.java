@@ -44,9 +44,9 @@ public class ShopMenuController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<MenuResponseDto>> getAllShopMenu(@PathVariable Long shopId) {
+    public ResponseEntity<List<MenuResponseDto>> getAllShopMenus(@PathVariable Long shopId) {
 
-        List<MenuResponseDto> menuResponseDtoList = menuService.getAllShopMenu(shopId);
+        List<MenuResponseDto> menuResponseDtoList = menuService.getAllShopMenus(shopId);
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDtoList);
 

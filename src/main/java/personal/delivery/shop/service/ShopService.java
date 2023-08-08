@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ShopService {
 
-    ShopResponseDto saveShop(ShopRequestDto shopDto);
+    ShopResponseDto saveShop(ShopRequestDto shopRequestDto);
 
     List<ShopResponseDto> getAllShops();
 

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.dto.CartRequestDto;
 import personal.delivery.cart.dto.CartResponseDto;
-import personal.delivery.cart.service.CartMenuServiceImpl;
+import personal.delivery.cart.service.CartMenuService;
 import personal.delivery.cart.service.CartService;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.validation.group.OnCreate;
@@ -24,7 +24,7 @@ import java.net.URI;
 public class CartController {
 
     private final CartService cartService;
-    private final CartMenuServiceImpl cartMenuService;
+    private final CartMenuService cartMenuService;
 
     @PostMapping()
     public ResponseEntity<CartResponseDto> addCartMenu
