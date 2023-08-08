@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import personal.delivery.shop.dto.ShopRequestDto;
 import personal.delivery.shop.dto.ShopResponseDto;
+import personal.delivery.shop.service.ShopService;
 import personal.delivery.shop.service.ShopServiceImpl;
 
 import java.net.URI;
@@ -19,12 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShopController {
 
-    private final ShopServiceImpl shopService;
+    private final ShopService shopService;
 
     @PostMapping()
-    public ResponseEntity<ShopResponseDto> createShop(@Valid @RequestBody ShopRequestDto shopDto) {
+    public ResponseEntity<ShopResponseDto> createShop(@Valid @RequestBody ShopRequestDto shopRequestDto) {
 
-        ShopResponseDto shopResponseDto = shopService.saveShop(shopDto);
+        ShopResponseDto shopResponseDto = shopService.saveShop(shopRequestDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -9,9 +9,9 @@ public interface MenuService {
 
     MenuResponseDto saveMenu(Long shopId, MenuRequestDto menuRequestDto);
 
-    List<MenuResponseDto> getAllMenu();
+    List<MenuResponseDto> getAllMenus();
 
-    List<MenuResponseDto> getAllShopMenu(Long shopId);
+    List<MenuResponseDto> getAllShopMenus(Long shopId);
 
     MenuResponseDto getMenu(Long id);
 
