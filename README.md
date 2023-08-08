@@ -74,16 +74,16 @@
 ## Class Diagrams
 
 ### Member
-![Member](https://github.com/hellmir/delivery/assets/128391669/94661b34-4962-4155-a427-0215676bc1b2)
+![Member](https://github.com/hellmir/delivery/assets/128391669/228f6299-723b-4e79-aba3-f7b90768e287)
 
 ### Shop
-![Shop](https://github.com/hellmir/delivery/assets/128391669/d53b2156-5a25-4033-9d46-45b044d5efa1)
+![Shop](https://github.com/hellmir/delivery/assets/128391669/f8a1470e-60d0-4512-8c3c-4e7ec642f542)
 
 ### Menu
-![Menu](https://github.com/hellmir/delivery/assets/128391669/269fb621-e922-440b-a171-f7f5d4123c45)
+![Menu](https://github.com/hellmir/delivery/assets/128391669/91fb718f-182d-415e-8d66-76c50b0cef5a)
 
 ### Order
-![Order](https://github.com/hellmir/delivery/assets/128391669/4be3a2fb-b1ec-42e7-8e55-93669f06c52b)
+![Order](https://github.com/hellmir/delivery/assets/128391669/bc213e7e-bc8b-4b60-8021-ec2df3aece41)
 
 ### Cart
-![Cart](https://github.com/hellmir/delivery/assets/128391669/878c30b2-944f-480a-b945-9c9d403903c2)
+![Cart](https://github.com/hellmir/delivery/assets/128391669/5fb9e4d0-c9f2-4182-8fd6-4d1f8f0fd1a2)

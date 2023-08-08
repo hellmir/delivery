@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
 
-    private final MenuRepository menuRepository;
     private final ShopRepository shopRepository;
+    private final MenuRepository menuRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -53,7 +53,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuResponseDto> getAllMenu() {
+    public List<MenuResponseDto> getAllMenus() {
 
         List<Menu> menuList = menuRepository.findAll();
 
@@ -66,7 +66,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuResponseDto> getAllShopMenu(Long shopId) {
+    public List<MenuResponseDto> getAllShopMenus(Long shopId) {
 
         List<Menu> menuList = menuRepository.findAllByShop_Id(shopId);
 

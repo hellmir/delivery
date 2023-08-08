@@ -19,9 +19,9 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping("menu")
-    public ResponseEntity<List<MenuResponseDto>> getAllMenu() {
+    public ResponseEntity<List<MenuResponseDto>> getAllMenus() {
 
-        List<MenuResponseDto> menuResponseDtoList = menuService.getAllMenu();
+        List<MenuResponseDto> menuResponseDtoList = menuService.getAllMenus();
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDtoList);
 
