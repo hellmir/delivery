@@ -84,7 +84,7 @@ public class ShopServiceImpl implements ShopService {
     private void validateMemberIsExist(ShopRequestDto shopRequestDto, Member member) {
 
         if (member == null) {
-            throw new EntityNotFoundException("해당 회원을 찾을 수 없습니다. (email: " + shopRequestDto.getEmail() + ")");
+            throw new EntityNotFoundException("해당 회원이 존재하지 않습니다. (email: " + shopRequestDto.getEmail() + ")");
         }
 
     }
