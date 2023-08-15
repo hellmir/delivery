@@ -56,4 +56,13 @@ public class MemberController {
 
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<MemberResponseDto> getMemberInformation(@PathVariable Long id) {
+
+        MemberResponseDto memberResponseDto = memberService.getMemberInformation(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
+
+    }
+
 }
