@@ -39,7 +39,7 @@ public class OrderController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
 
-        return ResponseEntity.created(location).headers(headers).body(orderResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(orderResponseDto);
 
     }
 
