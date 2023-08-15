@@ -7,4 +7,9 @@ import java.util.List;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
     List<Menu> findAllByShop_Id(Long shopId);
+
+    List<Menu> findByIdIn(List<Long> ids);
+
+    void deleteByIdIn(List<Long> ids);
+
 }

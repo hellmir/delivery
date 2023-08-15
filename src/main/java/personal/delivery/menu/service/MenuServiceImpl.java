@@ -30,7 +30,7 @@ public class MenuServiceImpl implements MenuService {
     public MenuResponseDto saveMenu(Long shopId, MenuRequestDto menuRequestDto) {
 
         Shop shop = shopRepository.findById(shopId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 가게를 찾을 수 없습니다. (shopId: " + shopId + ")"));
+                .orElseThrow(() -> new EntityNotFoundException("해당 가게가 존재하지 않습니다. (shopId: " + shopId + ")"));
 
         Menu menu = Menu.builder()
                 .shop(shop)
@@ -68,6 +68,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuResponseDto> getAllShopMenus(Long shopId) {
 
+        shopRepository.findById(shopId)
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 가게가 존재하지 않습니다. (shopId: " + shopId + ")"));
+
         List<Menu> menuList = menuRepository.findAllByShop_Id(shopId);
 
         List<MenuResponseDto> menuResponseDtoList = menuList.stream()
@@ -79,7 +83,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuResponseDto getMenu(Long id) {
+    public MenuResponseDto getMenu(Long shopId, Long id) {
+
+        shopRepository.findById(shopId)
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 가게가 존재하지 않습니다. (shopId: " + shopId + ")"));
 
         Menu selectedMenu = menuRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
@@ -89,10 +97,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuResponseDto changeMenu(Long id, MenuRequestDto menuRequestDto) {
+    public MenuResponseDto changeMenu(Long shopId, Long id, MenuRequestDto menuRequestDto) {
+
+        shopRepository.findById(shopId)
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 가게가 존재하지 않습니다. (shopId: " + shopId + ")"));
 
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("해당 메뉴를 찾을 수 없습니다. (menuId: " + id + ")"));
+                .orElseThrow(() -> new EntityNotFoundException("해당 메뉴가 존재하지 않습니다. (menuId: " + id + ")"));
 
         int modifiedStock = menu.getStock() + menuRequestDto.getStock();
 
@@ -130,12 +142,34 @@ public class MenuServiceImpl implements MenuService {
 
     }
 
-    public void deleteMenu(Long id) {
+    public void deleteMenu(Long shopId, Long id) {
 
-        Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("해당 메뉴를 찾을 수 없습니다. (menuId: " + id + ")"));
+        shopRepository.findById(shopId)
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 가게가 존재하지 않습니다. (shopId: " + shopId + ")"));
 
-        menuRepository.delete(menu);
+        menuRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 메뉴가 존재하지 않습니다. (menuId: " + id + ")"));
+
+        menuRepository.deleteById(id);
+
+    }
+
+    @Override
+    public void deleteSeveralMenus(Long shopId, List<Long> ids) {
+
+        shopRepository.findById(shopId)
+                .orElseThrow(() -> new EntityNotFoundException
+                        ("해당 가게가 존재하지 않습니다. (shopId: " + shopId + ")"));
+
+        List<Menu> menus = menuRepository.findByIdIn(ids);
+
+        if (menus.size() == ids.size()) {
+            menuRepository.deleteByIdIn(ids);
+        } else {
+            throw new EntityNotFoundException("존재하지 않는 메뉴가 포함되어 있습니다.");
+        }
 
     }
 
