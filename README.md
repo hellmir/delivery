@@ -30,7 +30,7 @@
 
 - **판매자**
   - **메뉴 등록 : /{shopId}/menus** (Post method)
-  - **메뉴 수정 : /{shopId}/menus** (Patch method)
+  - **메뉴 수정 : /{shopId}/menus{id}** (Patch method)
   - **메뉴 삭제 : /{shopId}/menus/{id}** (Delete method)
 
 ### 주문
@@ -56,7 +56,7 @@
     - **장바구니 전체 메뉴 조회 : /carts** (Get method)
     - **장바구니 단일 메뉴 조회 : /carts/{id}** (Get method)
     <br><br>
-  - **장바구니 메뉴 삭제 : /carts** (Delete method)
+  - **장바구니 메뉴 삭제 : /carts{id}** (Delete method)
   - **장바구니 메뉴 주문 : /carts/orders** (Post method)
 
 ## Skills
