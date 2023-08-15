@@ -1,7 +1,7 @@
 package personal.delivery.cart.dto;
 
 import lombok.Data;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 
 import java.time.LocalDateTime;
 

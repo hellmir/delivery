@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.base.BaseEntity;
-import personal.delivery.menu.Menu;
-
-import java.time.LocalDateTime;
+import personal.delivery.menu.entity.Menu;
 
 @Entity
 @Getter

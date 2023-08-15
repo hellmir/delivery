@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.member.entity.Member;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 import personal.delivery.order.entity.Order;
 
 @Configuration

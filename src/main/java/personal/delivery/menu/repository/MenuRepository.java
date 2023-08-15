@@ -1,7 +1,7 @@
 package personal.delivery.menu.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 
 import java.util.List;
 

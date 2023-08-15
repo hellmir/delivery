@@ -42,7 +42,7 @@ public class CartController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
 
-        return ResponseEntity.created(location).headers(headers).body(cartMenuResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(cartMenuResponseDto);
 
     }
 
@@ -68,7 +68,7 @@ public class CartController {
 
         cartMenuService.deleteCartMenu(cartMenuId, cartRequestDto);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
@@ -87,7 +87,7 @@ public class CartController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
 
-        return ResponseEntity.created(location).headers(headers).body(orderResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(orderResponseDto);
 
     }
 
