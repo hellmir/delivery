@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.exception.FailedToCancelOrderException;
 import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 import personal.delivery.menu.repository.MenuRepository;
 import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;

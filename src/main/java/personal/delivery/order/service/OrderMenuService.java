@@ -2,7 +2,7 @@ package personal.delivery.order.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 import personal.delivery.order.entity.Order;
 import personal.delivery.order.entity.OrderMenu;
 

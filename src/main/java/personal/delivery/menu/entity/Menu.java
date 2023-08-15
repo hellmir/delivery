@@ -1,4 +1,4 @@
-package personal.delivery.menu;
+package personal.delivery.menu.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
