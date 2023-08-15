@@ -11,7 +11,7 @@ import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.cart.repository.CartRepository;
 import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 import personal.delivery.menu.repository.MenuRepository;
 import personal.delivery.shop.entity.Shop;
 import personal.delivery.shop.repository.ShopRepository;
@@ -37,11 +37,11 @@ public class CartServiceImpl implements CartService {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 회원을 찾을 수 없습니다. memberId: " + cartRequestDto.getMemberId()));
+                        ("해당 회원이 존재하지 않 없습니다. memberId: " + cartRequestDto.getMemberId()));
 
         Shop shop = shopRepository.findById(cartRequestDto.getShopId())
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 가게를 찾을 수 없습니다. shopId: " + cartRequestDto.getShopId()));
+                        ("해당 가게가 존재하지 않습니다. shopId: " + cartRequestDto.getShopId()));
 
         Map<Menu, Integer> menuToAddCartMap = createMenuToAddCartMap(cartRequestDto);
 
@@ -62,7 +62,7 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 장바구니를 찾을 수 없습니다. (cartId: " + id + ")"));
+                        ("해당 장바구니가 존재하지 않습니다. (cartId: " + id + ")"));
 
         return setCartResponseDto(cart);
 
@@ -78,7 +78,7 @@ public class CartServiceImpl implements CartService {
 
             Menu menu = menuRepository.findById(menuId)
                     .orElseThrow(() -> new EntityNotFoundException
-                            ("해당 메뉴를 찾을 수 없습니다. (menuId: " + menuId + ")"));
+                            ("해당 메뉴가 존재하지 않습니다. (menuId: " + menuId + ")"));
 
             menuToAddCartMap.put(menu, cartRequestDto.getMenuIdAndQuantityMap().get(menuId));
 

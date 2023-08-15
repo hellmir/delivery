@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.exception.FailedToCancelOrderException;
 import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 import personal.delivery.menu.repository.MenuRepository;
 import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;
@@ -43,11 +43,11 @@ public class OrderServiceImpl implements OrderService {
 
         Shop shop = shopRepository.findById(shopId)
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 가게를 찾을 수 없습니다. (memberId: " + shopId + ")"));
+                        ("해당 가게가 존재하지 않습니다. (memberId: " + shopId + ")"));
 
         Member member = memberRepository.findById(orderRequestDto.getMemberId())
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 회원을 찾을 수 없습니다. (memberId: " + orderRequestDto.getMemberId() + ")"));
+                        ("해당 회원이 존재하지 않습니다. (memberId: " + orderRequestDto.getMemberId() + ")"));
 
         Map<Menu, Integer> menuToOrderMap = createMenuToOrderMap(orderRequestDto);
 
@@ -68,11 +68,11 @@ public class OrderServiceImpl implements OrderService {
 
         Member member = memberRepository.findById(orderRequestDto.getMemberId())
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 회원을 찾을 수 없습니다. (memberId: " + orderRequestDto.getMemberId() + ")"));
+                        ("해당 회원이 존재하지 않습니다. (memberId: " + orderRequestDto.getMemberId() + ")"));
 
         Order selectedOrder = orderRepository.findById(orderRequestDto.getOrderId())
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 주문을 찾을 수 없습니다. (orderId: " + orderRequestDto.getOrderId() + ")"));
+                        ("해당 주문이 존재하지 않습니다. (orderId: " + orderRequestDto.getOrderId() + ")"));
 
         return setOrderResponseDto(selectedOrder);
 
@@ -83,10 +83,10 @@ public class OrderServiceImpl implements OrderService {
 
         Member member = memberRepository.findById(orderStatusChangeDto.getMemberId())
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 회원을 찾을 수 없습니다. (memberId: " + orderStatusChangeDto.getMemberId() + ")"));
+                        ("해당 회원이 존재하지 않습니다. (memberId: " + orderStatusChangeDto.getMemberId() + ")"));
 
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("해당 주문을 찾을 수 없습니다. (orderId: " + id + ")"));
+                .orElseThrow(() -> new EntityNotFoundException("해당 주문이 존재하지 않습니다. (orderId: " + id + ")"));
 
         if (member.getRole().equals(SELLER)) {
 
@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
 
             menuToOrderMap.put(menuRepository.findById
                             (menuId).orElseThrow(() -> new EntityNotFoundException
-                            ("해당 메뉴를 찾을 수 없습니다. (menuId: " + menuId + ")"))
+                            ("해당 메뉴가 존재하지 않습니다. (menuId: " + menuId + ")"))
                     , orderRequestDto.getMenuIdAndQuantityMap().get(menuId));
 
         }

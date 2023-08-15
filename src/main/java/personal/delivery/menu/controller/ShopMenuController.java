@@ -39,7 +39,7 @@ public class ShopMenuController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
 
-        return ResponseEntity.created(location).headers(headers).body(menuResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(menuResponseDto);
 
     }
 
@@ -53,9 +53,9 @@ public class ShopMenuController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long id) {
+    public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long shopId, @PathVariable Long id) {
 
-        MenuResponseDto menuResponseDto = menuService.getMenu(id);
+        MenuResponseDto menuResponseDto = menuService.getMenu(shopId, id);
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
 
@@ -63,20 +63,31 @@ public class ShopMenuController {
 
     @PatchMapping("{id}")
     public ResponseEntity<MenuResponseDto> changeMenu
-            (@PathVariable Long id, @Validated(OnUpdate.class) @RequestBody MenuRequestDto menuRequestDto) {
+            (@PathVariable Long shopId, @PathVariable Long id,
+             @Validated(OnUpdate.class) @RequestBody MenuRequestDto menuRequestDto) {
 
-        MenuResponseDto menuResponseDto = menuService.changeMenu(id, menuRequestDto);
+        MenuResponseDto menuResponseDto = menuService.changeMenu(shopId, id, menuRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
 
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMenu(@PathVariable Long shopId, @PathVariable Long id) {
 
-        menuService.deleteMenu(id);
+        menuService.deleteMenu(shopId, id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+    }
+
+
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteSeveralMenus(@PathVariable Long shopId, @RequestBody List<Long> ids) {
+
+        menuService.deleteSeveralMenus(shopId, ids);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 

@@ -8,7 +8,7 @@ import personal.delivery.cart.dto.CartRequestDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.cart.repository.CartMenuRepository;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 import personal.delivery.order.dto.OrderRequestDto;
 import personal.delivery.order.dto.OrderResponseDto;
 import personal.delivery.order.service.OrderService;
@@ -65,7 +65,7 @@ public class CartMenuServiceImpl implements CartMenuService {
 
         CartMenu selectedCartMenu = cartMenuRepository.findById(cartMenuId)
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 장바구니 메뉴를 찾을 수 없습니다. (cartId: " + cartMenuId + ")"));
+                        ("해당 장바구니 메뉴가 존재하지 않습니다. (cartId: " + cartMenuId + ")"));
 
         return setCartMenuResponseDto(selectedCartMenu);
 
@@ -76,7 +76,7 @@ public class CartMenuServiceImpl implements CartMenuService {
 
         CartMenu cartMenu = cartMenuRepository.findById(cartMenuId)
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 장바구니 메뉴를 찾을 수 없습니다. (cartMenuId: " + cartRequestDto.getCartMenuId() + ")"));
+                        ("해당 장바구니 메뉴가 존재하지 않습니다. (cartMenuId: " + cartRequestDto.getCartMenuId() + ")"));
         Long cartId = cartMenu.getCart().getId();
 
         if (!cartId.equals(cartRequestDto.getCartId())) {
@@ -108,7 +108,7 @@ public class CartMenuServiceImpl implements CartMenuService {
 
         CartMenu cartMenuToOrder = cartMenuRepository.findById(cartRequestDto.getCartMenuId())
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 장바구니 메뉴를 찾을 수 없습니다. (cartMenuId: " + cartRequestDto.getCartMenuId() + ")"));
+                        ("해당 장바구니 메뉴가 존재하지 않습니다. (cartMenuId: " + cartRequestDto.getCartMenuId() + ")"));
 
         Long memberId = cartMenuToOrder.getCart().getMember().getId();
 

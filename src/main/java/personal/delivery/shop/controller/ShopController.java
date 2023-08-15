@@ -36,7 +36,7 @@ public class ShopController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
 
-        return ResponseEntity.created(location).headers(headers).body(shopResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(shopResponseDto);
 
     }
 

@@ -48,6 +48,16 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Override
+    public MemberResponseDto getMemberInformation(Long id) {
+
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("해당 회원이 존재하지 않습니다. (id: " + id + ")"));
+
+        return modelMapper.map(member, MemberResponseDto.class);
+
+    }
+
     private MemberResponseDto saveMember(Member member) {
 
         validateDuplicateMember(member);

@@ -4,7 +4,7 @@ import personal.delivery.cart.dto.CartMenuResponseDto;
 import personal.delivery.cart.dto.CartRequestDto;
 import personal.delivery.cart.entity.Cart;
 import personal.delivery.cart.entity.CartMenu;
-import personal.delivery.menu.Menu;
+import personal.delivery.menu.entity.Menu;
 import personal.delivery.order.dto.OrderResponseDto;
 
 import java.util.List;
