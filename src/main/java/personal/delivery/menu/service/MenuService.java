@@ -13,10 +13,12 @@ public interface MenuService {
 
     List<MenuResponseDto> getAllShopMenus(Long shopId);
 
-    MenuResponseDto getMenu(Long id);
+    MenuResponseDto getMenu(Long shopId, Long id);
 
-    MenuResponseDto changeMenu(Long id, MenuRequestDto menuRequestDto);
+    MenuResponseDto changeMenu(Long shopId, Long id, MenuRequestDto menuRequestDto);
 
-    void deleteMenu(Long id);
+    void deleteMenu(Long shopId, Long id);
+
+    void deleteSeveralMenus(Long shopId, List<Long> ids);
 
 }
