@@ -1,4 +1,4 @@
-package personal.delivery.constant;
+package personal.delivery.order.constant;
 
 import lombok.RequiredArgsConstructor;
 
