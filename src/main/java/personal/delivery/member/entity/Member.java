@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.base.BaseEntity;
-import personal.delivery.constant.Role;
+import personal.delivery.member.constant.Role;
 
 import java.time.LocalDateTime;
 
@@ -37,9 +37,10 @@ public class Member extends BaseEntity {
     private Role role;
 
     @Builder
-    private Member(String name, String email, String password, Address address, Role role,
+    private Member(Long id, String name, String email, String password, Address address, Role role,
                    LocalDateTime registeredTime, LocalDateTime updatedTime) {
 
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
