@@ -4,11 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.delivery.constant.Role;
+import personal.delivery.exception.TryToSaveDuplicateMemberException;
+import personal.delivery.member.constant.Role;
 import personal.delivery.member.dto.MemberRequestDto;
 import personal.delivery.member.dto.MemberResponseDto;
 import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -19,32 +24,32 @@ public class MemberServiceImpl implements MemberService {
     private final ModelMapper modelMapper;
 
     @Override
-    public MemberResponseDto createSeller(MemberRequestDto memberRequestDto) {
+    public List<MemberResponseDto> getAllMembersByRole(Role role) {
 
-        Member member = Member.builder()
-                .name(memberRequestDto.getName())
-                .email(memberRequestDto.getEmail())
-                .password(memberRequestDto.getPassword())
-                .address(memberRequestDto.getAddress())
-                .role(Role.SELLER)
-                .build();
+        List<Member> members = memberRepository.findAllByRole(role);
 
-        return saveMember(member);
+        return members.stream()
+                .map(member -> modelMapper.map(member, MemberResponseDto.class))
+                .collect(Collectors.toList());
 
     }
 
     @Override
-    public MemberResponseDto createCustomer(MemberRequestDto memberRequestDto) {
+    public MemberResponseDto createMember(MemberRequestDto memberRequestDto) {
 
         Member member = Member.builder()
                 .name(memberRequestDto.getName())
                 .email(memberRequestDto.getEmail())
                 .password(memberRequestDto.getPassword())
                 .address(memberRequestDto.getAddress())
-                .role(Role.CUSTOMER)
+                .role(memberRequestDto.getRole())
                 .build();
 
-        return saveMember(member);
+        validateDuplicateMember(member);
+
+        Member savedMember = memberRepository.save(member);
+
+        return modelMapper.map(savedMember, MemberResponseDto.class);
 
     }
 
@@ -58,13 +63,37 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    private MemberResponseDto saveMember(Member member) {
+    @Override
+    public MemberResponseDto updateMemberInformation(Long id, MemberRequestDto memberRequestDto) {
 
-        validateDuplicateMember(member);
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("해당 회원이 존재하지 않습니다. (id: " + id + ")"));
 
-        Member savedMember = memberRepository.save(member);
+        Member changingMember = Member.builder()
+                .id(member.getId())
+                .name(memberRequestDto.getName() == null ? member.getName() : memberRequestDto.getName())
+                .email(member.getEmail())
+                .password(memberRequestDto.getPassword() == null
+                        ? member.getPassword() : memberRequestDto.getPassword())
+                .address(memberRequestDto.getAddress() == null ? member.getAddress() : memberRequestDto.getAddress())
+                .role(member.getRole())
+                .registeredTime(member.getRegisteredTime())
+                .updatedTime(LocalDateTime.now())
+                .build();
 
-        return modelMapper.map(savedMember, MemberResponseDto.class);
+        Member changedMember = memberRepository.save(changingMember);
+
+        return modelMapper.map(changedMember, MemberResponseDto.class);
+
+    }
+
+    @Override
+    public void deleteMember(Long id) {
+
+        memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("해당 회원이 존재하지 않습니다. (id: " + id + ")"));
+
+        memberRepository.deleteById(id);
 
     }
 
@@ -73,7 +102,7 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = memberRepository.findByEmail(member.getEmail());
 
         if (findMember != null) {
-            throw new IllegalStateException("이미 가입된 회원입니다. (email: " + member.getEmail() + ")");
+            throw new TryToSaveDuplicateMemberException("이미 가입된 회원입니다. (email: " + member.getEmail() + ")");
         }
 
     }

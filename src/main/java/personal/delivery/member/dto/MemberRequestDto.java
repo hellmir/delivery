@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import personal.delivery.member.constant.Role;
 import personal.delivery.member.entity.Address;
 
 @Data
@@ -23,5 +24,8 @@ public class MemberRequestDto {
     @Valid
     @NotNull(message = "주소는 필수값입니다.")
     private Address address;
+
+    @NotNull(message = "회원 종류는 필수값입니다.")
+    private Role role;
 
 }
