@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.base.BaseEntity;
 import personal.delivery.member.entity.Member;
+import personal.delivery.menu.entity.Menu;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -26,6 +28,9 @@ public class Shop extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<Menu> menus;
 
     @Builder
     private Shop(String name, Member member, LocalDateTime registeredTime, LocalDateTime updatedTime) {
