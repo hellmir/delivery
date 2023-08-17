@@ -12,4 +12,7 @@ public interface ShopService {
     List<ShopResponseDto> getAllShops();
 
     List<ShopResponseDto> getDistinctShops(String shopName);
+
+    ShopResponseDto getShop(Long id);
+
 }
