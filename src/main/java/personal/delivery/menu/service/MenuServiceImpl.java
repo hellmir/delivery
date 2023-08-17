@@ -65,8 +65,6 @@ public class MenuServiceImpl implements MenuService {
 
     }
 
-    @Override
-    public List<MenuResponseDto> getAllShopMenus(Long shopId) {
 
         shopRepository.findById(shopId)
                 .orElseThrow(() -> new EntityNotFoundException
