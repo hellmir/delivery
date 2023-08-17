@@ -7,13 +7,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import personal.delivery.constant.Role;
+import personal.delivery.member.constant.Role;
 import personal.delivery.member.entity.Address;
 import personal.delivery.member.entity.Member;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static personal.delivery.constant.Role.SELLER;
+import static personal.delivery.member.constant.Role.SELLER;
 
 @ActiveProfiles("test")
 @SpringBootTest
