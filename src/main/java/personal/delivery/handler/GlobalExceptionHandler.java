@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import personal.delivery.exception.FailedToCancelOrderException;
 import personal.delivery.exception.OutOfStockException;
 import personal.delivery.exception.TryToAddCartOfDifferentShopMenuException;
+import personal.delivery.exception.TryToSaveDuplicateMemberException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,6 +62,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleTryToAddCartOfDifferentShopMenuException
             (TryToAddCartOfDifferentShopMenuException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(TryToSaveDuplicateMemberException.class)
+    public ResponseEntity<String> handleTryToSaveDuplicateMemberException
+            (TryToSaveDuplicateMemberException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
 }
