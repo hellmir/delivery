@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-import personal.delivery.constant.MenuType;
+import personal.delivery.menu.constant.MenuType;
 import personal.delivery.validation.group.OnCreate;
 import personal.delivery.validation.group.OnUpdate;
 
