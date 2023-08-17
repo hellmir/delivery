@@ -14,8 +14,8 @@ import personal.delivery.shop.entity.Shop;
 import personal.delivery.shop.repository.ShopRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -48,35 +48,31 @@ public class MenuServiceImpl implements MenuService {
 
         Menu savedMenu = menuRepository.save(menu);
 
-        return modelMapper.map(savedMenu, MenuResponseDto.class);
+        MenuResponseDto menuResponseDto = modelMapper.map(savedMenu, MenuResponseDto.class);
+        menuResponseDto.setShopId(shopId);
+        menuResponseDto.setShopName(shop.getName());
+
+        return menuResponseDto;
 
     }
 
     @Override
     public List<MenuResponseDto> getAllMenus() {
 
-        List<Menu> menuList = menuRepository.findAll();
+        List<Menu> menus = menuRepository.findAll();
 
-        List<MenuResponseDto> menuResponseDtoList = menuList.stream()
-                .map(menu -> modelMapper.map(menu, MenuResponseDto.class))
-                .collect(Collectors.toList());
+        List<MenuResponseDto> menuResponseDtoList = new ArrayList<>();
 
-        return menuResponseDtoList;
+        for (Menu menu : menus) {
 
-    }
+            MenuResponseDto menuResponseDto = modelMapper.map(menu, MenuResponseDto.class);
 
-    @Override
-    public List<MenuResponseDto> getAllShopMenus(Long shopId) {
+            menuResponseDto.setShopId(menu.getShop().getId());
+            menuResponseDto.setShopName(menu.getShop().getName());
 
-        shopRepository.findById(shopId)
-                .orElseThrow(() -> new EntityNotFoundException
-                        ("해당 가게가 존재하지 않습니다. (shopId: " + shopId + ")"));
+            menuResponseDtoList.add(menuResponseDto);
 
-        List<Menu> menuList = menuRepository.findAllByShop_Id(shopId);
-
-        List<MenuResponseDto> menuResponseDtoList = menuList.stream()
-                .map(menu -> modelMapper.map(menu, MenuResponseDto.class))
-                .collect(Collectors.toList());
+        }
 
         return menuResponseDtoList;
 
@@ -89,15 +85,19 @@ public class MenuServiceImpl implements MenuService {
                 .orElseThrow(() -> new EntityNotFoundException
                         ("해당 가게가 존재하지 않습니다. (shopId: " + shopId + ")"));
 
-        Menu selectedMenu = menuRepository.findById(id)
+        Menu menu = menuRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        return modelMapper.map(selectedMenu, MenuResponseDto.class);
+        MenuResponseDto menuResponseDto = modelMapper.map(menu, MenuResponseDto.class);
+        menuResponseDto.setShopId(shopId);
+        menuResponseDto.setShopName(menu.getShop().getName());
+
+        return menuResponseDto;
 
     }
 
     @Override
-    public MenuResponseDto changeMenu(Long shopId, Long id, MenuRequestDto menuRequestDto) {
+    public MenuResponseDto updateMenu(Long shopId, Long id, MenuRequestDto menuRequestDto) {
 
         shopRepository.findById(shopId)
                 .orElseThrow(() -> new EntityNotFoundException
@@ -112,7 +112,7 @@ public class MenuServiceImpl implements MenuService {
             throw new OutOfStockException("재료 최소 수량: 0 (현재 재고: " + menu.getStock() + ")");
         }
 
-        Menu changingMenu = Menu.builder()
+        Menu updatingMenu = menu.builder()
                 .id(id)
                 .shop(menu.getShop())
                 .name(menuRequestDto.getName() != null ? menuRequestDto.getName() : menu.getName())
@@ -131,12 +131,11 @@ public class MenuServiceImpl implements MenuService {
                 .updatedTime(LocalDateTime.now())
                 .build();
 
-        Menu changedMenu = menuRepository.save(changingMenu);
-        MenuResponseDto menuResponseDto = modelMapper.map(changedMenu, MenuResponseDto.class);
+        Menu updatedMenu = menuRepository.save(updatingMenu);
 
-        menuResponseDto.setRegisteredTime(menu.getRegisteredTime());
-
-        menuResponseDto.setUpdatedTime(changedMenu.getUpdatedTime());
+        MenuResponseDto menuResponseDto = modelMapper.map(updatedMenu, MenuResponseDto.class);
+        menuResponseDto.setShopId(shopId);
+        menuResponseDto.setShopName(updatedMenu.getShop().getName());
 
         return menuResponseDto;
 

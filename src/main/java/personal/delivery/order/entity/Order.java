@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.base.BaseEntity;
-import personal.delivery.constant.OrderStatus;
+import personal.delivery.order.constant.OrderStatus;
 import personal.delivery.member.entity.Member;
 import personal.delivery.shop.entity.Shop;
 

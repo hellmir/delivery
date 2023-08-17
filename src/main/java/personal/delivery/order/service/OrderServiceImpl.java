@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static personal.delivery.constant.OrderStatus.*;
-import static personal.delivery.constant.Role.SELLER;
+import static personal.delivery.order.constant.OrderStatus.*;
+import static personal.delivery.member.constant.Role.SELLER;
 
 @Service
 @Transactional

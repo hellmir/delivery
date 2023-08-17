@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import personal.delivery.base.BaseEntity;
-import personal.delivery.constant.MenuType;
-import personal.delivery.constant.StockStatus;
 import personal.delivery.exception.OutOfStockException;
+import personal.delivery.menu.constant.MenuType;
+import personal.delivery.menu.constant.StockStatus;
 import personal.delivery.shop.entity.Shop;
 
 import java.time.LocalDateTime;
@@ -86,7 +86,6 @@ public class Menu extends BaseEntity {
         setRegisteredTime(registeredTime);
 
         setUpdatedTime(updatedTime);
-
 
     }
 

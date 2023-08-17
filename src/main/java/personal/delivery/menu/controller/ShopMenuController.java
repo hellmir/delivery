@@ -43,15 +43,6 @@ public class ShopMenuController {
 
     }
 
-    @GetMapping()
-    public ResponseEntity<List<MenuResponseDto>> getAllShopMenus(@PathVariable Long shopId) {
-
-        List<MenuResponseDto> menuResponseDtoList = menuService.getAllShopMenus(shopId);
-
-        return ResponseEntity.status(HttpStatus.OK).body(menuResponseDtoList);
-
-    }
-
     @GetMapping("{id}")
     public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long shopId, @PathVariable Long id) {
 
@@ -66,7 +57,7 @@ public class ShopMenuController {
             (@PathVariable Long shopId, @PathVariable Long id,
              @Validated(OnUpdate.class) @RequestBody MenuRequestDto menuRequestDto) {
 
-        MenuResponseDto menuResponseDto = menuService.changeMenu(shopId, id, menuRequestDto);
+        MenuResponseDto menuResponseDto = menuService.updateMenu(shopId, id, menuRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
-import static personal.delivery.constant.MenuType.*;
+import static personal.delivery.menu.constant.MenuType.*;
 
 @ActiveProfiles("test")
 @SpringBootTest

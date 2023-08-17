@@ -1,7 +1,7 @@
 package personal.delivery.order.dto;
 
 import lombok.Data;
-import personal.delivery.constant.OrderStatus;
+import personal.delivery.order.constant.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
