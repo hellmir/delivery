@@ -13,7 +13,7 @@ public interface MenuService {
 
     MenuResponseDto getMenu(Long shopId, Long id);
 
-    MenuResponseDto changeMenu(Long shopId, Long id, MenuRequestDto menuRequestDto);
+    MenuResponseDto updateMenu(Long shopId, Long id, MenuRequestDto menuRequestDto);
 
     void deleteMenu(Long shopId, Long id);
 
