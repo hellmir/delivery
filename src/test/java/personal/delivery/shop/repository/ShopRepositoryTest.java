@@ -19,6 +19,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static personal.delivery.member.constant.Role.SELLER;
+import static personal.delivery.test_util.TestObjectFactory.createMember;
+import static personal.delivery.test_util.TestObjectFactory.createShop;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -119,27 +121,6 @@ public class ShopRepositoryTest {
                 .containsExactlyInAnyOrder(
                         "맛있는 김치찌개"
                 );
-
-    }
-
-    private Member createMember(String memberName, String email, String password, Role role) {
-
-        return Member.builder()
-                .name(memberName)
-                .email(email)
-                .password(password)
-                .address(mock(Address.class))
-                .role(role)
-                .build();
-
-    }
-
-    private Shop createShop(String shopName, Member member) {
-
-        return Shop.builder()
-                .name(shopName)
-                .member(member)
-                .build();
 
     }
 

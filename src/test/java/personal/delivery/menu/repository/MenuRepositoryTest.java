@@ -15,6 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 import static personal.delivery.menu.constant.MenuType.*;
+import static personal.delivery.test_util.TestObjectFactory.createMenu;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -38,55 +39,22 @@ public class MenuRepositoryTest {
 
         List<String> menuOptions = Arrays.asList("순한 맛", "매운 맛");
 
-        Menu menu1 = Menu.builder()
-                .shop(savedShop)
-                .name("김치찌개")
-                .price(15_000)
-                .salesRate(0)
-                .stock(30)
-                .flavor("매움")
-                .portions(2)
-                .cookingTime(30)
-                .menuType(MAIN)
-                .foodType("찌개")
-                .menuOptions(menuOptions)
-                .build();
+        Menu menu1 = createMenu(savedShop, "김치찌개", 15_000, 30,
+                "매움", 2, 30, MAIN, "찌개", menuOptions);
 
-        Menu menu2 = Menu.builder()
-                .shop(savedShop)
-                .name("후라이드 치킨")
-                .price(20_000)
-                .salesRate(0)
-                .stock(50)
-                .flavor("짬")
-                .portions(1)
-                .cookingTime(20)
-                .menuType(SIDE)
-                .foodType("치킨")
-                .menuOptions(menuOptions)
-                .build();
+        Menu menu2 = createMenu(savedShop, "후라이드 치킨", 20_000, 50,
+                "짭짤함", 1, 20, SIDE, "치킨", menuOptions);
 
-        Menu menu3 = Menu.builder()
-                .shop(savedShop)
-                .name("페퍼로니 피자")
-                .price(23_000)
-                .salesRate(0)
-                .stock(100)
-                .flavor("고소함")
-                .portions(3)
-                .cookingTime(40)
-                .menuType(DESSERT)
-                .foodType("피자")
-                .menuOptions(menuOptions)
-                .build();
+        Menu menu3 = createMenu(savedShop, "페퍼로니 피자", 23_000, 100,
+                "고소함", 3, 40, DESSERT, "피자", menuOptions);
 
         menuRepository.saveAll(List.of(menu1, menu2, menu3));
 
         // when
-        List<Menu> menuList = menuRepository.findAllByShop_Id(shop.getId());
+        List<Menu> menus = menuRepository.findAllByShop_Id(shop.getId());
 
         // then
-        assertThat(menuList).hasSize(3)
+        assertThat(menus).hasSize(3)
                 .extracting("stock", "name", "price")
                 .containsExactlyInAnyOrder(
                         tuple(100, "페퍼로니 피자", 23_000),
@@ -95,5 +63,6 @@ public class MenuRepositoryTest {
                 );
 
     }
+
 
 }
