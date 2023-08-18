@@ -7,14 +7,19 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.member.constant.Role;
-import personal.delivery.member.entity.Address;
 import personal.delivery.member.entity.Member;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static personal.delivery.member.constant.Role.SELLER;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
+import static personal.delivery.member.constant.Role.CUSTOMER;
+import static personal.delivery.member.constant.Role.SELLER;
+import static personal.delivery.test_util.TestObjectFactory.createMember;
+
+@Transactional
 @ActiveProfiles("test")
 @SpringBootTest
 class MemberRepositoryTest {
@@ -33,13 +38,7 @@ class MemberRepositoryTest {
 
         // given
 
-        Member member = Member.builder()
-                .name(memberName)
-                .email(email)
-                .password(password)
-                .address(mock(Address.class))
-                .role(Role.valueOf(role))
-                .build();
+        Member member = createMember(memberName, email, password, Role.valueOf(role));
 
         memberRepository.save(member);
 
@@ -56,17 +55,11 @@ class MemberRepositoryTest {
 
     @DisplayName("존재하지 않는 이메일 주소로 회원을 찾으면 회원을 반환하지 않는다.")
     @Test
-    void voidfindByEmailWithNonExistentEmail() {
+    void findByEmailWithNonExistentEmail() {
 
         // given
 
-        Member member = Member.builder()
-                .name("홍길동")
-                .email("abc@abcde.com")
-                .password("1234")
-                .address(mock(Address.class))
-                .role(SELLER)
-                .build();
+        Member member = createMember("홍길동", "abcd@abc.com", "1234", SELLER);
 
         memberRepository.save(member);
 
