@@ -19,9 +19,9 @@ import static personal.delivery.member.constant.Role.CUSTOMER;
 import static personal.delivery.member.constant.Role.SELLER;
 import static personal.delivery.test_util.TestObjectFactory.createMember;
 
-@Transactional
 @ActiveProfiles("test")
 @SpringBootTest
+@Transactional
 class MemberRepositoryTest {
 
     @Autowired

@@ -7,8 +7,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import personal.delivery.member.constant.Role;
-import personal.delivery.member.entity.Address;
 import personal.delivery.member.entity.Member;
 import personal.delivery.member.repository.MemberRepository;
 import personal.delivery.menu.repository.MenuRepository;
@@ -17,13 +17,13 @@ import personal.delivery.shop.entity.Shop;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static personal.delivery.member.constant.Role.SELLER;
 import static personal.delivery.test_util.TestObjectFactory.createMember;
 import static personal.delivery.test_util.TestObjectFactory.createShop;
 
 @ActiveProfiles("test")
 @SpringBootTest
+@Transactional
 public class ShopRepositoryTest {
 
     @Autowired
@@ -46,20 +46,11 @@ public class ShopRepositoryTest {
 
         // given
 
-        Member member = Member.builder()
-                .name(memberName)
-                .email(email)
-                .password(password)
-                .address(mock(Address.class))
-                .role(Role.valueOf(role))
-                .build();
+        Member member = createMember(memberName, email, password, Role.valueOf(role));
 
         memberRepository.save(member);
 
-        Shop shop = Shop.builder()
-                .name(shopName)
-                .member(member)
-                .build();
+        Shop shop = createShop(shopName, member);
 
         shopRepository.save(shop);
 
