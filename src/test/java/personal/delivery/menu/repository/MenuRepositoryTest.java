@@ -137,7 +137,7 @@ public class MenuRepositoryTest {
                 3, 40, DESSERT, "피자", Arrays.asList("순한 맛", "매운 맛"));
 
         Menu menu4 = createMenu(shop, "고추장 삼겹살", 18_000, 120, "맛있음",
-                2, 30, MAIN, "돼지고기", Arrays.asList("순한 맛", "매운 맛"));
+                2, 30, MAIN, "돼지고기", Arrays.asList("기본 맛", "매운 맛"));
 
         menuRepository.saveAll(List.of(menu1, menu2, menu3, menu4));
 
