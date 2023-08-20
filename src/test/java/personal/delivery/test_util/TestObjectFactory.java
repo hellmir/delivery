@@ -1,5 +1,7 @@
 package personal.delivery.test_util;
 
+import personal.delivery.cart.entity.Cart;
+import personal.delivery.cart.entity.CartMenu;
 import personal.delivery.member.constant.Role;
 import personal.delivery.member.entity.Address;
 import personal.delivery.member.entity.Member;
@@ -51,6 +53,25 @@ public class TestObjectFactory {
                 .menuOptions(menuOptions)
                 .build();
 
+    }
+
+    public static CartMenu createCartMenu(Menu menu, Integer menuPrice, Integer menuQuantity) {
+
+        CartMenu cartMenu = CartMenu.createCartMenu(menu, menuPrice);
+
+        cartMenu.addMenuQuantityAndComputeTotalPrice(menuQuantity);
+
+        return cartMenu;
+
+    }
+
+    public static Cart createCart(Member member, Shop shop, List<CartMenu> cartMenus) {
+        return Cart.builder()
+                .member(member)
+                .shop(shop)
+                .cartMenuList(cartMenus)
+                .totalCartPrice(cartMenus.stream().mapToInt(CartMenu::getTotalCartMenuPrice).sum())
+                .build();
     }
 
 }
