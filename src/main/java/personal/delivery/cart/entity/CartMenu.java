@@ -19,7 +19,7 @@ public class CartMenu extends BaseEntity {
     @Column(name = "cart_menu_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
